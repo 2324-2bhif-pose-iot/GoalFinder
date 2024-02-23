@@ -1,4 +1,4 @@
-# GoalDetector
+# Goal Finder
 
 IoT project in scope of POSE-PRPR and WLC, HTL Leonding, 2BHIF, JG 2324 in cooperation with Universität Wien.
 
