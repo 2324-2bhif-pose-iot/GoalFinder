@@ -1,18 +1,20 @@
 #include <Arduino.h>
+#include <WiFi.h>
 
-// put function declarations here:
-int myFunction(int, int);
+const char* ssid = "goalfinder";
+const char* password = "esp32123";
 
 void setup() {
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+   // Serial port for debugging purposes
+  Serial.begin(115200);
+  Serial.println();
+  
+  // Setting the ESP as an access point
+  Serial.print("Setting AP (Access Point)…");
+  // Remove the password parameter, if you want the AP (Access Point) to be open
+  WiFi.softAP(ssid, password);
 }
-
+ 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
 }
