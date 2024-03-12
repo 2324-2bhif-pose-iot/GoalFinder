@@ -14,6 +14,6 @@ Software:
 - Distance Sensor Software
 - Optional: Motion Sensor Software
 - Hit / Miss Detection
-- Audio output, tracks, feedback
+- Audio output, tracks, feedback (Audio manager)
 - Web Application
 - SWUOTA
