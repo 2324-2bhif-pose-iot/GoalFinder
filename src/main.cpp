@@ -1,4 +1,5 @@
 #include <Arduino.h>
+<<<<<<< HEAD
 #include <WiFi.h>
 
 const char* ssid = "goalfinder";
@@ -14,7 +15,19 @@ void setup() {
   Serial.print("Setting AP (Access Point)…");
   // Remove the password parameter, if you want the AP (Access Point) to be open
   WiFi.softAP(ssid, password);
+=======
+#include "WiFi.h"
+
+void setup() {
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    digitalWrite(LED_BUILTIN, HIGH);
+>>>>>>> dc15dfc81bd1455fa956215775063fc836a72be8
 }
  
 void loop() {
+<<<<<<< HEAD
+=======
+  
+>>>>>>> dc15dfc81bd1455fa956215775063fc836a72be8
 }

@@ -10,10 +10,10 @@
 | Projektteil | Wer | Beginn    |
 |-------------|-----|-------------|
 | HW zusammenbauen  | Alle | Erste Woche |
-| WLAN (HW)   | A, O | 5.3.2024 |
-| Web App | E, R| 5.3.2024 |
-| Web Server / SNTP Client (HW) | E, R | 12.3.2024 |
-| Audio | A, O | 14.4.2024 |
-| Sensor & detection   | A, O | 19.3.2024 |
-| SWUOTA | E, R | 19.3.2024 |
+| WLAN (HW)   | Alle | 5.3.2024 |
+| Web App | Alle | 5.3.2024 |
+| Web Server / SNTP Client (HW) | Alle | 12.3.2024 |
+| Audio | Alle | 14.4.2024 |
+| Sensor & detection   | Alle | 19.3.2024 |
+| SWUOTA | Alle | 19.3.2024 |
 | Optionale Sachen und Optimierung | Alle | Ende |
