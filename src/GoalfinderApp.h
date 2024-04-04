@@ -28,8 +28,11 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Processes one single iteration step. */
 		void Process();
 
+
+		GoalfinderApp();
+
 	private:
 		friend class Singleton<GoalfinderApp> ;
 		/** Singleton constructor */
-		GoalfinderApp();
+		
 };
