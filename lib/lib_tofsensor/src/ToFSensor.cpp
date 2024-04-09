@@ -1,9 +1,11 @@
 #include <ToFSensor.h>
+#include <Wire.h>
 
 void ToFSensor::Init() 
 {
     sensor = new Adafruit_VL53L0X();
     sensor->begin();
+    Wire.begin();
 }
 
 int ToFSensor::ReadSingleMillimeters() 
