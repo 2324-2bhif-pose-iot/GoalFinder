@@ -2,9 +2,10 @@
 #include <Arduino.h>
 #include <WiFi.h>
 
-class WifiManager {
+class WifiManager 
+{
     public:
-        static void CreateWifiNetwork(String ssid, String password);
-        static const String SSID; 
-        static const String PASSWORD;
+        void Connect();
+        void CreateAccessPoint(String ssid, String password);
+        void Disconnect();
 };
