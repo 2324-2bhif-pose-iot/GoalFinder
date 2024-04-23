@@ -20,7 +20,7 @@
           <div class="card-body">
             <h5 class="card-title">Configure device</h5>
             <p class="card-text">Configure the device settings like sounds and devices.</p>
-            <router-link to="/config" class="btn btn-primary">Go to configuration</router-link>
+            <router-link to="/settings" class="btn btn-primary">Go to configuration</router-link>
           </div>
         </div>
       </div>

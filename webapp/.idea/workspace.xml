@@ -5,91 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="642477ca-5c2a-403f-95d4-939cd49c788d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/BluetoothDevicesManager.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/BluetoothIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/GamesIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/HomeIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/InfoIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/SettingsIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/VolumeIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Icons/WifiIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/WiFiManager.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/About.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Login.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/NotFound.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/AudioSettings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/ConnectivitySettings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/DeviceSettings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/GeneralSettings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/Settings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/Settings/SystemSettings.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/data/web/assets/index--jKBDpCP.js.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/data/web/assets/index-C9t9oo6w.css.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/data/web/favicon.ico.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/data/web/index.html.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/file_system/FileSystem.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/file_system/FileSystem.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/web/WebApp.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/web/WebApp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/GameListItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/Games.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/jsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/jsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/assets/base.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/assets/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/logo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/assets/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/TheWelcome.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/WelcomeItem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/icons/IconCommunity.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/icons/IconDocumentation.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/icons/IconEcosystem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/icons/IconSupport.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/components/icons/IconTooling.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/router/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/views/AboutView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/src/views/HomeView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gfApp/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/include/ToFSensor.h" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/lib_tofsensor/include/ToFSensor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/Adafruit_VL53L0X.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/Adafruit_VL53L0X.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/core/src/vl53l0x_api.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/core/src/vl53l0x_api_calibration.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/core/src/vl53l0x_api_core.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/core/src/vl53l0x_api_ranging.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/core/src/vl53l0x_api_strings.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/platform/src/vl53l0x_i2c_comms.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/platform/src/vl53l0x_platform.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_api.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_api_calibration.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_api_core.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_api_ranging.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_api_strings.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_def.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_device.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_i2c_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_interrupt_threshold_settings.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_platform_log.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_tuning.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/lib_tofsensor/src/Adafruit_VL53L0X/vl53l0x_types.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/GoalfinderApp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../src/GoalfinderApp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/web/WifiManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../src/web/WifiManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/web/WifiManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/../src/web/WifiManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,34 +37,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Alex\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/talha/GoalFinder/webapp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.dev.executor": "Run",
+    "ts.external.directory.path": "C:\\Users\\talha\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\talha\GoalFinder\webapp\src\components" />
       <recent name="C:\Users\Alex\Desktop\webapp\src\components\Icons" />
       <recent name="C:\Users\Alex\Desktop\webapp\src\views\Configuration" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="build" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -195,6 +117,7 @@
       <workItem from="1713812123317" duration="1000" />
       <workItem from="1713812152322" duration="64000" />
       <workItem from="1713812499450" duration="8000" />
+      <workItem from="1713854111891" duration="3869000" />
     </task>
     <servers />
   </component>
