@@ -1,11 +1,19 @@
-<script setup>
+<script>
+export default {
+  props: {
+    teamOne: String,
+    teamTwo: String,
+    goalsTeamOne: Number,
+    goalsTeamTwo: Number,
+    playTime: Number
+  }
+}
 </script>
 
 <template>
-  <div class="container">
-    <p>L 1:2 B</p>
-      <strong> 90 min </strong>
-  </div>
+  <strong> {{playTime}} min </strong>
+  <p>{{teamOne}} <span>{{goalsTeamOne}}</span></p>
+  <p>{{teamTwo}} <span>{{goalsTeamTwo}}</span></p>
 </template>
 
 <style scoped>
