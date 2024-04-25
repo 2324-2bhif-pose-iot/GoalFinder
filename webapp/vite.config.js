@@ -8,7 +8,7 @@ import { compression } from 'vite-plugin-compression2'
 export default defineConfig({
   plugins: [
     vue(),
-    compression({deleteOriginalAssets: true})
+    compression({deleteOriginalAssets: true}),
   ],
   resolve: {
     alias: {
@@ -18,6 +18,6 @@ export default defineConfig({
   build: {
     outDir: "../data/web",
     emptyOutDir: true,
-    minify: "esbuild"
+    minify: true
   }
 })

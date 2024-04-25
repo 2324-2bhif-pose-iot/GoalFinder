@@ -6,6 +6,11 @@
 #include <web/WebApp.h>
 #include <file_system/FileSystem.h>
 
+#include <test/BluetoothTest.cpp>
+#include <test/TofTest.cpp>
+#include <test/AudioTest.cpp>
+#include <test/VibrationTest.cpp>
+
 #define FORMAT_SPIFFS_IF_FAILED true
 
 const char* ssid = "HUAWEI_H122_4772_1";
@@ -13,6 +18,11 @@ const char* password = "FBDYT61E8HR";
 
 FileSystem fileSystem(FORMAT_SPIFFS_IF_FAILED);
 WebApp webApp(&fileSystem);
+
+BluetoothTest btTest;
+TofTest tofTest;
+AudioTest audioTest;
+VibrationTest vibrationTest;
 
 //ToFSensor tofSensor;
 //VibrationSensor vibrationSensor;
@@ -29,7 +39,12 @@ void GoalfinderApp::Init()
 {
     Serial.begin(115200);
 
-    WiFi.begin(ssid, password);
+    btTest.Setup();
+    tofTest.Setup();
+    audioTest.Setup();
+    vibrationTest.Setup();
+
+    /*WiFi.begin(ssid, password);
 
     while(WiFi.status() != WL_CONNECTED) 
     {
@@ -44,7 +59,7 @@ void GoalfinderApp::Init()
     {
         Serial.println("Error FS");
         return;
-    }
+    }*/
     webApp.Begin();
     //vibrationSensor.Init();
     //tofSensor.Init();
@@ -53,6 +68,10 @@ void GoalfinderApp::Init()
 
 void GoalfinderApp::Process() 
 {
+    btTest.Loop();
+    tofTest.Loop();
+    audioTest.Loop();
+    vibrationTest.Loop();
     //Serial.print("Distance (mm): ");
     //Serial.println(tofSensor.ReadSingleMillimeters());
     //delay(500);

@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import SettingsIcon from "@/components/Icons/SettingsIcon.vue";
 import HomeIcon from "@/components/Icons/HomeIcon.vue";
 import GamesIcon from "@/components/Icons/GamesIcon.vue";
+import InfoIcon from "@/components/Icons/InfoIcon.vue";
 
 function setTheme() {
   if (window.matchMedia) {
@@ -49,7 +50,7 @@ main();
           </li>
         </ul>
         <router-link to="/about" class="nav-link">
-          About
+          <InfoIcon/>
         </router-link>
       </div>
     </div>
