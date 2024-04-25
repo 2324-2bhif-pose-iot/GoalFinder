@@ -3,7 +3,8 @@
 #include <ToFSensor.h>
 #include <VibrationSensor.h>
 #include <BluetoothManager.h>
-#include <web/WebApp.h>
+#include <web/WebServer.h>
+#include <web/SNTP.h>
 #include <file_system/FileSystem.h>
 
 #include <test/BluetoothTest.cpp>
@@ -13,11 +14,12 @@
 
 #define FORMAT_SPIFFS_IF_FAILED true
 
-const char* ssid = "HUAWEI_H122_4772_1";
-const char* password = "FBDYT61E8HR";
+const char* ssid = "Omar iPhone 11";
+const char* password = "bruderItachi!";
 
 FileSystem fileSystem(FORMAT_SPIFFS_IF_FAILED);
-WebApp webApp(&fileSystem);
+WebServer webServer(&fileSystem);
+SNTP sntp;
 
 BluetoothTest btTest;
 TofTest tofTest;
@@ -59,8 +61,10 @@ void GoalfinderApp::Init()
     {
         Serial.println("Error FS");
         return;
-    }*/
-    webApp.Begin();
+    }
+
+    webServer.Begin();
+    sntp.Init();*/
     //vibrationSensor.Init();
     //tofSensor.Init();
     //bluetoothManager.Init();    
@@ -79,4 +83,20 @@ void GoalfinderApp::Process()
     //Serial.print("Vibration Measurement: ");
     //Serial.println(vibrationSensor.Vibration());
     //delay(500);   
+
+    struct tm timeInfo = sntp.GetLocalTime();
+
+    Serial.println(&timeInfo, "%A, %B %d %Y %H:%M:%S");
+    Serial.print("Day of week: ");
+    Serial.println(&timeInfo, "%A");
+    Serial.print("Month: ");
+    Serial.println(&timeInfo, "%B");
+    Serial.print("Day of Month: ");
+    Serial.println(&timeInfo, "%d");
+    Serial.print("Year: ");
+    Serial.println(&timeInfo, "%Y");
+    Serial.print("Hour: ");
+    Serial.println(&timeInfo, "%H");
+
+    delay(1000);
 }

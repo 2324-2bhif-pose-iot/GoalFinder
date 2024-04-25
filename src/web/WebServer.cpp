@@ -1,4 +1,4 @@
-#include "WebApp.h"
+#include "WebServer.h"
 #include <ESPmDNS.h>
 
 #define WEBAPP_DOMAIN "goalfinder"
@@ -83,20 +83,20 @@ static void HandleError()
 
 }
 
-WebApp::WebApp(FileSystem* fileSystem) : server(80)
+WebServer::WebServer(FileSystem* fileSystem) : server(80)
 {
     internalFS = fileSystem;
     Init();
 }
 
-void WebApp::Init() 
+void WebServer::Init() 
 {
     server.rewrite( "/", INDEX_PATH);
     server.on("/*", HTTP_GET, HandleRequest);
     server.onNotFound(HandleNotFound); 
 }
 
-void WebApp::Begin() 
+void WebServer::Begin() 
 {
     if(!MDNS.begin(WEBAPP_DOMAIN)) 
     {
@@ -107,7 +107,7 @@ void WebApp::Begin()
     Serial.println("[INFO] Started web server.");
 }
 
-void WebApp::Stop() 
+void WebServer::Stop() 
 {
     MDNS.end();
     server.end();

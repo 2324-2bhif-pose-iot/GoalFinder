@@ -9,6 +9,7 @@ import ConfigDevices from "@/views/Settings/DeviceSettings.vue";
 import ConfigAudio from "@/views/Settings/AudioSettings.vue";
 import ConfigSystem from "@/views/Settings/SystemSettings.vue";
 import ConfigConnectivity from "@/views/Settings/ConnectivitySettings.vue";
+import Games from "@/views/Games.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,11 @@ const router = createRouter({
       name: "NotFound",
       component: NotFound,
       path: "/:catchAll(.*)"
+    },
+    {
+      name: "Games",
+      component: Games,
+      path: "/games"
     }
   ]
 })

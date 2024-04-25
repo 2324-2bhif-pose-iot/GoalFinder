@@ -2,12 +2,12 @@
 #include <ESPAsyncWebServer.h>
 #include <file_system/FileSystem.h>
 
-class WebApp 
+class WebServer 
 {
     public:
         void Begin();
         void Stop();
-        WebApp(FileSystem* fileSystem);
+        WebServer(FileSystem* fileSystem);
     private:
         //AsyncWebServer server;
         AsyncWebServer server;
