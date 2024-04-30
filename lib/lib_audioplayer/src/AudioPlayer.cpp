@@ -35,3 +35,8 @@ void AudioPlayer::TestAudio()
     delay(1000);
   }
 }
+
+AudioPlayer::~AudioPlayer()
+{
+  
+}

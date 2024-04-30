@@ -9,3 +9,8 @@ void BluetoothManager::Connect()
 {
     
 }
+
+BluetoothManager::~BluetoothManager()
+{
+    delete SerialBT;
+}

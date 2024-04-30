@@ -5,6 +5,7 @@
 class WebServer 
 {
     public:
+        virtual ~WebServer();
         void Begin();
         void Stop();
         WebServer(FileSystem* fileSystem);

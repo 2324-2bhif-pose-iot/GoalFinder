@@ -13,3 +13,8 @@ long VibrationSensor::Vibration()
    return measurement;
    
 }
+
+VibrationSensor::~VibrationSensor()
+{
+
+}

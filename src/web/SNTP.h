@@ -4,6 +4,7 @@
 class SNTP 
 {
     public:
+        virtual ~SNTP();
         void Init(); 
         struct tm GetLocalTime();
 };

@@ -17,3 +17,8 @@ void WifiManager::Disconnect()
 {
     WiFi.disconnect(false, true);
 }
+
+WifiManager::~WifiManager()
+{
+    
+}

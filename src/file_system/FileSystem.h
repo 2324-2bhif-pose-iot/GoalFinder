@@ -5,6 +5,7 @@
 class FileSystem 
 {
     public:
+        virtual ~FileSystem();
         bool Begin();
         File OpenFile(String path);
         bool FileExists(String path);

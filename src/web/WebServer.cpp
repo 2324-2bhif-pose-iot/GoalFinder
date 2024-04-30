@@ -112,3 +112,8 @@ void WebServer::Stop()
     MDNS.end();
     server.end();
 }
+
+WebServer::~WebServer()
+{
+
+}

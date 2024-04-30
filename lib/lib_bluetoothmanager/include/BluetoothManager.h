@@ -3,8 +3,9 @@
 
 class BluetoothManager {
     public:
+        virtual ~BluetoothManager();
         void Init();
         void Connect();
     private:
-        BluetoothSerial SerialBT;
+        BluetoothSerial* SerialBT;
 };

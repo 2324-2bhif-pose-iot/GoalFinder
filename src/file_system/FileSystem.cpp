@@ -30,3 +30,8 @@ fs::FS* FileSystem::GetInternalFileSystem()
 {
     return &LittleFS;
 }
+
+FileSystem::~FileSystem()
+{
+
+}
