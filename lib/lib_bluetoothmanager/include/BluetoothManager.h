@@ -1,11 +1,11 @@
 #pragma once
-#include "BluetoothSerial.h"
+#include "lib_extra/BluetoothA2DP.h"
 
 class BluetoothManager {
     public:
-        virtual ~BluetoothManager();
+        void Test();
         void Init();
         void Connect();
     private:
-        BluetoothSerial* SerialBT;
+       BluetoothA2DPSource a2dp_source;
 };
