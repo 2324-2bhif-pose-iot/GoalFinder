@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from "@/views/Login.vue";
-import Home from "@/views/Home.vue";
-import About from "@/views/About.vue";
-import Configuration from "@/views/Settings/Settings.vue";
-import NotFound from "@/views/NotFound.vue";
-import ConfigGeneral from "@/views/Settings/GeneralSettings.vue";
-import ConfigDevices from "@/views/Settings/DeviceSettings.vue";
-import ConfigAudio from "@/views/Settings/AudioSettings.vue";
-import ConfigSystem from "@/views/Settings/SystemSettings.vue";
-import ConfigConnectivity from "@/views/Settings/ConnectivitySettings.vue";
-import Games from "@/views/Games.vue";
+import Login from "@/views/LoginView.vue";
+import Home from "@/views/HomeView.vue";
+import About from "@/views/AboutView.vue";
+import Configuration from "@/views/Settings/SettingsView.vue";
+import NotFound from "@/views/NotFoundView.vue";
+import ConfigGeneral from "@/views/Settings/GeneralSettingsView.vue";
+import ConfigDevices from "@/views/Settings/DeviceSettingsView.vue";
+import ConfigAudio from "@/views/Settings/AudioSettingsView.vue";
+import ConfigSystem from "@/views/Settings/SystemSettingsView.vue";
+import ConfigConnectivity from "@/views/Settings/ConnectivitySettingsView.vue";
+import Games from "@/views/GamesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +23,7 @@ const router = createRouter({
       name: "Settings",
       component: Configuration,
       path: "/settings",
+      redirect: "/settings/general",
       children: [
         {
           component: ConfigGeneral,

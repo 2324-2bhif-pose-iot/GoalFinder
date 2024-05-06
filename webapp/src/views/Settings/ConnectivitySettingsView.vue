@@ -4,13 +4,12 @@ import WiFiManager from "@/components/WiFiManager.vue";
 
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">Connectivity</div>
-      <div class="card-body">
-        <div class="card-title">WiFi</div>
+    <Card>
+      <template #title>Connectivity</template>
+      <template #content>
         <WiFiManager/>
-      </div>
-    </div>
+      </template>
+    </Card>
   </div>
 </template>
 

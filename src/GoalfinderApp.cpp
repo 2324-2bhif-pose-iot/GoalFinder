@@ -41,10 +41,16 @@ void GoalfinderApp::Init()
 {
     Serial.begin(115200);
 
-    btTest.Setup();
-    tofTest.Setup();
+    if(!fileSystem.Begin()) 
+    {
+        Serial.println("Error FS");
+        return;
+    }
+
+    btTest.Setup();    
     audioTest.Setup();
     vibrationTest.Setup();
+    tofTest.Setup();
 
     /*WiFi.begin(ssid, password);
 
@@ -57,11 +63,7 @@ void GoalfinderApp::Init()
 
     Serial.println(WiFi.localIP());
 
-    if(!fileSystem.Begin()) 
-    {
-        Serial.println("Error FS");
-        return;
-    }
+    
 
     webServer.Begin();
     sntp.Init();*/
@@ -72,10 +74,10 @@ void GoalfinderApp::Init()
 
 void GoalfinderApp::Process() 
 {
-    btTest.Loop();
-    tofTest.Loop();
+    btTest.Loop();    
     audioTest.Loop();
     vibrationTest.Loop();
+    tofTest.Loop();
     //Serial.print("Distance (mm): ");
     //Serial.println(tofSensor.ReadSingleMillimeters());
     //delay(500);
@@ -84,7 +86,7 @@ void GoalfinderApp::Process()
     //Serial.println(vibrationSensor.Vibration());
     //delay(500);   
 
-    struct tm timeInfo = sntp.GetLocalTime();
+    /*struct tm timeInfo = sntp.GetLocalTime();
 
     Serial.println(&timeInfo, "%A, %B %d %Y %H:%M:%S");
     Serial.print("Day of week: ");
@@ -98,5 +100,5 @@ void GoalfinderApp::Process()
     Serial.print("Hour: ");
     Serial.println(&timeInfo, "%H");
 
-    delay(1000);
+    delay(1000);*/
 }

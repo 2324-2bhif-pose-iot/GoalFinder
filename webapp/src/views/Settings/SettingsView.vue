@@ -4,14 +4,43 @@ import SettingsIcon from "@/components/Icons/SettingsIcon.vue";
 import BluetoothIcon from "@/components/Icons/BluetoothIcon.vue";
 import VolumeIcon from "@/components/Icons/VolumeIcon.vue";
 import InfoIcon from "@/components/Icons/InfoIcon.vue";
+import router from "@/router/index.js";
+
+const options = [
+  {
+    label: "General",
+    command: () => router.push("/settings/general")
+  },
+  {
+    label: "Connectivity",
+    command: () => router.push("/settings/connectivity")
+  },
+  {
+    label: "Devices",
+    command: () => router.push("/settings/devices")
+  },
+  {
+    label: "Audio",
+    command: () => router.push("/settings/audio")
+  },
+  {
+    label: "System",
+    command: () => router.push("/settings/system")
+  },
+]
 </script>
 
 <template>
   <div class="container">
-    <h1>Settings</h1>
+    <div id="top-menu">
+      <h1>Settings</h1>
+      <Button label="Save settings"/>
+    </div>
     <div class="row mt-5">
       <div class="col-md-3 mb-3">
-        <ul class="list-group">
+        <Menu class="p-1" :model="options"/>
+
+        <!-- <ul class="list-group">
           <router-link class="list-group-item list-group-item-action settings-item" to="/settings/general">
             <SettingsIcon/>
             General
@@ -32,7 +61,7 @@ import InfoIcon from "@/components/Icons/InfoIcon.vue";
             <InfoIcon/>
             System
           </router-link>
-        </ul>
+        </ul> -->
       </div>
       <router-view class="col-md"/>
     </div>
@@ -40,6 +69,17 @@ import InfoIcon from "@/components/Icons/InfoIcon.vue";
 </template>
 
 <style scoped>
+
+  #top-menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #top-menu Button {
+    margin-left: auto;
+  }
+
   .settings-item {
     display: flex;
     align-items: center;

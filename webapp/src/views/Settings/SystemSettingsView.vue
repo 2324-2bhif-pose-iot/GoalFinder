@@ -1,23 +1,24 @@
 <script setup>
+  import {useSettingsStore} from "@/stores/settings.js";
 
-import BluetoothDevicesManager from "@/components/BluetoothDevicesManager.vue";
+  const settings = useSettingsStore();
 </script>
 
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">System</div>
-      <div class="card-body">
+    <Card>
+      <template #title>System</template>
+      <template #content>
         <div class="mb-3">
-          <div class="card-title">System</div>
-          <button class="btn btn-primary">Restart</button>
-          <button class="btn btn-secondary ms-1">Factory settings</button>
+          <div class="mb-2">System</div>
+          <Button>Restart</Button>
+          <Button class="ms-1" severity="danger">Factory settings</Button>
         </div>
         <div class="mb-3">
-          <div class="card-title">Info</div>
+          <div>Info</div>
           <div class="row">
             <div class="col-md-5"><strong>Name:</strong></div>
-            <div class="col-auto">Goalfinder</div>
+            <div class="col-auto">{{settings.deviceName}}</div>
           </div>
           <div class="row">
             <div class="col-md-5"><strong>Version:</strong></div>
@@ -25,22 +26,22 @@ import BluetoothDevicesManager from "@/components/BluetoothDevicesManager.vue";
           </div>
           <div class="row">
             <div class="col-md-5"><strong>MAC address:</strong></div>
-            <div class="col-auto">FF:FF:FF:FF:FF:FF</div>
+            <div class="col-auto">{{settings.macAddress}}</div>
           </div>
           <div class="row">
             <div class="col-md-5"><strong>Bluetooth address:</strong></div>
-            <div class="col-auto">FF:FF:FF:FF:FF:FF</div>
+            <div class="col-auto">{{settings.bluetoothAddress}}</div>
           </div>
         </div>
         <div>
-          <div class="card-title">Software update</div>
+          <div>Software update</div>
           <div>
             <p>Current version: 1.0.0</p>
-            <button class="btn btn-primary">Search for update</button>
+            <Button>Search for update</Button>
           </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </Card>
   </div>
 </template>
 

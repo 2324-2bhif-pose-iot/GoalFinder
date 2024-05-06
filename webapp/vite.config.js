@@ -18,6 +18,5 @@ export default defineConfig({
   build: {
     outDir: "../data/web",
     emptyOutDir: true,
-    minify: true
   }
 })

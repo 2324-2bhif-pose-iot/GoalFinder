@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "pinia": "^2.1.7",
+    "primevue": "^3.52.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
