@@ -1,42 +1,39 @@
 #include <AudioPlayer.h>
-#include "AudioGeneratorAAC.h"
-#include "AudioOutputI2S.h"
-#include "AudioFileSourcePROGMEM.h"
-#include "AudioGeneratorMP3.h"
-#include "sampleaac.h"
 
-#define Bit_Clock_BCLK 23
-#define Word_Select_WS 05
-#define Serial_Data_SD 19
-
-AudioFileSourcePROGMEM *file;
-
-AudioGeneratorMP3 *wav;
-
-AudioOutputI2S *out;
-
-void AudioPlayer::Init() 
+AudioPlayer::AudioPlayer(FileSystem* fileSystem, int bclkPin, int wclkPin, int doutPin) 
 {
-  Serial.begin(115200);
-  audioLogger = &Serial;
-  file = new AudioFileSourcePROGMEM( music_mp3, music_mp3_len );
-  out = new AudioOutputI2S();
-  out -> SetPinout(Bit_Clock_BCLK, Word_Select_WS, Serial_Data_SD);
-  wav = new AudioGeneratorMP3();
-  wav->begin(file, out);
+    this->fileSystem = fileSystem;
+    currentFile = new AudioFileSourceFS(*fileSystem->GetInternalFileSystem());
+    mp3Generator = new AudioGeneratorMP3();
+    audioOutput = new AudioOutputI2S();
+    audioOutput->SetPinout(bclkPin, wclkPin, doutPin);
 }
 
-void AudioPlayer::TestAudio() 
+AudioPlayer::~AudioPlayer() 
 {
-    if (wav->isRunning()) {
-    if (!wav->loop()) wav->stop();
-  } else {
-    Serial.printf("WAV done\n");
-    delay(1000);
-  }
+    delete currentFile;
+    delete mp3Generator;
+    delete audioOutput;
 }
 
-AudioPlayer::~AudioPlayer()
+void AudioPlayer::PlayMP3(const char* path)
 {
-  
+    currentFile->open(path);
+    mp3Generator->begin(currentFile, audioOutput);
+}
+
+void AudioPlayer::SetVolume(int percent) 
+{
+    audioOutput->SetGain((float)percent / 100.0f);
+}
+
+void AudioPlayer::Loop() 
+{
+    if(mp3Generator->isRunning()) 
+    {
+        if(!mp3Generator->loop()) 
+        {
+            mp3Generator->stop();
+        }
+    }
 }

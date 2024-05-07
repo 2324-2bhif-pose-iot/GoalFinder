@@ -5,7 +5,7 @@
 #include <BluetoothManager.h>
 #include <web/WebServer.h>
 #include <web/SNTP.h>
-#include <file_system/FileSystem.h>
+#include <FileSystem.h>
 
 #include <test/BluetoothTest.cpp>
 #include <test/TofTest.cpp>
@@ -23,7 +23,7 @@ SNTP sntp;
 
 BluetoothTest btTest;
 TofTest tofTest;
-AudioTest audioTest;
+AudioTest audioTest(&fileSystem);
 VibrationTest vibrationTest;
 
 //ToFSensor tofSensor;
@@ -49,8 +49,8 @@ void GoalfinderApp::Init()
 
     btTest.Setup();    
     audioTest.Setup();
-    vibrationTest.Setup();
-    tofTest.Setup();
+    //vibrationTest.Setup();
+    //tofTest.Setup();
 
     /*WiFi.begin(ssid, password);
 
@@ -76,8 +76,8 @@ void GoalfinderApp::Process()
 {
     btTest.Loop();    
     audioTest.Loop();
-    vibrationTest.Loop();
-    tofTest.Loop();
+    //vibrationTest.Loop();
+    //tofTest.Loop();
     //Serial.print("Distance (mm): ");
     //Serial.println(tofSensor.ReadSingleMillimeters());
     //delay(500);

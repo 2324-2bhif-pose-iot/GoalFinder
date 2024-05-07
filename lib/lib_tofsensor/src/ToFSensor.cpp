@@ -1,21 +1,11 @@
 #include <ToFSensor.h>
-#include <Wire.h>
 
 void ToFSensor::Init() 
 {
-    sensor = new Adafruit_VL53L0X();
-
-    while(! Serial)
-    {
-        delay(1);
-    }
-
     if(!sensor->begin())
     {
         Serial.println(F("Failed to boot VL53L0X"));
-        while(1);
     }
-    Wire.begin();
 }
 
 int ToFSensor::ReadSingleMillimeters() 
