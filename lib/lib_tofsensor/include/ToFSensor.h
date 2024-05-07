@@ -9,5 +9,5 @@ class ToFSensor
         void Init();
         int ReadSingleMillimeters();
     private: 
-        Adafruit_VL53L0X* sensor; 
+        Adafruit_VL53L0X sensor; 
 };

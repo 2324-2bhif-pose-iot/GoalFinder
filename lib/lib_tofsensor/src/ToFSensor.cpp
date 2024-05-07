@@ -2,16 +2,18 @@
 
 void ToFSensor::Init() 
 {
-    if(!sensor->begin())
+    if(!sensor.begin())
     {
         Serial.println(F("Failed to boot VL53L0X"));
     }
+
+    Wire.begin();
 }
 
 int ToFSensor::ReadSingleMillimeters() 
 {
     VL53L0X_RangingMeasurementData_t measure;
-    sensor->rangingTest(&measure, false); // pass in 'true' to get debug data printout!
+    sensor.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
 
     if (measure.RangeStatus != 4) 
     { 
@@ -27,5 +29,5 @@ int ToFSensor::ReadSingleMillimeters()
 
 ToFSensor::~ToFSensor()
 {
-    delete sensor;
+    
 }

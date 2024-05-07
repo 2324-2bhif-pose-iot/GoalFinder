@@ -106,8 +106,8 @@ bool parseWAV(fs::FS &fs, String path){
 
 void BluetoothManager::Init() 
 {
-    //parseWAV(LittleFS, "/cola.wav");
-    //a2dp_source_init(BT_SINK_NAME, BT_SINK_PIN);
+    parseWAV(LittleFS, "/cola.wav");
+    a2dp_source_init(BT_SINK_NAME, BT_SINK_PIN);
 }
 
 void BluetoothManager::Test() 

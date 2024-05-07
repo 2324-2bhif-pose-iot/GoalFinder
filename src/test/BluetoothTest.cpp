@@ -1,19 +1,19 @@
 #pragma once
-//#include <BluetoothManager.h>
+#include <BluetoothManager.h>
 
 class BluetoothTest 
 {
     public:
         void Setup() 
         {
-            //bt.Init();
+            bt.Init();
         }  
 
         void Loop() 
         {
-            //bt.Test();
+            bt.Test();
         }
     private:
-        //BluetoothManager bt;
+        BluetoothManager bt;
         //variables
 };
