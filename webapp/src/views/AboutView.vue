@@ -10,7 +10,7 @@
         <p class="mt-3">
           <strong>Developed by:</strong> Omar Al-Desoky, Rabbi Baysoy, Alexander Coroi, Edin Kurtic
         </p>
-        <Panel header="License" :toggleable="true">
+        <!--<Panel header="License" :toggleable="true">
           <p>MIT License</p>
           <p>Copyright (c) 2024 2324-2bhif-pose-iot</p>
           <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,7 +29,7 @@
             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
             SOFTWARE.
           </p>
-        </Panel>
+        </Panel>-->
       </template>
     </Card>
   </div>

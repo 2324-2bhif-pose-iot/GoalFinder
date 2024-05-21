@@ -52,10 +52,11 @@ const onSortChange = (event) => {
       <template #content>
         <DataView :value="games" paginator :rows="6" :sortOrder="sortOrder" :sortField="sortField">
           <template #header>
-            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Date" @change="onSortChange($event)" />
-            <div>
-
+            <div id="card-header">
+              <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Date" @change="onSortChange($event)" />
+              <Button id="new-game-button" label="Create new game"/>
             </div>
+
           </template>
           <template #list="slotProps">
             <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
@@ -70,5 +71,11 @@ const onSortChange = (event) => {
 </template>
 
 <style scoped>
+  #card-header {
+    display: flex;
+  }
 
+  #new-game-button {
+    margin-left: auto;
+  }
 </style>

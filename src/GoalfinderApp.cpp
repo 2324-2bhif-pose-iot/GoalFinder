@@ -21,7 +21,7 @@ FileSystem fileSystem(FORMAT_SPIFFS_IF_FAILED);
 WebServer webServer(&fileSystem);
 SNTP sntp;
 
-//BluetoothTest btTest;
+BluetoothTest btTest;
 TofTest tofTest;
 AudioTest audioTest(&fileSystem);
 VibrationTest vibrationTest;
@@ -49,8 +49,8 @@ void GoalfinderApp::Init()
 
     //btTest.Setup();    
     //audioTest.Setup();
-    vibrationTest.Setup();
-    tofTest.Setup();
+    //vibrationTest.Setup();
+    //tofTest.Setup();
 
     /*WiFi.begin(ssid, password);
 
@@ -76,8 +76,8 @@ void GoalfinderApp::Process()
 {
     //btTest.Loop();    
     //audioTest.Loop();
-    vibrationTest.Loop();
-    tofTest.Loop();
+    //vibrationTest.Loop();
+    //tofTest.Loop();
     //Serial.print("Distance (mm): ");
     //Serial.println(tofSensor.ReadSingleMillimeters());
     //delay(500);

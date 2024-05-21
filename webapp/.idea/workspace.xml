@@ -52,7 +52,7 @@
       <recent name="C:\Users\Alex\Desktop\webapp\src" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="build" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -81,7 +81,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
+        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
       </set>
     </attachedChunks>
   </component>
@@ -99,6 +99,7 @@
       <workItem from="1714850558528" duration="446000" />
       <workItem from="1714902271480" duration="8684000" />
       <workItem from="1714932340000" duration="2804000" />
+      <workItem from="1715084764914" duration="2399000" />
     </task>
     <servers />
   </component>
