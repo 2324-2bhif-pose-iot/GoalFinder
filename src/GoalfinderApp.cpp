@@ -21,13 +21,13 @@ FileSystem fileSystem(FORMAT_SPIFFS_IF_FAILED);
 WebServer webServer(&fileSystem);
 SNTP sntp;
 
-BluetoothTest btTest;
-TofTest tofTest;
-AudioTest audioTest(&fileSystem);
-VibrationTest vibrationTest;
+//BluetoothTest btTest;
+//TofTest tofTest;
+//AudioTest audioTest(&fileSystem);
+//VibrationTest vibrationTest;
 
-//ToFSensor tofSensor;
-//VibrationSensor vibrationSensor;
+ToFSensor tofSensor;
+VibrationSensor vibrationSensor;
 //BluetoothManager bluetoothManager;
 
 GoalfinderApp::GoalfinderApp() :
@@ -52,24 +52,20 @@ void GoalfinderApp::Init()
     //vibrationTest.Setup();
     //tofTest.Setup();
 
-    /*WiFi.begin(ssid, password);
-
-    while(WiFi.status() != WL_CONNECTED) 
-    {
-        Serial.println(".");
-    }
+    
+    WiFi.softAP(ssid, password);
 
     WiFi.setSleep(false);
 
-    Serial.println(WiFi.localIP());
-
-    
+    Serial.println(WiFi.softAPIP());
 
     webServer.Begin();
-    sntp.Init();*/
-    //vibrationSensor.Init();
-    //tofSensor.Init();
-    //bluetoothManager.Init();    
+    
+    sntp.Init();
+    vibrationSensor.Init();
+    tofSensor.Init();
+    //bluetoothManager.Init();   
+     
 }
 
 void GoalfinderApp::Process() 
@@ -78,15 +74,18 @@ void GoalfinderApp::Process()
     //audioTest.Loop();
     //vibrationTest.Loop();
     //tofTest.Loop();
-    //Serial.print("Distance (mm): ");
-    //Serial.println(tofSensor.ReadSingleMillimeters());
-    //delay(500);
+    Serial.print("Distance (mm): ");
+    Serial.println(tofSensor.ReadSingleMillimeters());
+    delay(500);
 
-    //Serial.print("Vibration Measurement: ");
-    //Serial.println(vibrationSensor.Vibration());
-    //delay(500);   
+    Serial.println("\n");
+    Serial.print("Vibration Measurement: ");
+    Serial.println(vibrationSensor.Vibration());
+    delay(100);   
 
-    /*struct tm timeInfo = sntp.GetLocalTime();
+    Serial.println("\n");
+    struct tm timeInfo = sntp.GetLocalTime();
+
 
     Serial.println(&timeInfo, "%A, %B %d %Y %H:%M:%S");
     Serial.print("Day of week: ");
@@ -99,6 +98,6 @@ void GoalfinderApp::Process()
     Serial.println(&timeInfo, "%Y");
     Serial.print("Hour: ");
     Serial.println(&timeInfo, "%H");
+    
 
-    delay(1000);*/
 }
