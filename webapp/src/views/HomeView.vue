@@ -28,6 +28,17 @@
           </router-link>
         </template>
       </Card>
+      <Card class="col-sm-6 dashboard-card">
+        <template #title>Basketball shot tracker</template>
+        <template #content>
+          <p class="m-0">
+            Add and remove persons into a basketball shot tracker
+          </p>
+          <router-link to="/list">
+            <Button class="mt-3" label="Go to Basketball shot tracker"/>
+          </router-link>
+        </template>
+      </Card>
     </div>
   </div>
 </template>

@@ -10,6 +10,7 @@ import ConfigAudio from "@/views/Settings/AudioSettingsView.vue";
 import ConfigSystem from "@/views/Settings/SystemSettingsView.vue";
 import ConfigConnectivity from "@/views/Settings/ConnectivitySettingsView.vue";
 import Games from "@/views/GamesView.vue";
+import ListView from "@/views/Settings/ListView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +68,11 @@ const router = createRouter({
       name: "Games",
       component: Games,
       path: "/games"
+    },
+    {
+      name: "List",
+      component: ListView,
+      path: "/list"
     }
   ]
 })
