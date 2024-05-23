@@ -5,6 +5,7 @@ import HomeIcon from "@/components/Icons/HomeIcon.vue";
 import GamesIcon from "@/components/Icons/GamesIcon.vue";
 import InfoIcon from "@/components/Icons/InfoIcon.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
+import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
 
 function setTheme() {
   if (window.matchMedia) {
