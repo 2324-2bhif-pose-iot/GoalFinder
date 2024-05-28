@@ -524,7 +524,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "LeoIoT_Goalfinder.step",
       "svg": "",
       "vrml": ""
     },

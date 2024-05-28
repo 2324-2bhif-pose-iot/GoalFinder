@@ -5151,8 +5151,6 @@
 			)
 		)
 		(path "/c4516174-2145-4ccc-9d2a-25dd67a77407")
-		(sheetname "Stammblatt")
-		(sheetfile "LeoIoT_Goalfinder.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 70 -23.4)
@@ -5435,7 +5433,7 @@
 		)
 		(model "${SITOHOME_3DMODELS}/Mono_Enclosed_Speaker_3W-4Ohm.stp"
 			(offset
-				(xyz 35 -15 0)
+				(xyz 35 -15 4)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -5444,17 +5442,6 @@
 				(xyz 0 90 180)
 			)
 		)
-	)
-	(gr_rect
-		(start 194.903084 86.381844)
-		(end 200.006616 93.678532)
-		(stroke
-			(width 0.5)
-			(type default)
-		)
-		(fill none)
-		(layer "Edge.Cuts")
-		(uuid "00e75ecd-d96f-4d89-9cd2-8c41dc402831")
 	)
 	(gr_rect
 		(start 100 60)
@@ -5466,6 +5453,17 @@
 		(fill none)
 		(layer "Edge.Cuts")
 		(uuid "b62b6836-8565-415d-8b95-68768b346ddf")
+	)
+	(gr_rect
+		(start 194.903084 86.381844)
+		(end 200.006616 93.678532)
+		(stroke
+			(width 0.5)
+			(type default)
+		)
+		(fill none)
+		(layer "User.5")
+		(uuid "00e75ecd-d96f-4d89-9cd2-8c41dc402831")
 	)
 	(gr_text "HTL Leonding 2024"
 		(at 189.23 109.22 0)
