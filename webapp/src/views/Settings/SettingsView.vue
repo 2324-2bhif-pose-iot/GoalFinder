@@ -5,26 +5,27 @@ import BluetoothIcon from "@/components/Icons/BluetoothIcon.vue";
 import VolumeIcon from "@/components/Icons/VolumeIcon.vue";
 import InfoIcon from "@/components/Icons/InfoIcon.vue";
 import router from "@/router/index.js";
+import {i18n} from "@/main.js";
 
 const options = [
   {
-    label: "General",
+    label: i18n.global.t("settings.general"),
     command: () => router.push("/settings/general")
   },
   {
-    label: "Connectivity",
+    label: i18n.global.t("settings.wifi"),
     command: () => router.push("/settings/connectivity")
   },
   {
-    label: "Devices",
+    label: i18n.global.t("settings.devices"),
     command: () => router.push("/settings/devices")
   },
   {
-    label: "Audio",
+    label: i18n.global.t("settings.audio"),
     command: () => router.push("/settings/audio")
   },
   {
-    label: "System",
+    label: i18n.global.t("settings.system"),
     command: () => router.push("/settings/system")
   },
 ]
@@ -33,8 +34,10 @@ const options = [
 <template>
   <div class="container">
     <div id="top-menu">
-      <h1>Settings</h1>
-      <Button label="Save settings"/>
+      <h1>{{$t("header.settings")}}</h1>
+      <Button>
+        {{$t("word.save")}}
+      </Button>
     </div>
     <div class="row mt-5">
       <div class="col-md-3 mb-3">

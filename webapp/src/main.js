@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import {createPinia} from "pinia";
+import {createI18n} from "vue-i18n"
 import App from './App.vue';
 import router from './router';
 import 'primevue/resources/themes/aura-light-green/theme.css'
@@ -26,7 +27,75 @@ app.use(router);
 const pinia = createPinia();
 app.use(pinia);
 
+const i18n = createI18n({
+    locale: "de",
+    fallbackLocale: "en",
+    messages: {
+        en: {
+            header: {
+                dashboard: "Goal Finder Dashboard",
+                home: "Home",
+                games: "Games",
+                sessions: "Sessions",
+                settings: "Settings",
+                about: "About",
+                game_card: "Create new game",
+                settings_card: "Configure device",
+                sessions_card: "Create new session"
+            },
+            description: {
+                settings_description: "Configure the device settings like sounds and devices.",
+                sessions_description: "Add and remove persons into a basketball shot tracker"
+            },
+            settings: {
+                settings: "settings",
+                general: "General",
+                wifi: "WiFi",
+                devices: "Devices",
+                audio: "Audio",
+                system: "System"
+            },
+            word : {
+              save: "Save",
+              open: "Open",
+            }
+        },
+        de : {
+            header: {
+                dashboard: "Goal Finder Dashboard",
+                home: "Startseite",
+                games: "Spiele",
+                sessions: "Sitzungen",
+                settings: "Einstellungen",
+                about: "Über uns",
+                game_card: "Neues Spiel erstellen",
+                settings_card: "Einstellungen",
+                sessions_card: "Neue Sitzung erstellen"
+            },
+            description: {
+                settings_description: "Einstellungen für das Gerät vornehmen",
+                sessions_description: "Add and remove persons into a basketball shot tracker"
+            },
+            settings: {
+                settings: "Einstellungen",
+                general: "Allgemein",
+                wifi: "WLAN",
+                devices: "Geräte",
+                audio: "Audio",
+                system: "System"
+            },
+            word : {
+                save: "Speichern",
+                open: "Öffnen"
+            }
+        }
+    }
+});
+
 app.use(PrimeVue, { ripple: true });
+app.use(i18n);
+
+export {i18n};
 
 //PrimeVue components
 app.component('Menubar', Menubar);

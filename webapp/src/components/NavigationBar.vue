@@ -2,21 +2,22 @@
 import { ref } from "vue";
 
 import { useRouter } from 'vue-router';
+import {i18n} from "@/main.js";
 
 const router = useRouter();
 
 const items = ref(
     [
       {
-        label: "Home",
+        label: i18n.global.t("header.home"),
         command: () => {router.push("/")}
       },
       {
-        label: "Games",
+        label: i18n.global.t("header.games"),
         command: () => {router.push("/games")}
       },
       {
-        label: "Settings",
+        label: i18n.global.t("header.settings"),
         command: () => {router.push("/settings")}
       }
     ]
@@ -34,7 +35,9 @@ const items = ref(
       <template #end>
         <div>
           <router-link to="/about">
-            <Button label="About" severity="secondary" text/>
+            <Button severity="secondary" text>
+              {{ $t("header.about") }}
+            </Button>
           </router-link>
         </div>
       </template>
