@@ -4,7 +4,7 @@
 
 <template>
   <div class="container">
-    <h1 class="mb-3">About us</h1>
+    <h1 class="mb-3">{{$t("header.about")}}</h1>
     <Card>
       <template #content>
         <p class="mt-3">
