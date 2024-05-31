@@ -204,3 +204,8 @@ dist
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+/docs/EAD/LeoIoT_Goalfinder-backups
+fp-info-cache
+*.FCStd1
+*.FCStd2
+*.FCStd3
