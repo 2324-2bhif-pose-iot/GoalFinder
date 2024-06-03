@@ -1257,7 +1257,7 @@
 		(descr "Resistor, Axial_DIN0309 series, Axial, Horizontal, pin pitch=12.7mm, 0.5W = 1/2W, length*diameter=9*3.2mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
 		(tags "Resistor Axial_DIN0309 series Axial Horizontal pin pitch 12.7mm 0.5W = 1/2W length 9mm diameter 3.2mm")
 		(property "Reference" "R5"
-			(at 3.81 -0.254 270)
+			(at 3.81 -0.254 -90)
 			(layer "F.SilkS")
 			(uuid "647ed215-ead8-486a-b98b-a82fb3ee7dd3")
 			(effects
@@ -1268,7 +1268,7 @@
 			)
 		)
 		(property "Value" "33k"
-			(at 8.89 -0.254 270)
+			(at 8.89 -0.254 -90)
 			(layer "F.Fab")
 			(uuid "daa8d977-58c7-4a04-89d2-fe077c106642")
 			(effects
@@ -2569,7 +2569,7 @@
 		(descr "C, Disc series, Radial, pin pitch=2.50mm, , diameter*width=5*2.5mm^2, Capacitor, http://cdn-reichelt.de/documents/datenblatt/B300/DS_KERKO_TC.pdf")
 		(tags "C Disc series Radial pin pitch 2.50mm  diameter 5mm width 2.5mm Capacitor")
 		(property "Reference" "Copt4"
-			(at 1.25 -2.5 270)
+			(at 1.25 -2.5 -90)
 			(layer "F.SilkS")
 			(uuid "4c486129-ca49-46ff-a5c6-1493876cb7ee")
 			(effects
@@ -2580,7 +2580,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 1.25 2.5 270)
+			(at 1.25 2.5 -90)
 			(layer "F.Fab")
 			(uuid "b56bfcc5-97ec-42ed-8419-94e445c0b826")
 			(effects
@@ -2804,7 +2804,7 @@
 			(uuid "6d04dc41-52a5-41be-a987-0185023df8d6")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.25 0 270)
+			(at 1.25 0 -90)
 			(layer "F.Fab")
 			(uuid "b2ed1c16-2788-4687-bbbc-c173be7ce3fb")
 			(effects
@@ -4470,7 +4470,7 @@
 		(descr "C, Disc series, Radial, pin pitch=2.50mm, , diameter*width=5*2.5mm^2, Capacitor, http://cdn-reichelt.de/documents/datenblatt/B300/DS_KERKO_TC.pdf")
 		(tags "C Disc series Radial pin pitch 2.50mm  diameter 5mm width 2.5mm Capacitor")
 		(property "Reference" "Copt5"
-			(at 1.25 -2.5 270)
+			(at 1.25 -2.5 -90)
 			(layer "F.SilkS")
 			(hide yes)
 			(uuid "4bef5df7-75cd-47bf-b19a-9a02cb44bfe1")
@@ -4482,7 +4482,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 1.25 2.5 270)
+			(at 1.25 2.5 -90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "339ec36e-0f82-40da-9939-adcaca479ad1")
@@ -8844,8 +8844,6 @@
 			)
 		)
 		(path "/e38039c5-65b4-4a61-8575-e947dd155c0e")
-		(sheetname "Stammblatt")
-		(sheetfile "LeoIoT_Goalfinder.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 15.24 -16.51)
@@ -9563,7 +9561,7 @@
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x01_P2.54mm_Vertical.step"
 			(offset
-				(xyz -13.8 -10.86 9.5)
+				(xyz -13.8 12 9.5)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -9574,7 +9572,7 @@
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x01_P2.54mm_Vertical.step"
 			(offset
-				(xyz 14.2 -10.86 9.5)
+				(xyz 14.2 12 9.5)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -9585,7 +9583,7 @@
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x01_P2.54mm_Vertical.step"
 			(offset
-				(xyz -13.8 -10.86 0)
+				(xyz -13.8 12 0)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -9596,7 +9594,7 @@
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x01_P2.54mm_Vertical.step"
 			(offset
-				(xyz 14.2 -10.86 0)
+				(xyz 14.2 12 0)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -9961,7 +9959,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C6"
-			(at 3.175 0 360)
+			(at 3.175 0 0)
 			(layer "B.SilkS")
 			(uuid "23dbca25-50cd-448a-a4ab-ee2af33e3fdf")
 			(effects
@@ -9973,7 +9971,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 0 -1.68 360)
+			(at 0 -1.68 0)
 			(layer "B.Fab")
 			(hide yes)
 			(uuid "7a045012-0151-41c9-9083-71e384490547")
@@ -10186,7 +10184,7 @@
 			(uuid "7c95ffba-65b9-4517-8245-ba40db923f98")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 360)
+			(at 0 0 0)
 			(layer "B.Fab")
 			(uuid "f17179cc-dfc5-4836-a478-1f27309fc56c")
 			(effects
@@ -10507,7 +10505,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C8"
-			(at 4.2125 0.635 360)
+			(at 4.2125 0.635 0)
 			(layer "B.SilkS")
 			(uuid "83d991f2-18c7-4d15-b526-571b6fa6d2cb")
 			(effects
@@ -10519,7 +10517,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 0 -1.68 360)
+			(at 0 -1.68 0)
 			(layer "B.Fab")
 			(hide yes)
 			(uuid "1d528ea2-1626-48b2-94b8-1d6e265557c9")
@@ -10732,7 +10730,7 @@
 			(uuid "46e4593e-4996-4c2e-8f4c-326a4b376fff")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 360)
+			(at 0 0 0)
 			(layer "B.Fab")
 			(uuid "86d77ce4-288b-44c8-913a-63529136aa99")
 			(effects
@@ -10780,7 +10778,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C5"
-			(at 0 1.68 270)
+			(at 0 1.68 -90)
 			(layer "B.SilkS")
 			(uuid "d7951b02-91d3-44f3-a8e2-e202b52d308d")
 			(effects
@@ -10792,7 +10790,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 0 -1.68 270)
+			(at 0 -1.68 -90)
 			(layer "B.Fab")
 			(hide yes)
 			(uuid "fc897327-83f5-4357-9d39-d1c5493dd59d")
@@ -11005,7 +11003,7 @@
 			(uuid "f042b04a-0dfd-4d6c-95b7-26c452dd8bce")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 270)
+			(at 0 0 -90)
 			(layer "B.Fab")
 			(uuid "2b979eab-e021-4e18-a679-4ecb1265e187")
 			(effects
@@ -11701,7 +11699,7 @@
 			(uuid "d74d72ed-6cad-4dc3-9656-c77159af88d1")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 270)
+			(at 0 0 -90)
 			(layer "B.Fab")
 			(uuid "4d054aa8-93d3-4509-b0fd-ed4853957f4d")
 			(effects
