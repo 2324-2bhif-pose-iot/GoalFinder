@@ -7,28 +7,19 @@
 #include <web/SNTP.h>
 #include <FileSystem.h>
 
-#include <test/BluetoothTest.cpp>
-#include <test/TofTest.cpp>
-#include <test/AudioTest.cpp>
-#include <test/VibrationTest.cpp>
+#define FORMAT_FS_IF_FAILED true
+#define TOF_SDA_PIN 27
+#define TOF_SCL_PIN 25
 
-#define FORMAT_SPIFFS_IF_FAILED true
+#define SSID "Goal Finder"
+#define PASSWORD "esp123456"
 
-const char* ssid = "Omar iPhone 11";
-const char* password = "bruderItachi!";
-
-FileSystem fileSystem(FORMAT_SPIFFS_IF_FAILED);
+FileSystem fileSystem(FORMAT_FS_IF_FAILED);
 WebServer webServer(&fileSystem);
 SNTP sntp;
 
-//BluetoothTest btTest;
-//TofTest tofTest;
-//AudioTest audioTest(&fileSystem);
-//VibrationTest vibrationTest;
-
 ToFSensor tofSensor;
 VibrationSensor vibrationSensor;
-//BluetoothManager bluetoothManager;
 
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>() {
@@ -46,14 +37,8 @@ void GoalfinderApp::Init()
         Serial.println("Error FS");
         return;
     }
-
-    //btTest.Setup();    
-    //audioTest.Setup();
-    //vibrationTest.Setup();
-    //tofTest.Setup();
-
     
-    WiFi.softAP(ssid, password);
+    WiFi.softAP(SSID, PASSWORD);
 
     WiFi.setSleep(false);
 
@@ -63,41 +48,10 @@ void GoalfinderApp::Init()
     
     sntp.Init();
     vibrationSensor.Init();
-    tofSensor.Init();
-    //bluetoothManager.Init();   
-     
+    tofSensor.Init(TOF_SCL_PIN, TOF_SDA_PIN);     
 }
 
 void GoalfinderApp::Process() 
 {
-    //btTest.Loop();    
-    //audioTest.Loop();
-    //vibrationTest.Loop();
-    //tofTest.Loop();
-    Serial.print("Distance (mm): ");
-    Serial.println(tofSensor.ReadSingleMillimeters());
-    delay(500);
-
-    Serial.println("\n");
-    Serial.print("Vibration Measurement: ");
-    Serial.println(vibrationSensor.Vibration());
-    delay(100);   
-
-    Serial.println("\n");
-    struct tm timeInfo = sntp.GetLocalTime();
-
-
-    Serial.println(&timeInfo, "%A, %B %d %Y %H:%M:%S");
-    Serial.print("Day of week: ");
-    Serial.println(&timeInfo, "%A");
-    Serial.print("Month: ");
-    Serial.println(&timeInfo, "%B");
-    Serial.print("Day of Month: ");
-    Serial.println(&timeInfo, "%d");
-    Serial.print("Year: ");
-    Serial.println(&timeInfo, "%Y");
-    Serial.print("Hour: ");
-    Serial.println(&timeInfo, "%H");
     
-
 }

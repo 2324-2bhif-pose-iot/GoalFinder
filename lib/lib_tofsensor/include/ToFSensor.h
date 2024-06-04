@@ -6,8 +6,15 @@ class ToFSensor
 {
     public: 
         virtual ~ToFSensor();
-        void Init();
+        
+        ToFSensor() : wireConfig(0) 
+        {
+
+        }
+
+        void Init(int sclPin, int sdaPin);
         int ReadSingleMillimeters();
     private: 
         Adafruit_VL53L0X sensor; 
+        TwoWire wireConfig;
 };
