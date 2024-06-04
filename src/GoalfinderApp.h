@@ -31,6 +31,9 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 
 		GoalfinderApp();
 
+		
+
+
 	private:
 		friend class Singleton<GoalfinderApp> ;
 		/** Singleton constructor */
