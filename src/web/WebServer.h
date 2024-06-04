@@ -10,7 +10,6 @@ class WebServer
         void Stop();
         WebServer(FileSystem* fileSystem);
     private:
-        //AsyncWebServer server;
         AsyncWebServer server;
         void Init();
 };
