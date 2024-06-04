@@ -61,24 +61,22 @@ void GoalfinderApp::Init()
     
     ledcAttachPin(ledPin, ledChannel);
 
-    
-
 }
 
 void GoalfinderApp::Process()
 {
-    //for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){
+    for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){
 
-       // ledcWrite(ledChannel, dutyCycle);
-        //delay(5);
-    //}
+        ledcWrite(ledChannel, dutyCycle);
+        delay(5);
+    }
 
 
-    //for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
+    for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
 
-      //ledcWrite(ledChannel, dutyCycle);   
-      //delay(5);
-    //}
+      ledcWrite(ledChannel, dutyCycle);   
+      delay(5);
+    }
     
 }
 
