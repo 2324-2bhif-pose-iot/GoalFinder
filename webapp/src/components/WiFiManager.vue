@@ -7,13 +7,13 @@
 <template>
   <div>
     <div id="wifi-enable">
-      <label>WiFi</label>
+      <label>{{ $t("settings.wifi") }}</label>
       <InputSwitch v-model="settings.isWifiEnabled" id="switch" />
     </div>
     <div v-show="settings.isWifiEnabled">
       <div class="mt-3">Status: Not connected</div>
       <Listbox :options="settings.availableNetworks" class="mt-3"/>
-      <Button label="Refresh" class="mt-3"/>
+      <Button class="mt-3">{{ $t("word.refresh") }}</Button>
     </div>
   </div>
 </template>

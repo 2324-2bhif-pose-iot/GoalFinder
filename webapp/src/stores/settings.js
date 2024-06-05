@@ -8,6 +8,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const isBluetoothEnabled = ref(false);
     const connectedBluetoothDevices = ref([]);
     const availableBluetoothDevices = ref([]);
+    const vibrationSensorSensitivity = ref(0);
 
     const isWifiEnabled = ref(false);
     const connectedNetwork = ref("");
@@ -40,6 +41,7 @@ export const useSettingsStore = defineStore("settings", () => {
         isBluetoothEnabled,
         connectedBluetoothDevices,
         availableBluetoothDevices,
+        vibrationSensorSensitivity,
         isWifiEnabled,
         connectedNetwork,
         availableNetworks,

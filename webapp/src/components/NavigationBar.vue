@@ -13,8 +13,8 @@ const items = ref(
         command: () => {router.push("/")}
       },
       {
-        label: i18n.global.t("header.games"),
-        command: () => {router.push("/games")}
+        label: i18n.global.t("header.sessions"),
+        command: () => {router.push("/list")}
       },
       {
         label: i18n.global.t("header.settings"),

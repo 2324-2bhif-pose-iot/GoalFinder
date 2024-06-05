@@ -45,19 +45,29 @@ const i18n = createI18n({
             },
             description: {
                 settings_description: "Configure the device settings like sounds and devices.",
-                sessions_description: "Add and remove persons into a basketball shot tracker"
+                sessions_description: "Add and remove persons into a basketball shot tracker",
+                device_name_description: "Enter a name for the device.",
+                device_password_description: "Enter a password for the device."
             },
             settings: {
-                settings: "settings",
+                settings: "Settings",
                 general: "General",
                 wifi: "WiFi",
                 devices: "Devices",
                 audio: "Audio",
-                system: "System"
+                system: "System",
+                device_name: "Device name",
+                device_password: "Device password"
             },
             word : {
-              save: "Save",
-              open: "Open",
+                save: "Save",
+                open: "Open",
+                volume: "Volume",
+                refresh: "Refresh",
+                sensitivity: "Sensitivity",
+                restart: "Restart",
+                factory_settings_reset: "Reset to factory settings",
+                search_for_update: "Search for update",
             }
         },
         de : {
@@ -74,7 +84,9 @@ const i18n = createI18n({
             },
             description: {
                 settings_description: "Einstellungen für das Gerät vornehmen",
-                sessions_description: "Add and remove persons into a basketball shot tracker"
+                sessions_description: "Eine neue Sitzung erstellen",
+                device_name_description: "Einen neuen Namen für dieses Gerät eingeben.",
+                device_password_description: "Ein neues Passwort für dieses Gerät eingeben."
             },
             settings: {
                 settings: "Einstellungen",
@@ -86,7 +98,15 @@ const i18n = createI18n({
             },
             word : {
                 save: "Speichern",
-                open: "Öffnen"
+                open: "Öffnen",
+                volume: "Lautstärke",
+                refresh: "Aktualisieren",
+                sensitivity: "Empfindlichkeit",
+                device_name: "Gerätename",
+                device_password: "Passwort",
+                restart: "Neustarten",
+                factory_settings_reset: "Auf Werkseinstellungen zurücksetzen",
+                search_for_update: "Auf Aktualisierungen prüfen",
             }
         }
     }

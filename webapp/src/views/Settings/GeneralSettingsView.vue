@@ -7,17 +7,17 @@
 <template>
   <div>
     <Card>
-      <template #title>General</template>
+      <template #title>{{ $t("settings.general") }}</template>
       <template #content>
         <div class="input-form mb-3">
-          <label for="device-name">Device name</label>
+          <label for="device-name">{{ $t("word.device_name") }}</label>
           <InputText id="device-name" v-model="settings.deviceName" aria-describedby="device-name-help" />
-          <small id="device-name-help">Enter a name for the device.</small>
+          <small id="device-name-help">{{ $t("description.device_name_description") }}</small>
         </div>
         <div class="input-form mb-3">
-          <label for="device-password">Device password</label>
+          <label for="device-password">{{ $t("word.device_password") }}</label>
           <Password id="device-password" :feedback="false" v-model="settings.devicePassword" aria-describedby="device-password-help" />
-          <small id="device-password-help">Enter a password for the device.</small>
+          <small id="device-password-help">{{ $t("description.device_password_description") }}</small>
         </div>
       </template>
     </Card>

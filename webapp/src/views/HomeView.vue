@@ -6,7 +6,7 @@
   <div class="container">
     <h1>Goal Finder Dashboard</h1>
     <div class="row" id="card-container">
-      <Card class="col-sm-6 dashboard-card">
+      <!--<Card class="col-sm-6 dashboard-card">
         <template #title>{{ $t("header.game_card") }}</template>
         <template #content>
           <p class="m-0">
@@ -18,7 +18,7 @@
             </Button>
           </router-link>
         </template>
-      </Card>
+      </Card>-->
       <Card class="col-sm-6 dashboard-card">
         <template #title>{{ $t("header.settings_card") }}</template>
         <template #content>
@@ -36,7 +36,7 @@
         <template #title>{{ $t("header.sessions_card") }}</template>
         <template #content>
           <p class="m-0">
-            Add and remove persons into a basketball shot tracker
+            {{ $t("description.sessions_description") }}
           </p>
           <router-link to="/list">
             <Button class="mt-3">
@@ -55,10 +55,11 @@
     gap: 0.3rem;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
   }
 
   .dashboard-card {
-    width: 27rem;
+    width: 49%;
   }
 
   .dashboard-card p {

@@ -7,17 +7,17 @@
 <template>
   <div>
     <Card>
-      <template #title>System</template>
+      <template #title>{{ $t("settings.system") }}</template>
       <template #content>
         <div class="mb-3">
-          <div class="mb-2">System</div>
-          <Button>Restart</Button>
-          <Button class="ms-1" severity="danger">Factory settings</Button>
+          <div class="mb-2">{{ $t("settings.system") }}</div>
+          <Button>{{ $t("word.restart") }}</Button>
+          <Button class="ms-1" severity="danger">{{ $t("word.factory_settings_reset") }}</Button>
         </div>
         <div class="mb-3">
           <div>Info</div>
           <div class="row">
-            <div class="col-md-5"><strong>Name:</strong></div>
+            <div class="col-md-5"><strong>{{ $t("word.device_name") }}</strong></div>
             <div class="col-auto">{{settings.deviceName}}</div>
           </div>
           <div class="row">
@@ -37,7 +37,7 @@
           <div>Software update</div>
           <div>
             <p>Current version: 1.0.0</p>
-            <Button>Search for update</Button>
+            <Button>{{ $t("word.search_for_update") }}</Button>
           </div>
         </div>
       </template>

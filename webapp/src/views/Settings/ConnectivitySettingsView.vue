@@ -5,7 +5,7 @@ import WiFiManager from "@/components/WiFiManager.vue";
 <template>
   <div>
     <Card>
-      <template #title>Connectivity</template>
+      <template #title>{{ $t("settings.wifi") }}</template>
       <template #content>
         <WiFiManager/>
       </template>

@@ -7,10 +7,10 @@
 <template>
   <div>
     <Card>
-      <template #title>Audio</template>
+      <template #title>{{ $t("settings.audio") }}</template>
       <template #content>
         <div id="volume-slider-control">
-          <label>Volume</label>
+          <label>{{ $t("word.volume") }}</label>
           <Slider id="volume-slider" v-model="settings.volume"/>
         </div>
       </template>
@@ -19,7 +19,6 @@
 </template>
 
 <style scoped>
-
   #volume-slider-control {
     display: flex;
     align-items: center;
