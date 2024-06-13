@@ -10,6 +10,8 @@
 #define FORMAT_FS_IF_FAILED true
 #define TOF_SDA_PIN 27
 #define TOF_SCL_PIN 25
+#define RANGE_WHEN_BALL_GOES_IN 180
+#define VIBRATION_WHEN_BALL_HITS_BOARD 2000
 
 #define SSID "Goal Finder"
 #define PASSWORD "esp123456"
@@ -76,6 +78,25 @@ void GoalfinderApp::Process()
 
       ledcWrite(ledChannel, dutyCycle);   
       delay(5);
+    }
+
+    if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
+    {
+        delay(3000);
+
+        if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+        {
+            Serial.println("Hit detection");
+        }
+        else
+        {
+            Serial.println("Miss detection");
+        }
+       
+    }
+    else if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+    {
+        Serial.println("Hit detection");
     }
     
 }
