@@ -12,10 +12,10 @@ const options = [
     label: i18n.global.t("settings.general"),
     command: () => router.push("/settings/general")
   },
-  {
+  /* {
     label: i18n.global.t("settings.wifi"),
     command: () => router.push("/settings/connectivity")
-  },
+  },*/
   {
     label: i18n.global.t("settings.devices"),
     command: () => router.push("/settings/devices")

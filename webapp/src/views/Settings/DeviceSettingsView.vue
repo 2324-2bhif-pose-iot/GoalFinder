@@ -11,7 +11,6 @@ import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vu
         {{ $t("settings.devices") }}
       </template>
       <template #content>
-        <BluetoothDevicesManager/>
         <VibrationsensorManager/>
       </template>
     </Card>
