@@ -10,7 +10,7 @@ import ConfigAudio from "@/views/Settings/AudioSettingsView.vue";
 import ConfigSystem from "@/views/Settings/SystemSettingsView.vue";
 import ConfigConnectivity from "@/views/Settings/ConnectivitySettingsView.vue";
 import Games from "@/views/GamesView.vue";
-import ListView from "@/views/Settings/ListView.vue";
+import ListView from "@/views/ListView.vue";
 import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
 
 const router = createRouter({

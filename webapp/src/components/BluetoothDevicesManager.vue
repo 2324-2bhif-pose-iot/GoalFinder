@@ -7,7 +7,7 @@
 <template>
   <div>
     <div id="bluetooth-enable">
-      <label>Bluetooth</label>
+      <label for="switch">Bluetooth</label>
       <InputSwitch v-model="settings.isBluetoothEnabled" id="switch" />
     </div>
     <div v-show="settings.isBluetoothEnabled">

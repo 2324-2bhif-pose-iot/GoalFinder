@@ -1,5 +1,6 @@
 #include "WebServer.h"
 #include <ESPmDNS.h>
+#include <elegantWebpage.h>
 
 #define WEBAPP_DOMAIN "goalfinder"
 #define WEBAPP_DIR "/web"
@@ -80,10 +81,10 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
 static void HandleError() 
 {
-
+    
 }
 
-WebServer::WebServer(FileSystem* fileSystem) : server(80)
+WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 {
     internalFS = fileSystem;
     Init();
@@ -91,8 +92,7 @@ WebServer::WebServer(FileSystem* fileSystem) : server(80)
 
 void WebServer::Init() 
 {
-    server.rewrite( "/", INDEX_PATH);
-    server.on("/*", HTTP_GET, HandleRequest);
+    server.rewrite( "/", INDEX_PATH);        
     server.onNotFound(HandleNotFound); 
 }
 
@@ -102,6 +102,10 @@ void WebServer::Begin()
     {
         Serial.println("[ERROR] Could not start mDNS service!");
     }
+
+    updater.Begin();
+
+    server.on("/*", HTTP_GET, HandleRequest);
 
     server.begin();
     Serial.println("[INFO] Started web server.");
@@ -115,5 +119,5 @@ void WebServer::Stop()
 
 WebServer::~WebServer()
 {
-
+    
 }

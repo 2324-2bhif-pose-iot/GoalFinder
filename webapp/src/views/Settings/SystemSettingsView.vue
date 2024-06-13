@@ -10,12 +10,12 @@
       <template #title>{{ $t("settings.system") }}</template>
       <template #content>
         <div class="mb-3">
-          <div class="mb-2">{{ $t("settings.system") }}</div>
+          <h4 class="mb-2">{{ $t("settings.system") }}</h4>
           <Button>{{ $t("word.restart") }}</Button>
           <Button class="ms-1" severity="danger">{{ $t("word.factory_settings_reset") }}</Button>
         </div>
         <div class="mb-3">
-          <div>Info</div>
+          <h4>Info</h4>
           <div class="row">
             <div class="col-md-5"><strong>{{ $t("word.device_name") }}</strong></div>
             <div class="col-auto">{{settings.deviceName}}</div>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div>
-          <div>Software update</div>
+          <h4>Software update</h4>
           <div>
             <p>Current version: 1.0.0</p>
             <Button>{{ $t("word.search_for_update") }}</Button>

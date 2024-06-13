@@ -1,11 +1,9 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import SettingsIcon from "@/components/Icons/SettingsIcon.vue";
-import HomeIcon from "@/components/Icons/HomeIcon.vue";
-import GamesIcon from "@/components/Icons/GamesIcon.vue";
-import InfoIcon from "@/components/Icons/InfoIcon.vue";
+import { RouterView } from 'vue-router'
 import NavigationBar from "@/components/NavigationBar.vue";
-import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
+import {onMounted, watch} from "vue";
+import {useSettingsStore} from "@/stores/settings.js";
+import { usePrimeVue } from 'primevue/config';
 
 function setTheme() {
   if (window.matchMedia) {
@@ -16,11 +14,26 @@ function setTheme() {
   }
 }
 
-function main() {
-  setTheme();
-}
+setTheme();
 
-main();
+const settings = useSettingsStore();
+
+const primeVue = usePrimeVue();
+
+watch(() => settings.enableDarkMode, value => {
+  if(value === true) {
+    primeVue.changeTheme('aura-light-green', 'aura-dark-green', 'theme-link', () => {});
+    localStorage.setItem("enable-dark-mode", "true");
+  } else {
+    primeVue.changeTheme('aura-dark-green', 'aura-light-green', 'theme-link', () => {});
+    localStorage.setItem("enable-dark-mode", "false");
+  }
+});
+
+onMounted(() => {
+  settings.enableDarkMode = localStorage.getItem("enable-dark-mode") === "true";
+});
+
 </script>
 
 <template>

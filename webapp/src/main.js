@@ -3,7 +3,6 @@ import {createPinia} from "pinia";
 import {createI18n} from "vue-i18n"
 import App from './App.vue';
 import router from './router';
-import 'primevue/resources/themes/aura-light-green/theme.css'
 import PrimeVue from 'primevue/config';
 import 'bootstrap/dist/css/bootstrap-grid.css'
 import './assets/main.css'
@@ -20,6 +19,7 @@ import Slider from 'primevue/slider';
 import InputNumber from 'primevue/inputnumber';
 import DataView from "primevue/dataview";
 import Dropdown from 'primevue/dropdown';
+import ToggleButton from "primevue/togglebutton";
 
 const app= createApp(App);
 app.use(router);
@@ -68,6 +68,8 @@ const i18n = createI18n({
                 restart: "Restart",
                 factory_settings_reset: "Reset to factory settings",
                 search_for_update: "Search for update",
+                light: "Light",
+                dark: "Dark"
             }
         },
         de : {
@@ -107,6 +109,8 @@ const i18n = createI18n({
                 restart: "Neustarten",
                 factory_settings_reset: "Auf Werkseinstellungen zurücksetzen",
                 search_for_update: "Auf Aktualisierungen prüfen",
+                light: "Hell",
+                dark: "Dunkel"
             }
         }
     }
@@ -131,5 +135,6 @@ app.component("Slider", Slider);
 app.component("InputNumber", InputNumber);
 app.component("DataView", DataView);
 app.component("Dropdown", Dropdown);
+app.component("ToggleButton", ToggleButton);
 
 app.mount('#app');

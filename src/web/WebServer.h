@@ -1,6 +1,7 @@
 #pragma once
 #include <ESPAsyncWebServer.h>
 #include <FileSystem.h>
+#include "SoftwareUpdater.h"
 
 class WebServer 
 {
@@ -11,5 +12,6 @@ class WebServer
         WebServer(FileSystem* fileSystem);
     private:
         AsyncWebServer server;
+        SoftwareUpdater updater;
         void Init();
 };

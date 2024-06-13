@@ -69,7 +69,6 @@ export default {
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
 .basketball-shot-tracker h2,
