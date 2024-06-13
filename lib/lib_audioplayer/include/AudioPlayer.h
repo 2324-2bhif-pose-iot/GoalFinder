@@ -12,6 +12,7 @@ class AudioPlayer
         void PlayMP3(const char* path);
         void SetVolume(int percent);
         void Loop();
+        bool GetIsPlaying();
     private:
         FileSystem* fileSystem;
         AudioFileSource* currentFile;

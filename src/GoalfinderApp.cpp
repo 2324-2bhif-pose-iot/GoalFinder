@@ -6,6 +6,7 @@
 #include <web/WebServer.h>
 #include <web/SNTP.h>
 #include <FileSystem.h>
+#include <AudioPlayer.h>
 
 #define FORMAT_FS_IF_FAILED true
 #define TOF_SDA_PIN 27
@@ -19,6 +20,7 @@
 FileSystem fileSystem(FORMAT_FS_IF_FAILED);
 WebServer webServer(&fileSystem);
 SNTP sntp;
+AudioPlayer* audioPlayer;
 
 ToFSensor tofSensor;
 VibrationSensor vibrationSensor;
@@ -26,14 +28,15 @@ const int ledPin = 17;
 
 const int freq = 5000;
 const int ledChannel = 0;
-const int resolution = 8;
-    
+const int resolution = 8;    
 
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>() {
 }
 
-GoalfinderApp::~GoalfinderApp() {
+GoalfinderApp::~GoalfinderApp() 
+{
+    delete audioPlayer;
 }
 
 void GoalfinderApp::Init() 
@@ -58,46 +61,52 @@ void GoalfinderApp::Init()
     vibrationSensor.Init();
     tofSensor.Init(TOF_SCL_PIN, TOF_SDA_PIN);
 
+    audioPlayer = new AudioPlayer(&fileSystem, 23, 05, 19);
+    
+    audioPlayer->SetVolume(100);
     
     ledcSetup(ledChannel, freq, resolution);
     
     ledcAttachPin(ledPin, ledChannel);
-
 }
 
 void GoalfinderApp::Process()
 {
-    for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){
+    audioPlayer->Loop();
 
-        ledcWrite(ledChannel, dutyCycle);
-        delay(5);
-    }
-
-
-    for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
-
-      ledcWrite(ledChannel, dutyCycle);   
-      delay(5);
-    }
-
-    if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
+    if(!audioPlayer->GetIsPlaying())
     {
-        delay(3000);
+        for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++)
+        {
+            ledcWrite(ledChannel, dutyCycle);
+            delay(5);
+        }
 
-        if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+
+        for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--)
         {
-            Serial.println("Hit detection");
+            ledcWrite(ledChannel, dutyCycle);   
+            delay(5);
         }
-        else
+
+        if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
         {
-            Serial.println("Miss detection");
+            delay(3000);
+
+            if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+            {      
+                Serial.println("Hit detection");
+            }
+            else
+            {
+                Serial.println("Miss detection");
+                audioPlayer->PlayMP3("/miss.mp3");
+            }        
         }
-       
-    }
-    else if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
-    {
-        Serial.println("Hit detection");
-    }
-    
+        else if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+        {
+            Serial.println("Hit detection1");
+            audioPlayer->PlayMP3("/goal.mp3");
+        }  
+    }  
 }
-

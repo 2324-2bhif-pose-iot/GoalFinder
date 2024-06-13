@@ -37,3 +37,8 @@ void AudioPlayer::Loop()
         }
     }
 }
+
+bool AudioPlayer::GetIsPlaying() 
+{
+    return mp3Generator->isRunning();
+}
