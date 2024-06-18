@@ -1,5 +1,5 @@
 <template>
-  <div class="basketball-shot-tracker">
+  <div class="basketball-shot-tracker" v-if="!showLeaderboard">
     <h2>Basketball Shot Tracker</h2>
     <form @submit.prevent="addPerson">
       <div>
@@ -14,9 +14,11 @@
       <ul>
         <li v-for="(person, index) in persons" :key="index">
           <span>{{ person.name }}</span>
-          <Button @click="recordShot(index, true)">Hit</Button>
-          <Button @click="recordShot(index, false)">Miss</Button>
-          <Button @click="removePerson(index)">Remove</Button>
+          <div class="buttons-container">
+            <Button @click="recordShot(index, true)">Hit</Button>
+            <Button @click="recordShot(index, false)" severity="warn">Miss</Button>
+            <Button @click="removePerson(index)" severity="danger">Remove</Button>
+          </div>
         </li>
       </ul>
     </div>
@@ -29,6 +31,20 @@
         </li>
       </ul>
     </div>
+
+    <div v-if="persons.length">
+      <Button @click="finish">Finish</Button>
+    </div>
+  </div>
+
+  <div class="leaderboard" v-else>
+    <h2>Rangliste</h2>
+    <ul>
+      <li v-for="(person, index) in sortedPersons" :key="index">
+        <strong>{{ index + 1 }}. {{ person.name }}</strong> - Hits: {{ person.hits }}, Misses: {{ person.misses }}
+      </li>
+    </ul>
+    <Button @click="restart">Restart</Button>
   </div>
 </template>
 
@@ -39,7 +55,8 @@ export default {
       newPerson: {
         name: ''
       },
-      persons: []
+      persons: [],
+      showLeaderboard: false
     };
   },
   methods: {
@@ -58,12 +75,29 @@ export default {
     },
     removePerson(index) {
       this.persons.splice(index, 1);
+    },
+    finish() {
+      this.showLeaderboard = true;
+    },
+    restart() {
+      this.showLeaderboard = false;
+      this.persons = [];
+    }
+  },
+  computed: {
+    sortedPersons() {
+      return this.persons.slice().sort((a, b) => {
+        const diffA = a.hits - a.misses;
+        const diffB = b.hits - b.misses;
+        return diffB - diffA;
+      });
     }
   }
 };
 </script>
+
 <style scoped>
-.basketball-shot-tracker {
+.basketball-shot-tracker, .leaderboard {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
@@ -71,8 +105,7 @@ export default {
   border-radius: 8px;
 }
 
-.basketball-shot-tracker h2,
-.basketball-shot-tracker h3 {
+.basketball-shot-tracker h2, .basketball-shot-tracker h3, .leaderboard h2 {
   text-align: center;
 }
 
@@ -91,16 +124,20 @@ export default {
   box-sizing: border-box;
 }
 
-.basketball-shot-tracker ul {
+.basketball-shot-tracker ul, .leaderboard ul {
   list-style-type: none;
   padding: 0;
 }
 
-.basketball-shot-tracker li {
+.basketball-shot-tracker li, .leaderboard li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
+.buttons-container {
+  display: flex;
+  gap: 10px;
+}
 </style>
