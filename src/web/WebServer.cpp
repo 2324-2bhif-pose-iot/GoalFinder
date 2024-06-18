@@ -92,14 +92,13 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
 {
     AsyncJsonResponse* response = new AsyncJsonResponse();
     response->addHeader("Server", "HeaderSettings");
-    JsonObject root = response->getRoot();
+    JsonVariant& root = response->getRoot();
     
     root["macAdress"] = settings.macAddress;
     root["deviceName"] = settings.deviceName;
     root["devicePassword"] = settings.devicePassword;
     root["vibrationSensorSensitivity"] = settings.vibrationSensorSensitivity;
     root["volume"] = settings.volume;
-    root["macAddress"] = settings.macAddress;
 
     response->setLength();
     request->send(response);
@@ -127,6 +126,8 @@ void WebServer::Begin()
     updater.Begin();
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
+    server.on("/*", HTTP_GET, HandleRequest);
+
     server.begin();
     Serial.println("[INFO] Started web server.");
 }

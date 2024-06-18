@@ -14,5 +14,10 @@ class Settings
         int vibrationSensorSensitivity = 100;
         int volume = 100;
         String macAddress = "%02x:%02x:%02x:%02x:%02x:%02x";
+
+        Settings() 
+        {
+            macAddress = String(WiFi.macAddress());
+        }
 };
 
