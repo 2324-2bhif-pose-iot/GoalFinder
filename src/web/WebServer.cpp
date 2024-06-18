@@ -1,6 +1,9 @@
 #include "WebServer.h"
 #include <ESPmDNS.h>
 #include <elegantWebpage.h>
+#include <AsyncJson.h>
+#include <ArduinoJson.h>
+#include "Settings.h"
 
 #define WEBAPP_DOMAIN "goalfinder"
 #define WEBAPP_DIR "/web"
@@ -8,6 +11,7 @@
 #define COMPRESSED_FILE_EXTENSION ".gz"
 
 FileSystem* internalFS;
+Settings settings;
 
 static String GetContentType(const String* fileName) 
 {
@@ -86,7 +90,19 @@ static void HandleError()
 
 static void HandleLoadSettings(AsyncWebServerRequest* request) 
 {
-    request->send(200, "text/plain", "Hallo");
+    AsyncJsonResponse* response = new AsyncJsonResponse();
+    response->addHeader("Server", "HeaderSettings");
+    JsonObject root = response->getRoot();
+    
+    root["macAdress"] = settings.macAddress;
+    root["deviceName"] = settings.deviceName;
+    root["devicePassword"] = settings.devicePassword;
+    root["vibrationSensorSensitivity"] = settings.vibrationSensorSensitivity;
+    root["volume"] = settings.volume;
+    root["macAddress"] = settings.macAddress;
+
+    response->setLength();
+    request->send(response);
 }
 
 WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
@@ -111,9 +127,6 @@ void WebServer::Begin()
     updater.Begin();
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
-
-    server.on("/*", HTTP_GET, HandleRequest);
-
     server.begin();
     Serial.println("[INFO] Started web server.");
 }
