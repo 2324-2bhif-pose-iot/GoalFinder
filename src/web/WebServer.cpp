@@ -11,7 +11,7 @@
 #define COMPRESSED_FILE_EXTENSION ".gz"
 
 FileSystem* internalFS;
-Settings settings;
+Settings* newSettings;
 
 static String GetContentType(const String* fileName) 
 {
@@ -94,18 +94,19 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     response->addHeader("Server", "HeaderSettings");
     JsonVariant& root = response->getRoot();
     
-    root["macAdress"] = settings.macAddress;
-    root["deviceName"] = settings.deviceName;
-    root["devicePassword"] = settings.devicePassword;
-    root["vibrationSensorSensitivity"] = settings.vibrationSensorSensitivity;
-    root["volume"] = settings.volume;
+    root["macAdress"] = newSettings->macAddress;
+    root["deviceName"] = newSettings->deviceName;
+    root["devicePassword"] = newSettings->devicePassword;
+    root["vibrationSensorSensitivity"] = newSettings->vibrationSensorSensitivity;
+    root["volume"] = newSettings->volume;
 
     response->setLength();
     request->send(response);
 }
 
-WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
+WebServer::WebServer(FileSystem* fileSystem, Settings* settings) : server(80), updater(&server)
 {
+    newSettings = settings;
     internalFS = fileSystem;
     Init();
 }

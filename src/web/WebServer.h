@@ -2,6 +2,7 @@
 #include <ESPAsyncWebServer.h>
 #include <FileSystem.h>
 #include "SoftwareUpdater.h"
+#include "Settings.h"
 
 class WebServer 
 {
@@ -9,7 +10,7 @@ class WebServer
         virtual ~WebServer();
         void Begin();
         void Stop();
-        WebServer(FileSystem* fileSystem);
+        WebServer(FileSystem* fileSystem, Settings* settings);
     private:
         AsyncWebServer server;
         SoftwareUpdater updater;

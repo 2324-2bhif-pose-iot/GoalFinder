@@ -7,6 +7,7 @@
 #include <web/SNTP.h>
 #include <FileSystem.h>
 #include <AudioPlayer.h>
+#include <Settings.h>
 
 #define FORMAT_FS_IF_FAILED true
 #define TOF_SDA_PIN 27
@@ -17,11 +18,11 @@
 #define SSID "Goal Finder"
 #define PASSWORD "esp123456"
 
+Settings settings;
 FileSystem fileSystem(FORMAT_FS_IF_FAILED);
-WebServer webServer(&fileSystem);
+WebServer webServer(&fileSystem, &settings);
 SNTP sntp;
 AudioPlayer* audioPlayer;
-
 ToFSensor tofSensor;
 VibrationSensor vibrationSensor;
 const int ledPin = 17;
@@ -106,7 +107,7 @@ void GoalfinderApp::Process()
         else if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
         {
             Serial.println("Hit detection1");
-            audioPlayer->PlayMP3("/goal.mp3");
+            //audioPlayer->PlayMP3("/goal.mp3");
         }  
     }  
 }
