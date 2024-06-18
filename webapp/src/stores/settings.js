@@ -30,7 +30,11 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     const loadSettings = () => {
-        //TODO
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "/loadsettings", false ); // false for synchronous request
+        xmlHttp.send( null );
+        console.log("Sended");
+        console.log(xmlHttp.responseText);
     }
 
     const saveSettings = () => {

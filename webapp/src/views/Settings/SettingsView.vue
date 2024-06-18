@@ -6,6 +6,8 @@ import VolumeIcon from "@/components/Icons/VolumeIcon.vue";
 import InfoIcon from "@/components/Icons/InfoIcon.vue";
 import router from "@/router/index.js";
 import {i18n} from "@/main.js";
+import {onMounted} from "vue";
+import {useSettingsStore} from "@/stores/settings.js";
 
 const options = [
   {
@@ -29,6 +31,10 @@ const options = [
     command: () => router.push("/settings/system")
   },
 ]
+
+const settings = useSettingsStore();
+settings.loadSettings();
+
 </script>
 
 <template>

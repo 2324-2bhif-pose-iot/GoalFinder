@@ -37,7 +37,9 @@
           <h4>Software update</h4>
           <div>
             <p>Current version: 1.0.0</p>
-            <Button>{{ $t("word.search_for_update") }}</Button>
+            <a href="/update">
+              <Button>{{ $t("word.search_for_update") }}</Button>
+            </a>
           </div>
         </div>
       </template>

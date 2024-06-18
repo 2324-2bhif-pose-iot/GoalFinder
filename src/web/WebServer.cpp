@@ -84,6 +84,11 @@ static void HandleError()
     
 }
 
+static void HandleLoadSettings(AsyncWebServerRequest* request) 
+{
+    request->send(200, "text/plain", "Hallo");
+}
+
 WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 {
     internalFS = fileSystem;
@@ -104,6 +109,8 @@ void WebServer::Begin()
     }
 
     updater.Begin();
+
+    server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
 
     server.on("/*", HTTP_GET, HandleRequest);
 
