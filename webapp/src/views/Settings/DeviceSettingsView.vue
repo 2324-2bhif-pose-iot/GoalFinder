@@ -1,7 +1,7 @@
 <script setup>
 
-import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
-import LedManager from "@/components/Icons/LedManager.vue";
+import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
+import LedManager from "@/components/LedManager.vue";
 </script>
 
 <template>

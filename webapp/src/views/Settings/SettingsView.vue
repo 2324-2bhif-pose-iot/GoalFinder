@@ -1,9 +1,4 @@
 <script setup>
-import WifiIcon from "@/components/Icons/WifiIcon.vue";
-import SettingsIcon from "@/components/Icons/SettingsIcon.vue";
-import BluetoothIcon from "@/components/Icons/BluetoothIcon.vue";
-import VolumeIcon from "@/components/Icons/VolumeIcon.vue";
-import InfoIcon from "@/components/Icons/InfoIcon.vue";
 import router from "@/router/index.js";
 import {i18n} from "@/main.js";
 import {onMounted} from "vue";
@@ -90,12 +85,6 @@ onMounted(() => {
 
   #top-menu Button {
     margin-left: auto;
-  }
-
-  .settings-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
   }
 
   .settings-item svg {
