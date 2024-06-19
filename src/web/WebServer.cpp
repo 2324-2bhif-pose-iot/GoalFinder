@@ -104,7 +104,7 @@ static void HandleSaveSettings(AsyncWebServerRequest* request)
 {
     JsonDocument document;
 
-    if(request->hasParam("settings")) 
+    if(request->hasParam("plain")) 
     {
         JsonDocument doc;
         
