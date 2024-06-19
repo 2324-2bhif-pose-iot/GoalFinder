@@ -18,3 +18,8 @@ VibrationSensor::~VibrationSensor()
 {
 
 }
+
+
+void VibrationSensor::SetSensitivity(int sensitivity) {
+    // TODO: Implement
+}
