@@ -6,7 +6,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const enableDarkMode = ref(false);
 
     const deviceName = ref("");
-    //const devicePassword = ref("");
+    const devicePassword = ref("");
 
     const isBluetoothEnabled = ref(false);
     const connectedBluetoothDevices = ref([]);
@@ -36,6 +36,13 @@ export const useSettingsStore = defineStore("settings", () => {
         xmlHttp.send( null );
         console.log("Sended");
         console.log(xmlHttp.responseText);
+
+        const settings = xmlHttp.responseXML;
+
+        deviceName.value = settings["deviceName"].value;
+        devicePassword.value = settings["devicePassword"].value;
+        volume.value = settings["volume"].value;
+        ledMode.value = settings["ledMode"].value;
     }
 
     const saveSettings = () => {
@@ -53,7 +60,7 @@ export const useSettingsStore = defineStore("settings", () => {
     return {
         enableDarkMode,
         deviceName,
-        //devicePassword,
+        devicePassword,
         isBluetoothEnabled,
         connectedBluetoothDevices,
         availableBluetoothDevices,
