@@ -1,5 +1,7 @@
 <script setup>
-import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
+
+import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
+import LedManager from "@/components/Icons/LedManager.vue";
 </script>
 
 <template>
@@ -10,6 +12,7 @@ import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
       </template>
       <template #content>
         <VibrationsensorManager/>
+        <LedManager/>
       </template>
     </Card>
   </div>

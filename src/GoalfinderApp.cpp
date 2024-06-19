@@ -8,6 +8,7 @@
 #include <FileSystem.h>
 #include <AudioPlayer.h>
 #include <Settings.h>
+#include <LedController.h>
 
 #define FORMAT_FS_IF_FAILED true
 #define TOF_SDA_PIN 27
@@ -26,6 +27,7 @@ int oldVolume;
 AudioPlayer* audioPlayer;
 ToFSensor tofSensor;
 VibrationSensor vibrationSensor;
+LedController led;
 const int ledPin = 17;
 
 const int freq = 5000;
@@ -66,10 +68,7 @@ void GoalfinderApp::Init()
     audioPlayer = new AudioPlayer(&fileSystem, 23, 05, 19);
     
     oldVolume = settings.volume;
-    
-    ledcSetup(ledChannel, freq, resolution);
-    
-    ledcAttachPin(ledPin, ledChannel);
+    led.Init(ledPin, freq, resolution);
 }
 
 void GoalfinderApp::Process()
@@ -78,18 +77,7 @@ void GoalfinderApp::Process()
 
     if(!audioPlayer->GetIsPlaying())
     {
-        for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++)
-        {
-            ledcWrite(ledChannel, dutyCycle);
-            delay(5);
-        }
-
-
-        for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--)
-        {
-            ledcWrite(ledChannel, dutyCycle);   
-            delay(5);
-        }
+        led.Loop();
 
         if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
         {
@@ -110,7 +98,7 @@ void GoalfinderApp::Process()
             Serial.println("Hit detection1");
             //audioPlayer->PlayMP3("/goal.mp3");
         }  
-    }  
+    } 
 }
 
 void GoalfinderApp::OnSettingsUpdated() 
