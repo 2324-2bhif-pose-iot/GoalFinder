@@ -11,7 +11,7 @@ import LedManager from "@/components/LedManager.vue";
         {{ $t("settings.devices") }}
       </template>
       <template #content>
-        <VibrationsensorManager/>
+        
         <LedManager/>
       </template>
     </Card>
