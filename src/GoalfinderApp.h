@@ -39,6 +39,20 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 
 		void OnSettingsUpdated();
 	private:
+		/** The enumeration of announcements */
+		struct Announcement {
+				typedef enum {
+					/** no announcement to make */
+					None,
+					/** Shot with with unknown result */
+					Shot,
+					/** Hit to announce */
+					Hit,
+					/** Miss to announce. */
+					Miss,
+				} Enum;
+		};
+
 		friend class Singleton<GoalfinderApp>;
 		/** Singleton constructor */
 		GoalfinderApp();
@@ -46,8 +60,12 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void OnShotDetected() ;
 		void AnnounceHit() ;
 		void AnnounceMiss();
+		void ProcessAnnouncement();
 		void AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt);
 		void PlaySound(const char* soundFileName);
+
+		void StartShotDetector();
+		static void DetectShot(void *args);
 		
 		static const int pinTofSda;
 		static const int pinTofScl;
@@ -57,9 +75,13 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int pinLedPwm;
 		static const int pinRandomSeed;
 
-		static const int ledPwmFrequency;
 		static const int ledPwmChannel;
-		static const int ledPwmResolution;
+		// static const int ledPwmFrequency;
+		// static const int ledPwmResolution;
+		
+		static const int ballHitDetectionDistance;
+		static const int shotVibrationThreshold;
+		static const int maxShotDurationMs;
 
 		static const char* defaultSsid;
 		static const char* defaultWifiPw; // no PW
@@ -79,4 +101,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		ToFSensor tofSensor;
 		VibrationSensor vibrationSensor;
 		LedController ledController;
+
+		TaskHandle_t shotDetectionTask;
+		boolean shotDetectionActive;
+		Announcement::Enum announcement;
 };
