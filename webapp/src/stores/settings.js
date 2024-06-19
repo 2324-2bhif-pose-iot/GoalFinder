@@ -5,7 +5,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const enableDarkMode = ref(false);
 
     const deviceName = ref("");
-    const devicePassword = ref("");
+    //const devicePassword = ref("");
 
     const isBluetoothEnabled = ref(false);
     const connectedBluetoothDevices = ref([]);
@@ -46,7 +46,7 @@ export const useSettingsStore = defineStore("settings", () => {
     return {
         enableDarkMode,
         deviceName,
-        devicePassword,
+        //devicePassword,
         isBluetoothEnabled,
         connectedBluetoothDevices,
         availableBluetoothDevices,
