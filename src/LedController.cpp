@@ -1,7 +1,15 @@
 #include "LedController.h"
 #include <Arduino.h>
 
-void LedController::Init(int ledPin, int freq, int resolution) 
+LedController::LedController()
+{
+}
+
+LedController::~LedController()
+{
+}
+
+void LedController::Init(int ledPin, int ledChannel, int freq, int resolution) 
 {
     ledcSetup(ledChannel, freq, resolution);
     

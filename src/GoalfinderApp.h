@@ -23,6 +23,7 @@
 #include <web/SNTP.h>
 #include <FileSystem.h>
 #include <AudioPlayer.h>
+#include <LedController.h>
 #include <Settings.h>
 
 class GoalfinderApp : public Singleton<GoalfinderApp> {
@@ -64,4 +65,5 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		AudioPlayer* audioPlayer;
 		ToFSensor tofSensor;
 		VibrationSensor vibrationSensor;
+		LedController ledController;
 };

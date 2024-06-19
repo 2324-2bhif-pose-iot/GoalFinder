@@ -1,6 +1,5 @@
 #include <GoalfinderApp.h>
 #include <Arduino.h>
-#include <LedController.h>
 
 #define RANGE_WHEN_BALL_GOES_IN 180
 #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
@@ -14,8 +13,8 @@ const int GoalfinderApp::pinI2sWclk = 5;
 const int GoalfinderApp::pinI2sDataOut = 19;
 const int GoalfinderApp::pinLedPwm = 17;
 
-const int GoalfinderApp::ledPwmFrequency = 5000;
 const int GoalfinderApp::ledPwmChannel = 0;
+const int GoalfinderApp::ledPwmFrequency = 5000;
 const int GoalfinderApp::ledPwmResolution = 8;
 
 const char* GoalfinderApp::defaultSsid = "Goal-Finder";
@@ -31,7 +30,8 @@ GoalfinderApp::GoalfinderApp() :
     sntp(),
     audioPlayer(0),
     tofSensor(),
-    vibrationSensor()
+    vibrationSensor(),
+    ledController()
 {
 }
 
@@ -68,10 +68,9 @@ void GoalfinderApp::Init()
     
     audioPlayer->SetVolume(defaultAudioVolume);
     
-    ledcSetup(ledPwmChannel, ledPwmFrequency, ledPwmResolution);
-    
-    ledcAttachPin(pinLedPwm, ledPwmChannel);
-	//led.Init(ledPin, freq, resolution);
+    // ledcSetup(ledPwmChannel, ledPwmFrequency, ledPwmResolution);
+    // ledcAttachPin(pinLedPwm, ledPwmChannel);
+	ledController.Init(pinLedPwm, ledPwmChannel, ledPwmFrequency, ledPwmResolution);
 }
 
 void GoalfinderApp::Process()
@@ -83,7 +82,7 @@ void GoalfinderApp::Process()
     if(!audioPlayer->GetIsPlaying())
     {
         Serial.printf("%4.3f: LED on\n", millis() / 1000.0);
-        led.Loop();
+        ledController.Loop();
 
         Serial.printf("%4.3f: processing input\n", millis() / 1000.0);
         if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
