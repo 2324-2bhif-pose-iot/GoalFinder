@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="current-sensitivity">
-  <span>Current Sensitivity: {{ sensitivity }}%</span>
+  <span>Current Sensitivity: {{ settings.vibrationSensorSensitivity }}%</span>
 </div>
 <transition name="fade">
   <div v-if="message" class="message">{{ message }}</div>
@@ -19,30 +19,24 @@
 </div>
 </template>
 
-<script>
+<script setup>
 import Button from 'primevue/button';
+import {useSettingsStore} from "@/stores/settings.js";
 
-export default {
-  components: {
-    Button,
-  },
-  data() {
-    return {
-      sensitivity: 50, // default sensitivity value
-      message: '',
-    };
-  },
-  methods: {
-    setSensitivity(value) {
-      this.sensitivity = value;
-      this.message = `Sensitivity set to: ${this.sensitivity}%`;
-      console.log(this.message);
-      setTimeout(() => {
-        this.message = '';
-      }, 3000);
-    },
-  },
-};
+const settings = useSettingsStore();
+
+let message = "";
+
+const setSensitivity = (value) => {
+  settings.vibrationSensorSensitivity = value;
+
+  this.message = `Sensitivity gesetzt zu: ${settings.vibrationSensorSensitivity}%`;
+
+  setTimeout(() => {
+    this.message = '';
+  }, 3000);
+}
+
 </script>
 
 <style scoped>

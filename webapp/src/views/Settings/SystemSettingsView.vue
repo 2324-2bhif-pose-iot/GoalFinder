@@ -11,8 +11,8 @@
       <template #content>
         <div class="mb-3">
           <h4 class="mb-2">{{ $t("settings.system") }}</h4>
-          <Button>{{ $t("word.restart") }}</Button>
-          <Button class="ms-1" severity="danger">{{ $t("word.factory_settings_reset") }}</Button>
+          <Button @click="settings.restartDevice()">{{ $t("word.restart") }}</Button>
+          <Button class="ms-1" severity="danger" @click="settings.restartDevice()">{{ $t("word.factory_settings_reset") }}</Button>
         </div>
         <div class="mb-3">
           <h4>Info</h4>

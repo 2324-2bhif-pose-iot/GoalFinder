@@ -64,11 +64,11 @@ const router = createRouter({
       component: NotFound,
       path: "/:catchAll(.*)"
     },
-    {
+    /*{
       name: "Games",
       component: Games,
       path: "/games"
-    },
+    },*/
     {
       name: "List",
       component: ListView,

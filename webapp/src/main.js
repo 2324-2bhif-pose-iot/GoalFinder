@@ -6,6 +6,7 @@ import router from './router';
 import PrimeVue from 'primevue/config';
 import 'bootstrap/dist/css/bootstrap-grid.css'
 import './assets/main.css'
+import Ripple from 'primevue/ripple';
 import Button from "primevue/button";
 import Menubar from "primevue/menubar";
 import Card from "primevue/card";
@@ -166,6 +167,7 @@ app.use(i18n);
 export {i18n};
 
 //PrimeVue components
+app.directive('ripple', Ripple);
 app.component('Menubar', Menubar);
 app.component('Button', Button);
 app.component("Card", Card);

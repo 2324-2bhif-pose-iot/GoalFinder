@@ -6,10 +6,9 @@ import { useSettingsStore } from "@/stores/settings.js";
 const message = ref('');
 const settings = useSettingsStore();
 
-function setLedModus(value) {
+function setLedMode(value) {
   settings.ledMode = value;
   message.value = `${$t("word.curr_mode")}: ${settings.ledMode}`;
-  console.log(message.value);
 }
 </script>
 
@@ -19,10 +18,10 @@ function setLedModus(value) {
       <div class="label-container">
         <label for="modus">{{ $t("word.led_mode") }}</label>
         <div class="button-container">
-          <Button class="button" @click="setLedModus(1)">{{ $t("word.standard") }}</Button>
-          <Button class="button" @click="setLedModus(2)">{{ $t("word.fade") }}</Button>
-          <Button class="button" @click="setLedModus(3)">{{ $t("word.flash") }}</Button>
-          <Button class="button" @click="setLedModus(4)">{{ $t("word.turbo") }}</Button>
+          <Button class="button" @click="setLedMode(1)">{{ $t("word.standard") }}</Button>
+          <Button class="button" @click="setLedMode(2)">{{ $t("word.fade") }}</Button>
+          <Button class="button" @click="setLedMode(3)">{{ $t("word.flash") }}</Button>
+          <Button class="button" @click="setLedMode(4)">{{ $t("word.turbo") }}</Button>
         </div>
       </div>
     </div>
@@ -54,10 +53,6 @@ function setLedModus(value) {
 
 .button:first-child {
   margin-left: 0;
-}
-
-.button:hover {
-  background-color: #45a049;
 }
 
 .current-modus {

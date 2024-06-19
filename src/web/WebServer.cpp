@@ -120,6 +120,11 @@ static void HandleSaveSettings(AsyncWebServerRequest* request)
     request->send(204);
 }
 
+static void HandleRestart(AsyncWebServerRequest* request) 
+{
+    ESP.restart();
+}
+
 WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 {
     internalFS = fileSystem;
@@ -143,6 +148,7 @@ void WebServer::Begin()
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
     server.on("/savesettings", HTTP_POST, HandleSaveSettings);
+    server.on("/restart", HTTP_POST, HandleRestart);
     server.on("/*", HTTP_GET, HandleRequest);
 
     server.begin();

@@ -38,12 +38,17 @@ watch(() => settings.enableDarkMode, value => {
 </script>
 
 <template>
-  <div>
-    <Menubar :model="items">
+  <div >
+    <Menubar :model="items" id="root">
       <template #start>
         <div class="me-2">
           Goal Finder
         </div>
+      </template>
+      <template #item="{ item, props }">
+        <a v-ripple class="flex items-center" v-bind="props.action">
+          <span class="ml-2">{{ item.label }}</span>
+        </a>
       </template>
       <template #end>
         <div>
@@ -63,11 +68,16 @@ watch(() => settings.enableDarkMode, value => {
 </template>
 
 <style scoped>
-  #dark-mode-switch-container {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-    margin-bottom: 0.3rem;
-  }
+#root {
+  display: flex;
+  align-items: bottom;
+}
+
+#dark-mode-switch-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
 </style>
