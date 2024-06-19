@@ -5,15 +5,9 @@ class LedController
     private:    
         int ledChannel = 0;
     public:
-        void Init(int ledPin, int freq, int resolution);
+        LedController();
+        ~LedController();
+        void Init(int ledPin);
         void Loop();
         //enum LedModus{Standard, Fade, Flash, Turbo};
 };
-
-LedController::LedController()
-{
-}
-
-LedController::~LedController()
-{
-}
