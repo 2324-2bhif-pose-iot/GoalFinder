@@ -37,7 +37,6 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Processes one single iteration step. */
 		void Process();
 
-		void OnSettingsUpdated();
 	private:
 		/** The enumeration of announcements */
 		struct Announcement {
@@ -57,6 +56,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Singleton constructor */
 		GoalfinderApp();
 
+		void TickMetronome();
+		void DetectShot();
 		void OnShotDetected() ;
 		void AnnounceHit() ;
 		void AnnounceMiss();
@@ -64,8 +65,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt);
 		void PlaySound(const char* soundFileName);
 
-		void StartShotDetector();
-		static void DetectShot(void *args);
+		void UpdateSettings(bool force = false);
 		
 		static const int pinTofSda;
 		static const int pinTofScl;
@@ -76,16 +76,10 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int pinRandomSeed;
 
 		static const int ledPwmChannel;
-		// static const int ledPwmFrequency;
-		// static const int ledPwmResolution;
 		
 		static const int ballHitDetectionDistance;
 		static const int shotVibrationThreshold;
 		static const int maxShotDurationMs;
-
-		static const char* defaultSsid;
-		static const char* defaultWifiPw; // no PW
-		static const int defaultAudioVolume;
 
 		static const char* hitClips[];
 		static const int   hitClipsCnt;
@@ -102,7 +96,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		VibrationSensor vibrationSensor;
 		LedController ledController;
 
-		TaskHandle_t shotDetectionTask;
-		boolean shotDetectionActive;
+		unsigned long lastMetronomeTickTime;
+		unsigned long metronomeIntervalMs;
+		unsigned long lastShockTime;
 		Announcement::Enum announcement;
 };

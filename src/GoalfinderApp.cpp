@@ -14,9 +14,6 @@ const int GoalfinderApp::pinLedPwm = 17;
 const int GoalfinderApp::pinRandomSeed = 36;
 
 const int GoalfinderApp::ledPwmChannel = 0;
-// const int GoalfinderApp::ledPwmFrequency = 5000;
-// const int GoalfinderApp::ledPwmResolution = 8;
-
 
 const int GoalfinderApp::ballHitDetectionDistance = 180;
 const int GoalfinderApp::shotVibrationThreshold = 2000;
@@ -38,14 +35,8 @@ const char* GoalfinderApp::missClips[] = {
 };
 const int   GoalfinderApp::missClipsCnt = sizeof(GoalfinderApp::missClips) / sizeof(GoalfinderApp::missClips[0]);
 
-const char* GoalfinderApp::defaultSsid = "Goal-Finder";
-const char* GoalfinderApp::defaultWifiPw = 0; // no PW
-// const char* GoalfinderApp::defaultWifiPw "esp123456";
-const int GoalfinderApp::defaultAudioVolume = 5;
-
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
-    announcement(Announcement::None),
     fileSystem(true),
     webServer(&fileSystem),
     sntp(),
@@ -53,21 +44,21 @@ GoalfinderApp::GoalfinderApp() :
     tofSensor(),
     vibrationSensor(),
     ledController(pinLedPwm, ledPwmChannel),
-    shotDetectionTask(),
-    shotDetectionActive(false)
+    metronomeIntervalMs(1500),
+    lastMetronomeTickTime(0),
+    announcement(Announcement::None),
+    lastShockTime(0)
 {
 }
 
 GoalfinderApp::~GoalfinderApp() 
 {
-    shotDetectionActive = false;
-    vTaskDelete(&shotDetectionTask);
 }
 
 void GoalfinderApp::Init() 
 {
     delay(100); // swing in ;)
-    Serial.begin(115200);    
+    Serial.begin(115200);
     randomSeed(analogRead(pinRandomSeed));
 
     if(!fileSystem.Begin()) 
@@ -78,7 +69,11 @@ void GoalfinderApp::Init()
         Serial.println("FS initialized");
     }
     
-    WiFi.softAP(defaultSsid, defaultWifiPw);
+    Settings* settings = Settings::GetInstance();
+    String ssid = settings->GetDeviceName();
+    String wifiPw = settings->GetDevicePassword();
+
+    WiFi.softAP(ssid, wifiPw);
     WiFi.setSleep(false);
     Serial.println(WiFi.softAPIP());
 
@@ -90,63 +85,53 @@ void GoalfinderApp::Init()
 
     ledController.SetMode(LedMode::Flash);
 
-    // audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
-    
-    int volume = Settings::GetInstance()->GetVolume();
-    audioPlayer.SetVolume(volume);
-
-    StartShotDetector();
+    UpdateSettings(true);
 }
 
 void GoalfinderApp::Process()
 {
-    Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
-    ledController.Loop();
+    // Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
+
+    UpdateSettings();
     audioPlayer.Loop();
-    ProcessAnnouncement();
-
-    delay(1); // get other tasks a chance to run
-        
-    // if(!audioPlayer.GetIsPlaying())
-    // {
-    //     Serial.printf("%4.3f: reading vibration\n", millis() / 1000.0);
-    //     if(vibrationSensor.Vibration() > shotVibrationThreshold)
-    //     {
-    //         OnShotDetected();
-    //         delay(3000);
-
-    //         Serial.printf("%4.3f: reading ToF\n", millis() / 1000.0);
-    //         if(tofSensor.ReadSingleMillimeters() < ballHitDetectionDistance)
-    //         {      
-    //             AnnounceHit();
-    //         }
-    //         else
-    //         {
-    //             AnnounceMiss();
-    //         }
-    //     }
-    //     else {
-    //         Serial.printf("%4.3f: reading ToF w/ vibration\n", millis() / 1000.0);
-    //         if(tofSensor.ReadSingleMillimeters() < ballHitDetectionDistance)
-    //         {
-    //             AnnounceHit();
-    //         }
-    //     }
-    // }
+    
+    if (!audioPlayer.GetIsPlaying()) {
+        ledController.Loop();
+        TickMetronome();
+    }
+    if (!audioPlayer.GetIsPlaying()) {
+        GoalfinderApp::DetectShot();
+        ProcessAnnouncement();
+    }
 }
 
-void GoalfinderApp::OnSettingsUpdated() 
-{
-    int volume = Settings::GetInstance()->GetVolume();
-    audioPlayer.SetVolume(volume);
+void GoalfinderApp::UpdateSettings(bool force) {
+    Settings* settings = Settings::GetInstance();
+    if (force || settings->IsModified()) {
+        audioPlayer.SetVolume(settings->GetVolume());
+        vibrationSensor.SetSensitivity(settings->GetVibrationSensorSensitivity());
+        // TODO: Add Led-Mode setting
+        // TODO: Add metronome interval in milliseconds
+    }
 }
 
-void GoalfinderApp::OnShotDetected() { 
+void GoalfinderApp::TickMetronome() {
+    unsigned long currentTime = millis();
+    if ((currentTime - lastMetronomeTickTime) > metronomeIntervalMs) {
+        lastMetronomeTickTime = currentTime;
+        PlaySound(tickClips[0]);
+        audioPlayer.Loop();
+    }
+}
+
+void GoalfinderApp::OnShotDetected() {
     announcement = Announcement::Shot;
+    Serial.printf("%4.3f: announce shot: %d\n", millis() / 1000.0, announcement);
 }
 
-void GoalfinderApp::AnnounceHit() { 
+void GoalfinderApp::AnnounceHit() {
     announcement = Announcement::Hit;
+    Serial.printf("%4.3f: announce hit: %d\n", millis() / 1000.0, announcement);
 }
 
 void GoalfinderApp::AnnounceMiss() {
@@ -154,6 +139,7 @@ void GoalfinderApp::AnnounceMiss() {
 }
 
 void GoalfinderApp::ProcessAnnouncement() {
+    // Serial.printf("%4.3f: processing announcements: %d\n", millis() / 1000.0, announcement);
     switch(announcement) {
         case Announcement::Shot:
             AnnounceEvent("-> shot", 0, 0);
@@ -170,8 +156,8 @@ void GoalfinderApp::ProcessAnnouncement() {
     announcement = Announcement::None;
 }
 
-void GoalfinderApp::AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt) {  
-    Serial.printf("%4.3f: announcing event '%s'\n", millis() / 1000.0, traceMsg);  
+void GoalfinderApp::AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt) {
+    Serial.printf("%4.3f: announcing event '%s'\n", millis() / 1000.0, traceMsg);
     Serial.println(traceMsg);
     if (sounds != 0 && soundCnt > 0) {
         const char* clipName = sounds[random(0, soundCnt + 1)];
@@ -180,49 +166,31 @@ void GoalfinderApp::AnnounceEvent(const char* traceMsg, const char* sounds[], si
 }
 
 void GoalfinderApp::PlaySound(const char* soundFileName) {
-    if (soundFileName != 0 && !audioPlayer.GetIsPlaying()) {
-Serial.printf("%4.3f: start playback\n", millis() / 1000.0);
+    if (soundFileName != 0) {
+        Serial.printf("%4.3f: starting playback of: '%s'\n", millis() / 1000.0, soundFileName != 0 ? soundFileName : "NULL");
         audioPlayer.PlayMP3(soundFileName);
     }
 }
 
-void GoalfinderApp::StartShotDetector() {  
-    Serial.printf("%4.3f: starting shot detector\n", millis() / 1000.0);
+void GoalfinderApp::DetectShot() {
+    // Serial.printf("%4.3f: reading vibration\n", millis() / 1000.0);
+    if(lastShockTime == 0 && vibrationSensor.Vibration() > shotVibrationThreshold) {
+        lastShockTime = millis();
+        Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
+    }
 
-    shotDetectionActive = true;
-    const uint32_t stackDepth = 4096;
-    void* taskArgs = this; 
-    UBaseType_t priority = 6;
-    BaseType_t coreId = 1;
-    xTaskCreatePinnedToCore(GoalfinderApp::DetectShot, "shot_detector", 
-        stackDepth, taskArgs, 
-        priority, &shotDetectionTask, coreId);
-}
-
-
-void GoalfinderApp::DetectShot(void* args) {
-    GoalfinderApp* app = (GoalfinderApp*)args;
-    unsigned long lastShockTime = 0;
-
-    while(app != 0 && app->shotDetectionActive) {
-        Serial.printf("%4.3f: reading vibration\n", millis() / 1000.0);
-        if(lastShockTime == 0 && app->vibrationSensor.Vibration() > shotVibrationThreshold) {
-            lastShockTime = millis();
-            Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
-        }
-
-        unsigned long currentTime = millis();
-        if (lastShockTime > 0 && (currentTime - lastShockTime) < maxShotDurationMs) {
-            Serial.printf("%4.3f: detecting hit\n", millis() / 1000.0);
-            if(app->tofSensor.ReadSingleMillimeters() < ballHitDetectionDistance) {
-                app->AnnounceHit();
-                lastShockTime = 0;
-            }
-        }
-        if (lastShockTime > 0 && (currentTime - lastShockTime) > maxShotDurationMs) {
-            app->AnnounceMiss();
+    unsigned long currentTime = millis();
+    if (lastShockTime > 0 && (currentTime - lastShockTime) < maxShotDurationMs) {
+        int distance = tofSensor.ReadSingleMillimeters();
+        Serial.printf("%4.3f: detecting hit: d = [%d < %d]\n", millis() / 1000.0, distance, ballHitDetectionDistance);
+        if(distance < ballHitDetectionDistance) {
+            AnnounceHit();
             lastShockTime = 0;
         }
     }
-    
+    if (lastShockTime > 0 && (currentTime - lastShockTime) > maxShotDurationMs) {
+        Serial.printf("%4.3f: miss detected\n", millis() / 1000.0);
+        AnnounceMiss();
+        lastShockTime = 0;
+    }
 }
