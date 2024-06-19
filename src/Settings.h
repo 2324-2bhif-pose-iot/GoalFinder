@@ -8,6 +8,8 @@ class Settings : public Singleton<Settings>
     public:
         virtual ~Settings();
 
+        bool IsModified() const;
+
         /** Provides the MAC address of the WiFi interface. */
         String GetMacAddress();
 
@@ -31,19 +33,21 @@ class Settings : public Singleton<Settings>
 
 
     private:
+		friend class Singleton<Settings>;
+        /** Singleton constructor */
+        Settings();
+        void SetModified();
+
+        static const char* keyVolume;
+
+        static const int defaultVolume;
+
         static const String deviceName;
         static const String devicePassword;
         static const int vibrationSensorSensitivity;
         static const int volume;
         static const String macAddress;
 
-		friend class Singleton<Settings>;
-        /** Singleton constructor */
-        Settings();
-
-        static const char* keyVolume;
-
-        static const int defaultVolume;
-
         System::Settings store;
+        bool modified;
 };

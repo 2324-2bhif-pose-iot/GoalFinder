@@ -11,10 +11,27 @@ const int GoalfinderApp::pinI2sBclk = 23;
 const int GoalfinderApp::pinI2sWclk = 5;
 const int GoalfinderApp::pinI2sDataOut = 19;
 const int GoalfinderApp::pinLedPwm = 17;
+const int GoalfinderApp::pinRandomSeed = 36;
 
 const int GoalfinderApp::ledPwmChannel = 0;
 const int GoalfinderApp::ledPwmFrequency = 5000;
 const int GoalfinderApp::ledPwmResolution = 8;
+
+
+const char* GoalfinderApp::hitClips[] = {
+    "/hit-1.mp3",
+    "/hit-2.mp3",
+};
+const int   GoalfinderApp::hitClipsCnt = sizeof(GoalfinderApp::hitClips) / sizeof(GoalfinderApp::hitClips[0]);
+const char* GoalfinderApp::tickClips[] = {
+    "/tick.mp3"
+};
+const int   GoalfinderApp::tickClipsCnt = sizeof(GoalfinderApp::tickClips) / sizeof(GoalfinderApp::tickClips[0]);
+const char* GoalfinderApp::missClips[] = {
+    "/miss-1.mp3",
+    "/miss-2.mp3",
+};
+const int   GoalfinderApp::missClipsCnt = sizeof(GoalfinderApp::missClips) / sizeof(GoalfinderApp::missClips[0]);
 
 const char* GoalfinderApp::defaultSsid = "Goal-Finder";
 const char* GoalfinderApp::defaultWifiPw = 0; // no PW
@@ -26,24 +43,25 @@ GoalfinderApp::GoalfinderApp() :
     fileSystem(true),
     webServer(&fileSystem, Settings::GetInstance()),
     sntp(),
-    audioPlayer(0),
+    audioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut),
     tofSensor(),
     vibrationSensor(),
-    ledController()
+    ledController(pinLedPwm, ledPwmChannel)
 {
 }
 
 GoalfinderApp::~GoalfinderApp() 
 {
-    if (audioPlayer != 0) {
-        delete audioPlayer;
-    }
+    // if (audioPlayer != 0) {
+    //     delete audioPlayer;
+    // }
 }
 
 void GoalfinderApp::Init() 
 {
-    delay(100);
-    Serial.begin(115200);
+    delay(100); // swing in ;)
+    Serial.begin(115200);    
+    randomSeed(analogRead(pinRandomSeed));
 
     if(!fileSystem.Begin()) 
     {
@@ -63,21 +81,20 @@ void GoalfinderApp::Init()
     vibrationSensor.Init();
     tofSensor.Init(pinTofScl, pinTofSda);
 
-    audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
+    // audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
     
     int volume = Settings::GetInstance()->GetVolume();
-    audioPlayer->SetVolume(volume);
+    audioPlayer.SetVolume(volume);
     
-	ledController.Init(pinLedPwm, ledPwmChannel, ledPwmFrequency, ledPwmResolution);
+	ledController.Init(pinLedPwm);
 }
 
 void GoalfinderApp::Process()
 {
     Serial.printf("%4.3f: process loop\n", millis() / 1000.0);
 
-    audioPlayer->Loop();
-
-    if(!audioPlayer->GetIsPlaying())
+    const char* clipName = 0;
+    if(!audioPlayer.GetIsPlaying())
     {
         Serial.printf("%4.3f: LED on\n", millis() / 1000.0);
         ledController.Loop();
@@ -92,27 +109,52 @@ void GoalfinderApp::Process()
             Serial.printf("%4.3f: reading ToF\n", millis() / 1000.0);
             if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
             {      
-                Serial.println("-> hit");
+                AnnounceHit();
             }
             else
             {
-                Serial.println("-> miss");
-                audioPlayer->PlayMP3("/miss.mp3");
+                AnnounceMiss();
             }
         }
         else {
             Serial.printf("%4.3f: reading ToF w/ vibration\n", millis() / 1000.0);
             if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
             {
-                Serial.println("Hit without shot detected");
-                audioPlayer->PlayMP3("/hit.mp3");
+                AnnounceHit();
             }
         }
-    } 
+    }
 }
 
 void GoalfinderApp::OnSettingsUpdated() 
 {
     int volume = Settings::GetInstance()->GetVolume();
-    audioPlayer->SetVolume(volume);
+    audioPlayer.SetVolume(volume);
+}
+
+void GoalfinderApp::OnShotDetected() { 
+    AnnounceEvent("-> shot", 0, 0);
+}
+
+void GoalfinderApp::AnnounceHit() {     
+    AnnounceEvent("-> hit", hitClips, hitClipsCnt);
+}
+
+void GoalfinderApp::AnnounceMiss() {
+    AnnounceEvent("-> miss", missClips, missClipsCnt);
+}
+
+void GoalfinderApp::AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt) {    
+    Serial.println(traceMsg);
+    if (sounds != 0 && soundCnt > 0) {
+        const char* clipName = sounds[random(0, soundCnt + 1)];
+        PlaySound(clipName);
+    }
+}
+
+void GoalfinderApp::PlaySound(const char* soundFileName) {
+    if (soundFileName != 0 && !audioPlayer.GetIsPlaying()) {
+        audioPlayer.PlayMP3(soundFileName);
+        audioPlayer.Loop();
+    }
 }

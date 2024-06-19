@@ -30,7 +30,8 @@ const int Settings::defaultVolume = 50;
 	
 Settings::Settings() :
     Singleton<Settings>(),
-	store()
+	store(),
+	modified(false)
 {
     store.Begin("app_prefs");
 }
@@ -49,6 +50,15 @@ int Settings::GetVolume() {
 void Settings::SetVolume(int volume) {
 	volume = max(min(volume, 100), 0);
 	store.PutInt(keyVolume, volume);
+	SetModified();
+}
+
+bool Settings::IsModified() const {
+	return modified;
+}
+
+void Settings::SetModified() {
+	modified = true;
 }
 
 
