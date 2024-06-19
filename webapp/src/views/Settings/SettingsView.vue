@@ -33,7 +33,10 @@ const options = [
 ]
 
 const settings = useSettingsStore();
-settings.loadSettings();
+
+onMounted(() => {
+  settings.loadSettings();
+});
 
 </script>
 
