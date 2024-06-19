@@ -10,7 +10,7 @@ class WebServer
         virtual ~WebServer();
         void Begin();
         void Stop();
-        WebServer(FileSystem* fileSystem, Settings* settings);
+        WebServer(FileSystem* fileSystem);
     private:
         AsyncWebServer server;
         SoftwareUpdater updater;

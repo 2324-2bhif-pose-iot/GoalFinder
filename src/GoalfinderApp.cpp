@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include <Settings.h>
 
+#define RANGE_WHEN_BALL_GOES_IN 180
+#define VIBRATION_WHEN_BALL_HITS_BOARD 2000
 
 const int GoalfinderApp::pinTofSda = 22;
 const int GoalfinderApp::pinTofScl = 21;
@@ -45,7 +47,7 @@ GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
     announcement(Announcement::None),
     fileSystem(true),
-    webServer(&fileSystem, Settings::GetInstance()),
+    webServer(&fileSystem),
     sntp(),
     audioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut),
     tofSensor(),

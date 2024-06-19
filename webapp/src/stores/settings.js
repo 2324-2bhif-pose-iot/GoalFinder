@@ -20,7 +20,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     const macAddress = ref("");
     const bluetoothAddress = ref("");
-    const ledModus = ref(0);
+    const ledMode = ref(0);
     const refreshAvailableNetworks = () => {
 
     }
@@ -61,6 +61,6 @@ export const useSettingsStore = defineStore("settings", () => {
         refreshAvailableBluetoothDevices,
         loadSettings,
         saveSettings,
-        ledModus
+        ledMode
     };
 })

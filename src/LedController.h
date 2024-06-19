@@ -10,7 +10,6 @@ class LedController
     public:
         LedController(int ledPin, int ledChannel);
         ~LedController();
-        void Init(int ledPin);
         void Loop();
         void SetMode(LedMode mode);
         LedMode GetMode();
