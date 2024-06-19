@@ -22,6 +22,7 @@ function setLedMode(value) {
           <Button class="button" @click="setLedMode(2)">{{ $t("word.fade") }}</Button>
           <Button class="button" @click="setLedMode(3)">{{ $t("word.flash") }}</Button>
           <Button class="button" @click="setLedMode(4)">{{ $t("word.turbo") }}</Button>
+          <Button class="button" @click="setLedMode(5)">{{ $t("word.off") }}</Button>
         </div>
       </div>
     </div>

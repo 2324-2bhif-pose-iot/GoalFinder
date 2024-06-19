@@ -44,9 +44,9 @@ void LedController::Loop()
         ledcWrite(ledChannel, 0);
         delay(500);
     }
-    else 
+    else if (currMode == LedMode::Turbo) 
     {
-       for (int i = 0; i < 10; i++) { 
+        for (int i = 0; i < 10; i++) { 
             ledcWrite(ledChannel, 255);
             delay(50); 
             
@@ -54,6 +54,10 @@ void LedController::Loop()
             delay(50); 
         }
         delay(500); 
+    }
+    else 
+    {
+        ledcWrite(ledChannel, 0);
     }
 }
 
