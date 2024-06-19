@@ -1,14 +1,17 @@
 #pragma once
 
+enum LedMode {Standard, Fade, Flash, Turbo};
+
 class LedController
 {
     private:    
-        int ledChannel = 0;
+        int ledChannel;
+        LedMode currMode = LedMode::Standard;
     public:
-        LedController();
-        virtual ~LedController();
-        void Init(int ledPin, int ledChannel, int freq, int resolution);
+        LedController(int ledPin, int ledChannel);
+        ~LedController();
+        void Init(int ledPin);
         void Loop();
-        //enum LedModus{Standard, Fade, Flash, Turbo};
+        void SetMode(LedMode mode);
+        LedMode GetMode();
 };
-
