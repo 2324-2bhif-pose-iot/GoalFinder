@@ -1,42 +1,40 @@
 <template>
-<div>
-<div id="vb">
-  <div class="label-container">
-    <label for="sensitivity">Set Sensitivity of Vibrationsensor</label>
-    <div class="button-container">
-      <Button class="button" @click="setSensitivity(25)">25%</Button>
-      <Button class="button" @click="setSensitivity(50)">50%</Button>
-      <Button class="button" @click="setSensitivity(100)">100%</Button>
+  <div>
+    <div id="vb">
+      <div class="label-container">
+        <label for="sensitivity">{{ $t("word.sensitivity") }}</label>
+        <div class="button-container">
+          <Button class="button" @click="setSensitivity(25)">25%</Button>
+          <Button class="button" @click="setSensitivity(50)">50%</Button>
+          <Button class="button" @click="setSensitivity(100)">100%</Button>
+        </div>
+      </div>
     </div>
+    <div class="current-sensitivity">
+      <span>{{ $t("word.curr_sensitivity") }}: {{ settings.vibrationSensorSensitivity }}%</span>
+    </div>
+    <transition name="fade">
+      <div v-if="message" class="message">{{ message }}</div>
+    </transition>
   </div>
-</div>
-<div class="current-sensitivity">
-  <span>Current Sensitivity: {{ settings.vibrationSensorSensitivity }}%</span>
-</div>
-<transition name="fade">
-  <div v-if="message" class="message">{{ message }}</div>
-</transition>
-</div>
 </template>
 
 <script setup>
 import Button from 'primevue/button';
-import {useSettingsStore} from "@/stores/settings.js";
+import { useSettingsStore } from "@/stores/settings.js";
+import { ref } from 'vue';
 
 const settings = useSettingsStore();
-
-let message = "";
+const message = ref("");
 
 const setSensitivity = (value) => {
   settings.vibrationSensorSensitivity = value;
-
-  this.message = `Sensitivity gesetzt zu: ${settings.vibrationSensorSensitivity}%`;
+  message.value = `${$t("word.sensitivity_set_to")}: ${settings.vibrationSensorSensitivity}%`;
 
   setTimeout(() => {
-    this.message = '';
+    message.value = '';
   }, 3000);
-}
-
+};
 </script>
 
 <style scoped>
