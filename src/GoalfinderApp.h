@@ -14,7 +14,8 @@
  * ===============================================================================
  */
 
-#pragma once 
+#pragma once
+
 #include <Singleton.h>
 #include <ToFSensor.h>
 #include <VibrationSensor.h>
@@ -25,6 +26,7 @@
 #include <AudioPlayer.h>
 #include <LedController.h>
 #include <Settings.h>
+#include <system/Settings.h>
 
 class GoalfinderApp : public Singleton<GoalfinderApp> {
 	public:
@@ -59,6 +61,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int defaultAudioVolume;
 
 		Settings settings;
+		System::Settings settingStore;
 		FileSystem fileSystem;
 		WebServer webServer;
 		SNTP sntp;

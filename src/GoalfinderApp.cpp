@@ -4,8 +4,6 @@
 #define RANGE_WHEN_BALL_GOES_IN 180
 #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
 
-
-
 const int GoalfinderApp::pinTofSda = 22;
 const int GoalfinderApp::pinTofScl = 21;
 const int GoalfinderApp::pinI2sBclk = 23;
@@ -25,6 +23,7 @@ const int GoalfinderApp::defaultAudioVolume = 5;
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
     settings(),
+    settingStore(),
     fileSystem(true),
     webServer(&fileSystem, &settings),
     sntp(),
@@ -44,6 +43,7 @@ GoalfinderApp::~GoalfinderApp()
 
 void GoalfinderApp::Init() 
 {
+    delay(100);
     Serial.begin(115200);
 
     if(!fileSystem.Begin()) 
@@ -53,6 +53,8 @@ void GoalfinderApp::Init()
     } else {
         Serial.println("FS initialized");
     }
+
+    settingStore.Begin("preferences");
     
     WiFi.softAP(defaultSsid, defaultWifiPw);
     WiFi.setSleep(false);
@@ -68,8 +70,6 @@ void GoalfinderApp::Init()
     
     audioPlayer->SetVolume(defaultAudioVolume);
     
-    // ledcSetup(ledPwmChannel, ledPwmFrequency, ledPwmResolution);
-    // ledcAttachPin(pinLedPwm, ledPwmChannel);
 	ledController.Init(pinLedPwm, ledPwmChannel, ledPwmFrequency, ledPwmResolution);
 }
 
@@ -109,6 +109,7 @@ void GoalfinderApp::Process()
                 Serial.println("Hit without shot detected");
                 audioPlayer->PlayMP3("/hit.mp3");
             }
+        }
     } 
 }
 
