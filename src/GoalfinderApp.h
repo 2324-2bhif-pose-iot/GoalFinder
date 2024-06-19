@@ -16,6 +16,14 @@
 
 #pragma once 
 #include <Singleton.h>
+#include <ToFSensor.h>
+#include <VibrationSensor.h>
+#include <BluetoothManager.h>
+#include <web/WebServer.h>
+#include <web/SNTP.h>
+#include <FileSystem.h>
+#include <AudioPlayer.h>
+#include <Settings.h>
 
 class GoalfinderApp : public Singleton<GoalfinderApp> {
 	public:
@@ -28,14 +36,31 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Processes one single iteration step. */
 		void Process();
 
-
-		GoalfinderApp();
-
-		
-
-
 	private:
 		friend class Singleton<GoalfinderApp> ;
 		/** Singleton constructor */
+		GoalfinderApp();
 		
+		static const int pinTofSda;
+		static const int pinTofScl;
+		static const int pinI2sBclk;
+		static const int pinI2sWclk;
+		static const int pinI2sDataOut;
+		static const int pinLedPwm;
+
+		static const int ledPwmFrequency;
+		static const int ledPwmChannel;
+		static const int ledPwmResolution;
+
+		static const char* defaultSsid;
+		static const char* defaultWifiPw; // no PW
+		static const int defaultAudioVolume;
+
+		Settings settings;
+		FileSystem fileSystem;
+		WebServer webServer;
+		SNTP sntp;
+		AudioPlayer* audioPlayer;
+		ToFSensor tofSensor;
+		VibrationSensor vibrationSensor;
 };

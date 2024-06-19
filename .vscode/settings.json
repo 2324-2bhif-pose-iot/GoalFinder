@@ -58,5 +58,12 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "new": "cpp"
-  }
+  },
+  "cSpell.words": [
+    "APIP",
+    "Bclk",
+    "Goalfinder",
+    "ledc",
+    "Wclk"
+  ]
 }

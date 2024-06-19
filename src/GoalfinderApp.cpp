@@ -1,43 +1,44 @@
 #include <GoalfinderApp.h>
 #include <Arduino.h>
-#include <ToFSensor.h>
-#include <VibrationSensor.h>
-#include <BluetoothManager.h>
-#include <web/WebServer.h>
-#include <web/SNTP.h>
-#include <FileSystem.h>
-#include <AudioPlayer.h>
-#include <Settings.h>
 
-#define FORMAT_FS_IF_FAILED true
-#define TOF_SDA_PIN 27
-#define TOF_SCL_PIN 25
 #define RANGE_WHEN_BALL_GOES_IN 180
 #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
 
-#define SSID "Goal Finder"
-#define PASSWORD "esp123456"
 
-Settings settings;
-FileSystem fileSystem(FORMAT_FS_IF_FAILED);
-WebServer webServer(&fileSystem, &settings);
-SNTP sntp;
-AudioPlayer* audioPlayer;
-ToFSensor tofSensor;
-VibrationSensor vibrationSensor;
-const int ledPin = 17;
 
-const int freq = 5000;
-const int ledChannel = 0;
-const int resolution = 8;    
+const int GoalfinderApp::pinTofSda = 22;
+const int GoalfinderApp::pinTofScl = 21;
+const int GoalfinderApp::pinI2sBclk = 23;
+const int GoalfinderApp::pinI2sWclk = 5;
+const int GoalfinderApp::pinI2sDataOut = 19;
+const int GoalfinderApp::pinLedPwm = 17;
+
+const int GoalfinderApp::ledPwmFrequency = 5000;
+const int GoalfinderApp::ledPwmChannel = 0;
+const int GoalfinderApp::ledPwmResolution = 8;
+
+const char* GoalfinderApp::defaultSsid = "Goal-Finder";
+const char* GoalfinderApp::defaultWifiPw = 0; // no PW
+// const char* GoalfinderApp::defaultWifiPw "esp123456";
+const int GoalfinderApp::defaultAudioVolume = 5;
 
 GoalfinderApp::GoalfinderApp() :
-    Singleton<GoalfinderApp>() {
+    Singleton<GoalfinderApp>(),
+    settings(),
+    fileSystem(true),
+    webServer(&fileSystem, &settings),
+    sntp(),
+    audioPlayer(0),
+    tofSensor(),
+    vibrationSensor()
+{
 }
 
 GoalfinderApp::~GoalfinderApp() 
 {
-    delete audioPlayer;
+    if (audioPlayer != 0) {
+        delete audioPlayer;
+    }
 }
 
 void GoalfinderApp::Init() 
@@ -46,68 +47,76 @@ void GoalfinderApp::Init()
 
     if(!fileSystem.Begin()) 
     {
-        Serial.println("Error FS");
+        Serial.println("FS initialization failed");
         return;
+    } else {
+        Serial.println("FS initialized");
     }
     
-    WiFi.softAP(SSID, PASSWORD);
-
+    WiFi.softAP(defaultSsid, defaultWifiPw);
     WiFi.setSleep(false);
-
     Serial.println(WiFi.softAPIP());
 
     webServer.Begin();
     
     sntp.Init();
     vibrationSensor.Init();
-    tofSensor.Init(TOF_SCL_PIN, TOF_SDA_PIN);
+    tofSensor.Init(pinTofScl, pinTofSda);
 
-    audioPlayer = new AudioPlayer(&fileSystem, 23, 05, 19);
+    audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
+    audioPlayer->SetVolume(defaultAudioVolume);
     
-    audioPlayer->SetVolume(100);
-    
-    ledcSetup(ledChannel, freq, resolution);
-    
-    ledcAttachPin(ledPin, ledChannel);
+    ledcSetup(ledPwmChannel, ledPwmFrequency, ledPwmResolution);
+    ledcAttachPin(pinLedPwm, ledPwmChannel);
 }
 
 void GoalfinderApp::Process()
 {
+    Serial.printf("%4.3f: process loop\n", millis() / 1000.0);
+
     audioPlayer->Loop();
 
     if(!audioPlayer->GetIsPlaying())
     {
+        Serial.printf("%4.3f: LED on\n", millis() / 1000.0);
         for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++)
         {
-            ledcWrite(ledChannel, dutyCycle);
+            ledcWrite(ledPwmChannel, dutyCycle);
             delay(5);
         }
 
-
+        Serial.printf("%4.3f: LED off\n", millis() / 1000.0);
         for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--)
         {
-            ledcWrite(ledChannel, dutyCycle);   
+            ledcWrite(ledPwmChannel, dutyCycle);   
             delay(5);
         }
 
+        Serial.printf("%4.3f: processing input\n", millis() / 1000.0);
         if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
         {
+            Serial.printf("%4.3f: vibration\n", millis() / 1000.0);
+            Serial.println("Shot detected: ");
             delay(3000);
 
+            Serial.printf("%4.3f: reading ToF\n", millis() / 1000.0);
             if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
             {      
-                Serial.println("Hit detection");
+                Serial.println("-> hit");
             }
             else
             {
-                Serial.println("Miss detection");
+                Serial.println("-> miss");
                 audioPlayer->PlayMP3("/miss.mp3");
-            }        
+            }
         }
-        else if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
-        {
-            Serial.println("Hit detection1");
-            //audioPlayer->PlayMP3("/goal.mp3");
-        }  
+        else {
+            Serial.printf("%4.3f: reading ToF w/ vibration\n", millis() / 1000.0);
+            if(tofSensor.ReadSingleMillimeters() < RANGE_WHEN_BALL_GOES_IN)
+            {
+                Serial.println("Hit without shot detected");
+                audioPlayer->PlayMP3("/hit.mp3");
+            }
+        }
     }  
 }

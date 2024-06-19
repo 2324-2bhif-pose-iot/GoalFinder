@@ -1,20 +1,13 @@
 #pragma once
 
-class LedController
-{
-
-private:
-    
-    int ledChannel;
+class LedController {
 
 public:
-   void Loop();
+    LedController();
+    virtual ~LedController();
+    void Loop();
+
+private:    
+    int ledPwmChannel;
+
 };
-
-LedController::LedController()
-{
-}
-
-LedController::~LedController()
-{
-}
