@@ -1,5 +1,7 @@
 <script setup>
+  import {useSettingsStore} from "@/stores/settings.js";
 
+  const settings = useSettingsStore();
 </script>
 
 <template>
@@ -7,34 +9,27 @@
     <h1 class="mb-3">{{$t("header.about")}}</h1>
     <Card>
       <template #content>
-        <p class="mt-3">
-          <strong>Developed by:</strong> Omar Al-Desoky, Rabbi Baysoy, Alexander Coroi, Edin Kurtic
+        <img v-if="!settings.enableDarkMode" id="htl-logo" src="@/assets/htllogo_2022_black_v2.png" alt="logo"/>
+        <img v-else id="htl-logo" src="@/assets/htllogo_2022_white_v2.png" alt="logo"/>
+        <p class="mt-5">
+          Dieses Gerät wurde im Zuge des "Smart Sport Assistance" Projekt in Kooperation mit Universität Wien von Schülern der HTBLA Leonding, Klasse 2BHIF, Jahrgang 23/24 entwickelt.
         </p>
-        <!--<Panel header="License" :toggleable="true">
-          <p>MIT License</p>
-          <p>Copyright (c) 2024 2324-2bhif-pose-iot</p>
-          <p>Permission is hereby granted, free of charge, to any person obtaining a copy
-            of this software and associated documentation files (the "Software"), to deal
-            in the Software without restriction, including without limitation the rights
-            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-            copies of the Software, and to permit persons to whom the Software is
-            furnished to do so, subject to the following conditions:</p>
-          <p>The above copyright notice and this permission notice shall be included in all
-            copies or substantial portions of the Software.</p>
-          <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-            SOFTWARE.
-          </p>
-        </Panel>-->
+        <p class="mt-3">
+          <strong>Entwickelt von:</strong>
+        </p>
+        <ul>
+          <li>Omar Al-Desoky</li>
+          <li>Rabbi Baysoy</li>
+          <li>Alexander Coroi</li>
+          <li>Edin Kurtic</li>
+        </ul>
       </template>
     </Card>
   </div>
 </template>
 
 <style scoped>
-
+  #htl-logo {
+    width: 40%;
+  }
 </style>

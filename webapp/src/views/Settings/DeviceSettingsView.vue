@@ -1,7 +1,7 @@
 <script setup>
 
-import BluetoothDevicesManager from "@/components/BluetoothDevicesManager.vue";
-import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
+import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
+import LedManager from "@/components/LedManager.vue";
 </script>
 
 <template>
@@ -12,6 +12,7 @@ import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vu
       </template>
       <template #content>
         <VibrationsensorManager/>
+        <LedManager/>
       </template>
     </Card>
   </div>

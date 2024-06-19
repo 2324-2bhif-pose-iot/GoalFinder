@@ -1,5 +1,6 @@
 #include <GoalfinderApp.h>
 #include <Arduino.h>
+#include <LedController.h>
 
 #define RANGE_WHEN_BALL_GOES_IN 180
 #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
@@ -64,10 +65,13 @@ void GoalfinderApp::Init()
     tofSensor.Init(pinTofScl, pinTofSda);
 
     audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
+    
     audioPlayer->SetVolume(defaultAudioVolume);
     
     ledcSetup(ledPwmChannel, ledPwmFrequency, ledPwmResolution);
+    
     ledcAttachPin(pinLedPwm, ledPwmChannel);
+	//led.Init(ledPin, freq, resolution);
 }
 
 void GoalfinderApp::Process()
@@ -79,18 +83,7 @@ void GoalfinderApp::Process()
     if(!audioPlayer->GetIsPlaying())
     {
         Serial.printf("%4.3f: LED on\n", millis() / 1000.0);
-        for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++)
-        {
-            ledcWrite(ledPwmChannel, dutyCycle);
-            delay(5);
-        }
-
-        Serial.printf("%4.3f: LED off\n", millis() / 1000.0);
-        for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--)
-        {
-            ledcWrite(ledPwmChannel, dutyCycle);   
-            delay(5);
-        }
+        led.Loop();
 
         Serial.printf("%4.3f: processing input\n", millis() / 1000.0);
         if(vibrationSensor.Vibration() > VIBRATION_WHEN_BALL_HITS_BOARD)
@@ -117,6 +110,10 @@ void GoalfinderApp::Process()
                 Serial.println("Hit without shot detected");
                 audioPlayer->PlayMP3("/hit.mp3");
             }
-        }
-    }  
+    } 
+}
+
+void GoalfinderApp::OnSettingsUpdated() 
+{
+    audioPlayer->SetVolume(settings.volume);
 }

@@ -4,7 +4,6 @@
 #include "ArduinoJson.h"
 #include "WiFi.h"
 
-
 class Settings
 {
     private:
