@@ -22,7 +22,12 @@
 
 const char* Settings::keyVolume = "volume";
 const int Settings::defaultVolume = 50;
-
+    const String Settings::deviceName = "Goalfinder";
+    const String Settings::devicePassword = "ESP3232";
+    const int Settings::vibrationSensorSensitivity = 100;
+    const int Settings::volume = 100;
+    const String Settings::macAddress = "00-1D-60-4A-8C-CB";
+	
 Settings::Settings() :
     Singleton<Settings>(),
 	store()
@@ -45,3 +50,34 @@ void Settings::SetVolume(int volume) {
 	volume = max(min(volume, 100), 0);
 	store.PutInt(keyVolume, volume);
 }
+
+
+String Settings::GetDeviceName()
+{
+
+};
+
+void Settings::SetDeviceName(String deviceName)
+{
+
+};
+
+String GetDevicePassword()
+{
+
+};
+
+void SetDevicePassword(String devicePassword)
+{
+
+};
+
+int GetVibrationSensorSensitivity()
+{
+
+};
+
+void SetVibrationSensorSensitivity(int vibrationSensorSensitivity)
+{
+
+};
