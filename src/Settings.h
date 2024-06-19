@@ -10,6 +10,8 @@ class Settings : public Singleton<Settings>
 
         bool IsModified() const;
 
+        void ClearModifiedState();
+
         /** Provides the MAC address of the WiFi interface. */
         String GetMacAddress();
 

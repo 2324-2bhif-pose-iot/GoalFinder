@@ -61,6 +61,10 @@ void Settings::SetModified() {
 	modified = true;
 }
 
+void Settings::ClearModifiedState() {
+	modified = false;
+}
+
 
 String Settings::GetDeviceName()
 {
