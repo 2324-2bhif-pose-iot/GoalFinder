@@ -69,7 +69,27 @@ const i18n = createI18n({
                 factory_settings_reset: "Reset to factory settings",
                 search_for_update: "Search for update",
                 light: "Light",
-                dark: "Dark"
+                dark: "Dark",
+                add_person: "Add Person",
+                basketball_shot_tracker: "Basketball Shot Tracker",
+                hit: "Hit",
+                miss: "Miss",
+                remove: "Remove",
+                person_list: "Person List",
+                results: "Results",
+                hits: "Hits",
+                misses: "Misses",
+                led_mode: "LED Mode",
+                standard: "Standard",
+                fade: "Fade",
+                flash: "Flash",
+                turbo: "Turbo",
+                curr_mode: "Current Mode",
+                curr_volume: "Current Volume",
+                mac_address: "Mac address",
+                bluetooth_address: "Bluetooth address",
+                software_update: "Software Update",
+                curr_version: "Current Version"
             }
         },
         de : {
@@ -110,7 +130,27 @@ const i18n = createI18n({
                 factory_settings_reset: "Auf Werkseinstellungen zurücksetzen",
                 search_for_update: "Auf Aktualisierungen prüfen",
                 light: "Hell",
-                dark: "Dunkel"
+                dark: "Dunkel",
+                add_person: "Person Hinzufügen",
+                basketball_shot_tracker: "Basketball Schusszähler",
+                hit: "Treffer",
+                miss: "Fehlschuss",
+                remove: "Entfernen",
+                person_list: "Liste der Personen",
+                results: "Ergebnisse",
+                hits: "Treffer",
+                misses: "Fehlschüsse",
+                led_mode:"LED Modus",
+                standard: "Standart",
+                fade: "Verblassen",
+                flash: "Blitzartig",
+                turbo: "Turbo",
+                curr_mode: "Ausgewählter Modus",
+                curr_volume: "Derzeitige Lautstärke",
+                mac_address: "Mac Adresse",
+                bluetooth_address: "Bluetooth Adresse",
+                software_update: "Software Aktualisierung",
+                curr_version: "Derzeitige Version"
             }
         }
     }
