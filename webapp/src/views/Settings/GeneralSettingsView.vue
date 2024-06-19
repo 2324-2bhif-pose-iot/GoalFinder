@@ -8,9 +8,10 @@
       const regex = /^[a-zA-Z0-9_]+$/;
       if(value == null || value < 3 || value > 32 || !regex.test(value))
       {
+          settings.isValid = false;
           return false;
       }
-
+      settings.isValid = true;
       return true;
   }
 </script>

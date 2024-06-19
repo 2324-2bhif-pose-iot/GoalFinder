@@ -2,6 +2,8 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
+
+    let isValid = false;
     const enableDarkMode = ref(false);
 
     const deviceName = ref("");
@@ -61,6 +63,7 @@ export const useSettingsStore = defineStore("settings", () => {
         refreshAvailableBluetoothDevices,
         loadSettings,
         saveSettings,
-        ledMode
+        ledMode,
+        isValid
     };
 })
