@@ -1,50 +1,50 @@
 <template>
   <div class="basketball-shot-tracker" v-if="!showLeaderboard">
-    <h2>Basketball Shot Tracker</h2>
+    <h2>{{ $t("word.basketball_shot_tracker") }}</h2>
     <form @submit.prevent="addPerson">
       <div>
-        <label for="personName">Person Name:</label>
+        <label for="personName">{{ $t("word.add_person") }}</label>
         <input type="text" id="personName" v-model="newPerson.name" required />
       </div>
-      <Button type="submit">Add Person</Button>
+      <Button type="submit">{{ $t("word.add_person") }}</Button>
     </form>
 
     <div v-if="persons.length">
-      <h3>Persons List</h3>
+      <h3>{{ $t("word.person_list") }}</h3>
       <ul>
         <li v-for="(person, index) in persons" :key="index">
           <span>{{ person.name }}</span>
           <div class="buttons-container">
-            <Button @click="recordShot(index, true)">Hit</Button>
-            <Button @click="recordShot(index, false)" severity="warn">Miss</Button>
-            <Button @click="removePerson(index)" severity="danger">Remove</Button>
+            <Button @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
+            <Button @click="recordShot(index, false)" severity="warn">{{ $t("word.miss") }}</Button>
+            <Button @click="removePerson(index)" severity="danger">{{ $t("word.remove") }}</Button>
           </div>
         </li>
       </ul>
     </div>
 
     <div v-if="persons.length">
-      <h3>Results</h3>
+      <h3>{{ $t("word.results") }}</h3>
       <ul>
         <li v-for="(person, index) in persons" :key="index">
-          <strong>{{ person.name }}</strong> - Hits: {{ person.hits }}, Misses: {{ person.misses }}
+          <strong>{{ person.name }}</strong> - {{ $t("word.hits") }}: {{ person.hits }}, {{ $t("word.misses") }}: {{ person.misses }}
         </li>
       </ul>
     </div>
 
     <div v-if="persons.length">
-      <Button @click="finish">Finish</Button>
+      <Button @click="finish">{{ $t("word.finish") }}</Button>
     </div>
   </div>
 
   <div class="leaderboard" v-else>
-    <h2>Rangliste</h2>
+    <h2>{{ $t("word.leaderboard") }}</h2>
     <ul>
       <li v-for="(person, index) in sortedPersons" :key="index">
-        <strong>{{ index + 1 }}. {{ person.name }}</strong> - Hits: {{ person.hits }}, Misses: {{ person.misses }}
+        <strong>{{ index + 1 }}. {{ person.name }}</strong> - {{ $t("word.hits") }}: {{ person.hits }}, {{ $t("word.misses") }}: {{ person.misses }}
       </li>
     </ul>
-    <Button @click="restart">Restart</Button>
+    <Button @click="restart">{{ $t("word.restart") }}</Button>
   </div>
 </template>
 

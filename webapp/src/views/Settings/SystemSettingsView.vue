@@ -21,22 +21,22 @@
             <div class="col-auto">{{settings.deviceName}}</div>
           </div>
           <div class="row">
-            <div class="col-md-5"><strong>Version:</strong></div>
+            <div class="col-md-5"><strong>{{ $t("word.curr_version") }}</strong></div>
             <div class="col-auto">1.0.0</div>
           </div>
           <div class="row">
-            <div class="col-md-5"><strong>MAC address:</strong></div>
+            <div class="col-md-5"><strong>{{ $t("word.mac_address") }}</strong></div>
             <div class="col-auto">{{settings.macAddress}}</div>
           </div>
           <div class="row">
-            <div class="col-md-5"><strong>Bluetooth address:</strong></div>
+            <div class="col-md-5"><strong>{{ $t("word.bluetooth_address") }}</strong></div>
             <div class="col-auto">{{settings.bluetoothAddress}}</div>
           </div>
         </div>
         <div>
-          <h4>Software update</h4>
+          <h4>{{ $t("word.software_update") }}</h4>
           <div>
-            <p>Current version: 1.0.0</p>
+            <p>{{ $t("word.curr_version") }}: 1.0.0</p>
             <a href="/update">
               <Button>{{ $t("word.search_for_update") }}</Button>
             </a>

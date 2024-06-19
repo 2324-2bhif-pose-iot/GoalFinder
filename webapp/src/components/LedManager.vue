@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import Button from 'primevue/button';
-import {useSettingsStore} from "@/stores/settings.js";
+import { useSettingsStore } from "@/stores/settings.js";
 
 const message = ref('');
 const settings = useSettingsStore();
 
 function setLedModus(value) {
   settings.ledModus = value;
-  message.value = `Modus set to: ${settings.ledModus}`;
+  message.value = `${$t("word.curr_mode")}: ${settings.ledModus}`;
   console.log(message.value);
 }
 </script>
@@ -17,17 +17,17 @@ function setLedModus(value) {
   <div>
     <div id="led">
       <div class="label-container">
-        <label for="modus">Set Modus of LED</label>
+        <label for="modus">{{ $t("word.led_mode") }}</label>
         <div class="button-container">
-          <Button class="button" @click="setLedModus(1)">Standard</Button>
-          <Button class="button" @click="setLedModus(2)">Fade</Button>
-          <Button class="button" @click="setLedModus(3)">Flash</Button>
-          <Button class="button" @click="setLedModus(4)">Turbo</Button>
+          <Button class="button" @click="setLedModus(1)">{{ $t("word.standard") }}</Button>
+          <Button class="button" @click="setLedModus(2)">{{ $t("word.fade") }}</Button>
+          <Button class="button" @click="setLedModus(3)">{{ $t("word.flash") }}</Button>
+          <Button class="button" @click="setLedModus(4)">{{ $t("word.turbo") }}</Button>
         </div>
       </div>
     </div>
     <div class="current-modus">
-      <span>Current Modus: {{ settings.ledModus }}</span>
+      <span>{{ $t("word.curr_mode") }}: {{ settings.ledModus }}</span>
     </div>
     <transition name="fade">
       <div v-if="message" class="message">{{ message }}</div>

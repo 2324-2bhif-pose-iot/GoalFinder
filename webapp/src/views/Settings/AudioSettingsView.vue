@@ -4,14 +4,14 @@
       <template #title>Audio</template>
       <template #content>
         <div class="volume-slider-control">
-          <label>Volume</label>
+          <label>{{ $t("word.volume") }}</label>
           <div class="button-container">
             <Button class="volume-button" @click="setVolume(25)">25%</Button>
             <Button class="volume-button" @click="setVolume(50)">50%</Button>
             <Button class="volume-button" @click="setVolume(100)">100%</Button>
           </div>
         </div>
-        <div class="current-volume">Current Volume: {{ settings.volume }}%</div>
+        <div class="current-volume">{{ $t("word.curr_volume") }}: {{ settings.volume }}%</div>
         <div v-if="message" class="alert-message">{{ message }}</div>
       </template>
     </Card>
@@ -21,18 +21,18 @@
 <script setup>
 import { useSettingsStore } from "@/stores/settings.js";
 import Button from "primevue/button";
+import { ref } from 'vue';
 
 const settings = useSettingsStore();
+let message = ref('');
 
 const setVolume = (value) => {
   settings.volume = value;
-  message = `Volume set to: ${settings.volume}%`;
+  message.value = `${$t("word.volume")} ${settings.volume}%`;
   setTimeout(() => {
-    message = '';
+    message.value = '';
   }, 3000);
 };
-
-let message = '';
 </script>
 
 <style scoped>
