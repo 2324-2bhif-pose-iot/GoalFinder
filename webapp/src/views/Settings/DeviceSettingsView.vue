@@ -1,6 +1,5 @@
 <script setup>
 
-import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
 import LedManager from "@/components/LedManager.vue";
 </script>
 
@@ -11,7 +10,6 @@ import LedManager from "@/components/LedManager.vue";
         {{ $t("settings.devices") }}
       </template>
       <template #content>
-        
         <LedManager/>
       </template>
     </Card>
