@@ -1,28 +1,25 @@
 #include "LedController.h"
 #include <Arduino.h>
 
-LedController::LedController()
+LedController::LedController(int ledPin, int ledChannel)
 {
-}
-
-LedController::~LedController()
-{
-}
-
-void LedController::Init(int ledPin, int ledChannel, int freq, int resolution) 
-{
-    ledcSetup(ledChannel, freq, resolution);
+    ledcSetup(ledChannel, 5000, 8);
     
     ledcAttachPin(ledPin, ledChannel);
+    this->ledChannel = ledChannel;
+}
+
+LedController::~LedController() 
+{
 }
 
 void LedController::Loop() 
 {
-    /*if(Standard)
+    if(currMode == LedMode::Standard)
     {
         ledcWrite(ledChannel, 255);
     }
-    else if(Fade)
+    else if(currMode == LedMode::Fade)
     {
         for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++)
         {
@@ -36,7 +33,7 @@ void LedController::Loop()
             delay(5);
         }
     }
-    else if(Flash) 
+    else if(currMode == LedMode::Flash) 
     {
         ledcWrite(ledChannel, 255);
         delay(100);
@@ -54,5 +51,18 @@ void LedController::Loop()
             delay(50); 
         }
         delay(500); 
-    }*/
+    }
 }
+
+void LedController::SetMode(LedMode mode)
+{
+    currMode = mode;
+}
+
+LedMode LedController::GetMode()
+{
+    return currMode;
+}
+
+
+

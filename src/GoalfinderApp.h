@@ -42,6 +42,12 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		friend class Singleton<GoalfinderApp>;
 		/** Singleton constructor */
 		GoalfinderApp();
+
+		void OnShotDetected() ;
+		void AnnounceHit() ;
+		void AnnounceMiss();
+		void AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt);
+		void PlaySound(const char* soundFileName);
 		
 		static const int pinTofSda;
 		static const int pinTofScl;
@@ -49,6 +55,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int pinI2sWclk;
 		static const int pinI2sDataOut;
 		static const int pinLedPwm;
+		static const int pinRandomSeed;
 
 		static const int ledPwmFrequency;
 		static const int ledPwmChannel;
@@ -58,10 +65,17 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const char* defaultWifiPw; // no PW
 		static const int defaultAudioVolume;
 
+		static const char* hitClips[];
+		static const int   hitClipsCnt;
+		static const char* tickClips[];
+		static const int   tickClipsCnt;
+		static const char* missClips[];
+		static const int   missClipsCnt;
+
 		FileSystem fileSystem;
 		WebServer webServer;
 		SNTP sntp;
-		AudioPlayer* audioPlayer;
+		AudioPlayer audioPlayer;
 		ToFSensor tofSensor;
 		VibrationSensor vibrationSensor;
 		LedController ledController;
