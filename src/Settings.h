@@ -42,24 +42,15 @@ class Settings : public Singleton<Settings>
 
         static const char* keyVolume;
         static const int defaultVolume;
-        static const int volume;
 
         static const char* keyDeviceName;
         static const String defaultDeviceName;
-        static const String deviceName;
 
         static const char* keyDevicePassword;
         static const String defaultDevicePassword;
-        static const String devicePassword;
 
         static const char* keyVibrationSensorSensitivity;
         static const int defaultVibrationSensorSensitivity;
-        static const int vibrationSensorSensitivity;
-
-        static const char* keyMacAdress;
-        static const String defaultMacAdress;
-        static const String macAddress;
-
         System::Settings store;
         bool modified;
 };

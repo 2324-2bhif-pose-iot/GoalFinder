@@ -94,11 +94,11 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     response->addHeader("Server", "HeaderSettings");
     JsonVariant& root = response->getRoot();
     
-    root["macAdress"] = newSettings->macAddress;
-    root["deviceName"] = newSettings->deviceName;
-    root["devicePassword"] = newSettings->devicePassword;
-    root["vibrationSensorSensitivity"] = newSettings->vibrationSensorSensitivity;
-    root["volume"] = newSettings->volume;
+    root["macAdress"] = newSettings->GetMacAddress();
+    root["deviceName"] = newSettings->GetDeviceName();
+    root["devicePassword"] = newSettings->GetDevicePassword();
+    root["vibrationSensorSensitivity"] = newSettings->GetVibrationSensorSensitivity();
+    root["volume"] = newSettings->GetVolume();
 
     response->setLength();
     request->send(response);
