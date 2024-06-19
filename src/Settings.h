@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <Singleton.h>
 #include <system/Settings.h>
+#include "LedController.h"
 
 class Settings : public Singleton<Settings>
 {
@@ -33,6 +34,10 @@ class Settings : public Singleton<Settings>
 
         void SetVibrationSensorSensitivity(int vibrationSensorSensitivity);
 
+        LedMode GetLedMode();
+
+        void SetLedMode(LedMode ledMode);
+
 
     private:
 		friend class Singleton<Settings>;
@@ -51,6 +56,10 @@ class Settings : public Singleton<Settings>
 
         static const char* keyVibrationSensorSensitivity;
         static const int defaultVibrationSensorSensitivity;
+        
+        static const char* keyLedMode;
+        static const LedMode defaultLedMode;
+
         System::Settings store;
         bool modified;
 };

@@ -31,6 +31,9 @@ const String Settings::defaultDevicePassword = emptyString;
 
 const char* Settings::keyVibrationSensorSensitivity = "vibrationSensorSensitivity";
 const int Settings::defaultVibrationSensorSensitivity = 100;
+
+const char* Settings::keyLedMode = "ledMode";
+const LedMode defaultLedMode = LedMode::Flash;
 	
 Settings::Settings() :
     Singleton<Settings>(),
@@ -113,5 +116,16 @@ void Settings::SetVibrationSensorSensitivity(int vibrationSensorSensitivity)
 {
 	vibrationSensorSensitivity = max(min(vibrationSensorSensitivity, 100), 0);
 	store.PutInt(keyVibrationSensorSensitivity, vibrationSensorSensitivity);
+	SetModified();
+};
+
+LedMode Settings::GetLedMode()
+{
+	return (LedMode)store.GetInt(keyLedMode, (int)defaultLedMode);
+};
+
+void Settings::SetLedMode(LedMode ledMode)
+{
+	store.PutInt(keyLedMode, (int)ledMode);
 	SetModified();
 };
