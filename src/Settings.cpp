@@ -21,22 +21,16 @@
 #include <math.h>
 
 const char* Settings::keyVolume = "volume";
-const int Settings::defaultVolume = 50;
-const int Settings::volume = 100;
+const int Settings::defaultVolume = 100;
 
 const char* Settings::keyDeviceName = "deviceName";
-const String Settings::defaultDeviceName = "Esp";
-const String Settings::deviceName = "Goalfinder";
+const String Settings::defaultDeviceName = "Goalfinder";
 
 const char* Settings::keyDevicePassword = "devicePassword";
-const String Settings::defaultDevicePassword = "HTLLeonding";
-const String Settings::devicePassword = "ESP3232";
+const String Settings::defaultDevicePassword = emptyString;
 
 const char* Settings::keyVibrationSensorSensitivity = "vibrationSensorSensitivity";
-const int Settings::defaultVibrationSensorSensitivity = 50;
-const int Settings::vibrationSensorSensitivity = 100;
-
-const String Settings::macAddress = String(WiFi.macAddress());
+const int Settings::defaultVibrationSensorSensitivity = 100;
 	
 Settings::Settings() :
     Singleton<Settings>(),
@@ -50,7 +44,7 @@ Settings::Settings() :
  }
 
 String Settings::GetMacAddress() {
-	return macAddress;
+	return String(WiFi.macAddress());
 }
 
 int Settings::GetVolume() {
@@ -83,7 +77,12 @@ String Settings::GetDeviceName()
 
 void Settings::SetDeviceName(String deviceName)
 {
-	deviceName = deviceName.isEmpty() ? defaultDeviceName : deviceName;
+	if(deviceName.isEmpty())
+	{
+		deviceName = emptyString;
+		store.Remove(keyDeviceName);
+	}
+	
 	store.PutString(keyDeviceName, deviceName);
 	SetModified(); 
 };
@@ -95,7 +94,12 @@ String Settings::GetDevicePassword()
 
 void Settings::SetDevicePassword(String devicePassword)
 {
-	devicePassword = devicePassword.isEmpty() ? defaultDevicePassword : devicePassword;
+	if(devicePassword.isEmpty())
+	{
+		devicePassword = emptyString;
+		store.Remove(keyDevicePassword);
+	}
+
 	store.PutString(keyDevicePassword, devicePassword);
 	SetModified();
 };
@@ -103,7 +107,7 @@ void Settings::SetDevicePassword(String devicePassword)
 int Settings::GetVibrationSensorSensitivity()
 {
 	return store.GetInt(keyVibrationSensorSensitivity, defaultVibrationSensorSensitivity);
-};
+}
 
 void Settings::SetVibrationSensorSensitivity(int vibrationSensorSensitivity)
 {
