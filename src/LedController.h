@@ -1,6 +1,6 @@
 #pragma once
 
-enum LedMode {Standard, Fade, Flash, Turbo};
+enum LedMode {Standard, Fade, Flash, Turbo,Off};
 
 class LedController
 {

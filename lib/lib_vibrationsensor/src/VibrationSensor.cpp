@@ -20,6 +20,12 @@ VibrationSensor::~VibrationSensor()
 }
 
 
-void VibrationSensor::SetSensitivity(int sensitivity) {
-    // TODO: Implement
+void VibrationSensor::SetSensitivity(int sensitivity)
+{
+    if (sensitivity < 0) {
+        sensitivity = 0;
+    } else if (sensitivity > 100) {
+        sensitivity = 100;
+    }
+
 }
