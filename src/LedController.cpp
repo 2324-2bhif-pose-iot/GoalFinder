@@ -1,19 +1,15 @@
 #include "LedController.h"
 #include <Arduino.h>
 
-LedController::LedController() :
-{
-}
-
-LedController::~LedController() 
-{
-}
-
-void LedController::Init(int ledPin) 
+LedController::LedController(int ledPin, int ledChannel)
 {
     ledcSetup(ledChannel, 5000, 8);
     
     ledcAttachPin(ledPin, ledChannel);
+}
+
+LedController::~LedController() 
+{
 }
 
 void LedController::Loop() 

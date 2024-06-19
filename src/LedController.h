@@ -3,9 +3,8 @@
 class LedController
 {
     private:    
-        int ledChannel = 0;
     public:
-        LedController();
+        LedController(int ledPin, int ledChannel);
         ~LedController();
         void Init(int ledPin);
         void Loop();
