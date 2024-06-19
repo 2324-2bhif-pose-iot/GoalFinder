@@ -30,6 +30,7 @@
 
 <style scoped>
   #htl-logo {
-    width: 40%;
+    width: 35rem;
+    max-width: 100%;
   }
 </style>
