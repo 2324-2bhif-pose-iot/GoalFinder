@@ -79,7 +79,7 @@ void Settings::SetDeviceName(String deviceName)
 {
 	if(deviceName.isEmpty())
 	{
-		deviceName = emptyString;
+		deviceName = defaultDeviceName;
 		store.Remove(keyDeviceName);
 	}
 	
