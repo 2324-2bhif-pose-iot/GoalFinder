@@ -7,8 +7,8 @@ const message = ref('');
 const settings = useSettingsStore();
 
 function setLedModus(value) {
-  settings.ledModus = value;
-  message.value = `${$t("word.curr_mode")}: ${settings.ledModus}`;
+  settings.ledMode = value;
+  message.value = `${$t("word.curr_mode")}: ${settings.ledMode}`;
   console.log(message.value);
 }
 </script>
@@ -27,7 +27,7 @@ function setLedModus(value) {
       </div>
     </div>
     <div class="current-modus">
-      <span>{{ $t("word.curr_mode") }}: {{ settings.ledModus }}</span>
+      <span>{{ $t("word.curr_mode") }}: {{ settings.ledMode }}</span>
     </div>
     <transition name="fade">
       <div v-if="message" class="message">{{ message }}</div>

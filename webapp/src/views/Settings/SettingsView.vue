@@ -39,7 +39,7 @@ onMounted(() => {
   <div class="container">
     <div id="top-menu">
       <h1>{{$t("header.settings")}}</h1>
-      <Button @click="settings.saveSettings()">
+      <Button @click="settings.saveSettings()" :disabled="!settings.isValid">
         {{$t("word.save")}}
       </Button>
     </div>

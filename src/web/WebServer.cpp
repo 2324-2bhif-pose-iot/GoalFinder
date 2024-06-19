@@ -11,7 +11,6 @@
 #define COMPRESSED_FILE_EXTENSION ".gz"
 
 FileSystem* internalFS;
-Settings* newSettings;
 
 static String GetContentType(const String* fileName) 
 {
@@ -83,22 +82,19 @@ static void HandleRequest(AsyncWebServerRequest* request)
     request->beginResponseStream(contentType);
 }
 
-static void HandleError() 
-{
-    
-}
-
 static void HandleLoadSettings(AsyncWebServerRequest* request) 
 {
     AsyncJsonResponse* response = new AsyncJsonResponse();
-    response->addHeader("Server", "HeaderSettings");
+    response->addHeader("Server", "Settings");
     JsonVariant& root = response->getRoot();
+
+    Settings* settings = Settings::GetInstance();
     
-    root["macAdress"] = newSettings->GetMacAddress();
-    root["deviceName"] = newSettings->GetDeviceName();
-    root["devicePassword"] = newSettings->GetDevicePassword();
-    root["vibrationSensorSensitivity"] = newSettings->GetVibrationSensorSensitivity();
-    root["volume"] = newSettings->GetVolume();
+    root["macAdress"] = settings->GetMacAddress();
+    root["deviceName"] = settings->GetDeviceName();
+    root["devicePassword"] = settings->GetDevicePassword();
+    root["vibrationSensorSensitivity"] = settings->GetVibrationSensorSensitivity();
+    root["volume"] = settings->GetVolume();
 
     response->setLength();
     request->send(response);
@@ -108,19 +104,24 @@ static void HandleSaveSettings(AsyncWebServerRequest* request)
 {
     JsonDocument document;
 
-    if(request->hasParam("settings")) 
+    if(request->hasParam("plain")) 
     {
         JsonDocument doc;
         
         deserializeJson(doc, request->getParam("plain")->value().c_str());
+
+        Settings* settings = Settings::GetInstance();
+        settings->SetDeviceName(doc["deviceName"]);
+        settings->SetDevicePassword(doc["devicePassword"]);
+        settings->SetVibrationSensorSensitivity(doc["vibrationSensorSensitivity"]);
+        settings->SetVolume(doc["volume"]);
     }    
 
     request->send(204);
 }
 
-WebServer::WebServer(FileSystem* fileSystem, Settings* settings) : server(80), updater(&server)
+WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 {
-    newSettings = settings;
     internalFS = fileSystem;
     Init();
 }
