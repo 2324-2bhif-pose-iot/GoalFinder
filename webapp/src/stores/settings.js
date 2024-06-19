@@ -37,12 +37,16 @@ export const useSettingsStore = defineStore("settings", () => {
         console.log("Sended");
         console.log(xmlHttp.responseText);
 
-        const settings = xmlHttp.responseXML;
+        try {
+            const settings = xmlHttp.responseXML;
 
-        deviceName.value = settings["deviceName"].value;
-        devicePassword.value = settings["devicePassword"].value;
-        volume.value = settings["volume"].value;
-        ledMode.value = settings["ledMode"].value;
+            deviceName.value = settings["deviceName"].value;
+            devicePassword.value = settings["devicePassword"].value;
+            volume.value = settings["volume"].value;
+            ledMode.value = settings["ledMode"].value;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const saveSettings = () => {
