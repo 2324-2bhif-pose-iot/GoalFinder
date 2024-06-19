@@ -1,7 +1,5 @@
 <script setup>
-
-import BluetoothDevicesManager from "@/components/BluetoothDevicesManager.vue";
-import VibrationsensorManager from "@/components/Icons/VibrationsensorManager.vue";
+import VibrationsensorManager from "@/components/VibrationsensorManager.vue";
 </script>
 
 <template>
