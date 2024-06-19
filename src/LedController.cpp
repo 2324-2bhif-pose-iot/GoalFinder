@@ -1,9 +1,12 @@
 #include "LedController.h"
 #include <Arduino.h>
 
+#define DEFAULT_FREQUENCY 5000
+#define DEFAULT_RESOLUTION 8
+
 LedController::LedController(int ledPin, int ledChannel)
 {
-    ledcSetup(ledChannel, 5000, 8);
+    ledcSetup(ledChannel, DEFAULT_FREQUENCY, DEFAULT_RESOLUTION);
     
     ledcAttachPin(ledPin, ledChannel);
     this->ledChannel = ledChannel;

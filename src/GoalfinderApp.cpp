@@ -41,7 +41,7 @@ const int GoalfinderApp::defaultAudioVolume = 5;
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
     fileSystem(true),
-    webServer(&fileSystem, Settings::GetInstance()),
+    webServer(&fileSystem),
     sntp(),
     audioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut),
     tofSensor(),
@@ -85,8 +85,6 @@ void GoalfinderApp::Init()
     
     int volume = Settings::GetInstance()->GetVolume();
     audioPlayer.SetVolume(volume);
-    
-	ledController.Init(pinLedPwm);
 }
 
 void GoalfinderApp::Process()
