@@ -28,12 +28,9 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Processes one single iteration step. */
 		void Process();
 
+		void OnSettingsUpdated();
 
 		GoalfinderApp();
-
-		
-
-
 	private:
 		friend class Singleton<GoalfinderApp> ;
 		/** Singleton constructor */

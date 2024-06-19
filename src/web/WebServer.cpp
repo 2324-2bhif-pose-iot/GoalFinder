@@ -104,6 +104,20 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     request->send(response);
 }
 
+static void HandleSaveSettings(AsyncWebServerRequest* request) 
+{
+    JsonDocument document;
+
+    if(request->hasParam("settings")) 
+    {
+        JsonDocument doc;
+        
+        deserializeJson(doc, request->getParam("plain")->value().c_str());
+    }    
+
+    request->send(204);
+}
+
 WebServer::WebServer(FileSystem* fileSystem, Settings* settings) : server(80), updater(&server)
 {
     newSettings = settings;
@@ -127,6 +141,7 @@ void WebServer::Begin()
     updater.Begin();
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
+    server.on("/savesettings", HTTP_POST, HandleSaveSettings);
     server.on("/*", HTTP_GET, HandleRequest);
 
     server.begin();

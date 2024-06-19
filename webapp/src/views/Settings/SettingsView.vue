@@ -44,7 +44,7 @@ onMounted(() => {
   <div class="container">
     <div id="top-menu">
       <h1>{{$t("header.settings")}}</h1>
-      <Button>
+      <Button @click="settings.saveSettings()">
         {{$t("word.save")}}
       </Button>
     </div>

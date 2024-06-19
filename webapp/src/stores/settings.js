@@ -30,7 +30,7 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     const loadSettings = () => {
-        var xmlHttp = new XMLHttpRequest();
+        let xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", "/loadsettings", false ); // false for synchronous request
         xmlHttp.send( null );
         console.log("Sended");
@@ -38,7 +38,9 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     const saveSettings = () => {
-        //TODO
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "POST", "/saveSettings", false);
+        xmlHttp.send(JSON.stringify(useSettingsStore().$state));
     }
 
     return {

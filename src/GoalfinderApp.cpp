@@ -22,6 +22,7 @@ Settings settings;
 FileSystem fileSystem(FORMAT_FS_IF_FAILED);
 WebServer webServer(&fileSystem, &settings);
 SNTP sntp;
+int oldVolume;
 AudioPlayer* audioPlayer;
 ToFSensor tofSensor;
 VibrationSensor vibrationSensor;
@@ -29,7 +30,7 @@ const int ledPin = 17;
 
 const int freq = 5000;
 const int ledChannel = 0;
-const int resolution = 8;    
+const int resolution = 8;
 
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>() {
@@ -64,7 +65,7 @@ void GoalfinderApp::Init()
 
     audioPlayer = new AudioPlayer(&fileSystem, 23, 05, 19);
     
-    audioPlayer->SetVolume(100);
+    oldVolume = settings.volume;
     
     ledcSetup(ledChannel, freq, resolution);
     
@@ -110,4 +111,9 @@ void GoalfinderApp::Process()
             //audioPlayer->PlayMP3("/goal.mp3");
         }  
     }  
+}
+
+void GoalfinderApp::OnSettingsUpdated() 
+{
+    audioPlayer->SetVolume(settings.volume);
 }
