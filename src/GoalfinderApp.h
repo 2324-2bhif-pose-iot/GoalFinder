@@ -1,6 +1,6 @@
 /*
  * ===============================================================================
-* (c) HTL Leonding
+ * (c) HTL Leonding
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * Licensed under MIT License.
  *
@@ -25,8 +25,6 @@
 #include <FileSystem.h>
 #include <AudioPlayer.h>
 #include <LedController.h>
-#include <Settings.h>
-#include <system/Settings.h>
 
 class GoalfinderApp : public Singleton<GoalfinderApp> {
 	public:
@@ -41,7 +39,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 
 		void OnSettingsUpdated();
 	private:
-		friend class Singleton<GoalfinderApp> ;
+		friend class Singleton<GoalfinderApp>;
 		/** Singleton constructor */
 		GoalfinderApp();
 		
@@ -60,8 +58,6 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const char* defaultWifiPw; // no PW
 		static const int defaultAudioVolume;
 
-		Settings settings;
-		System::Settings settingStore;
 		FileSystem fileSystem;
 		WebServer webServer;
 		SNTP sntp;

@@ -1,5 +1,6 @@
 #include <GoalfinderApp.h>
 #include <Arduino.h>
+#include <Settings.h>
 
 #define RANGE_WHEN_BALL_GOES_IN 180
 #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
@@ -22,10 +23,8 @@ const int GoalfinderApp::defaultAudioVolume = 5;
 
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
-    settings(),
-    settingStore(),
     fileSystem(true),
-    webServer(&fileSystem, &settings),
+    webServer(&fileSystem, Settings::GetInstance()),
     sntp(),
     audioPlayer(0),
     tofSensor(),
@@ -53,8 +52,6 @@ void GoalfinderApp::Init()
     } else {
         Serial.println("FS initialized");
     }
-
-    settingStore.Begin("preferences");
     
     WiFi.softAP(defaultSsid, defaultWifiPw);
     WiFi.setSleep(false);
@@ -68,7 +65,8 @@ void GoalfinderApp::Init()
 
     audioPlayer = new AudioPlayer(&fileSystem, pinI2sBclk, pinI2sWclk, pinI2sDataOut);    
     
-    audioPlayer->SetVolume(defaultAudioVolume);
+    int volume = Settings::GetInstance()->GetVolume();
+    audioPlayer->SetVolume(volume);
     
 	ledController.Init(pinLedPwm, ledPwmChannel, ledPwmFrequency, ledPwmResolution);
 }
@@ -115,5 +113,6 @@ void GoalfinderApp::Process()
 
 void GoalfinderApp::OnSettingsUpdated() 
 {
-    audioPlayer->SetVolume(settings.volume);
+    int volume = Settings::GetInstance()->GetVolume();
+    audioPlayer->SetVolume(volume);
 }
