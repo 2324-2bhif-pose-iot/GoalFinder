@@ -19,4 +19,3 @@ class Settings
             macAddress = String(WiFi.macAddress());
         }
 };
-
