@@ -96,28 +96,18 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     request->send(response);
 }
 
-static void HandleSaveSettings(AsyncWebServerRequest* request) 
+static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total) 
 {
-    JsonDocument document;
-
-    Serial.println("Saved Settings: " + request->getParam("body")->value());
-    Serial.println("Saved Settings param: " + request->getParam("plain")->value());
-
-    if(request->hasParam("body")) 
-    {
-        JsonDocument doc;
-
-        Serial.println("Saved Settings: " + request->getParam("body")->value());
+    JsonDocument doc;
         
-        deserializeJson(doc, request->getParam("body")->value().c_str());
+    deserializeJson(doc, (const char*)data);
 
-        Settings* settings = Settings::GetInstance();
-        settings->SetDeviceName(doc["deviceName"]);
-        settings->SetDevicePassword(doc["devicePassword"]);
-        settings->SetVibrationSensorSensitivity(doc["vibrationSensorSensitivity"]);
-        settings->SetVolume(doc["volume"]);
-        settings->SetLedMode(doc["ledMode"]);
-    }    
+    Settings* settings = Settings::GetInstance();
+    settings->SetDeviceName(doc["deviceName"]);
+    settings->SetDevicePassword(doc["devicePassword"]);
+    settings->SetVibrationSensorSensitivity(doc["vibrationSensorSensitivity"]);
+    settings->SetVolume(doc["volume"]);
+    settings->SetLedMode(doc["ledMode"]);
 
     request->send(204);
 }
@@ -149,7 +139,7 @@ void WebServer::Begin()
     updater.Begin();
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
-    server.on("/savesettings", HTTP_POST, HandleSaveSettings);
+    server.on("/savesettings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
     server.on("/restart", HTTP_POST, HandleRestart);
     server.on("/*", HTTP_GET, HandleRequest);
 
