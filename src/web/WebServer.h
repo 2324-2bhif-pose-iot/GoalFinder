@@ -15,4 +15,5 @@ class WebServer
         AsyncWebServer server;
         SoftwareUpdater updater;
         void Init();
+        bool isDone;
 };

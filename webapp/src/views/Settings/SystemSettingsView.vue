@@ -28,10 +28,6 @@
             <div class="col-md-5"><strong>{{ $t("word.mac_address") }}</strong></div>
             <div class="col-auto">{{settings.macAddress}}</div>
           </div>
-          <div class="row">
-            <div class="col-md-5"><strong>{{ $t("word.bluetooth_address") }}</strong></div>
-            <div class="col-auto">{{settings.bluetoothAddress}}</div>
-          </div>
         </div>
         <div>
           <h4>{{ $t("word.software_update") }}</h4>

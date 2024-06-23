@@ -29,10 +29,6 @@ const options = [
 
 const settings = useSettingsStore();
 
-onMounted(() => {
-  settings.loadSettings();
-});
-
 </script>
 
 <template>

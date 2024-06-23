@@ -91,7 +91,6 @@ void GoalfinderApp::Init()
 void GoalfinderApp::Process()
 {
     // Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
-
     UpdateSettings();
     audioPlayer.Loop();
     
@@ -110,7 +109,7 @@ void GoalfinderApp::UpdateSettings(bool force) {
     if (force || settings->IsModified()) {
         audioPlayer.SetVolume(settings->GetVolume());
         vibrationSensor.SetSensitivity(settings->GetVibrationSensorSensitivity());
-        // TODO: Add Led-Mode setting
+        ledController.SetMode(settings->GetLedMode());
         // TODO: Add metronome interval in milliseconds
     }
 }

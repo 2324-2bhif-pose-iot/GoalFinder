@@ -13,27 +13,17 @@
     <div class="current-sensitivity">
       <span>{{ $t("word.curr_sensitivity") }}: {{ settings.vibrationSensorSensitivity }}%</span>
     </div>
-    <transition name="fade">
-      <div v-if="message" class="message">{{ message }}</div>
-    </transition>
   </div>
 </template>
 
 <script setup>
 import Button from 'primevue/button';
 import { useSettingsStore } from "@/stores/settings.js";
-import { ref } from 'vue';
 
 const settings = useSettingsStore();
-const message = ref("");
 
 const setSensitivity = (value) => {
   settings.vibrationSensorSensitivity = value;
-  message.value = `${$t("word.sensitivity_set_to")}: ${settings.vibrationSensorSensitivity}%`;
-
-  setTimeout(() => {
-    message.value = '';
-  }, 3000);
 };
 </script>
 
@@ -58,10 +48,6 @@ const setSensitivity = (value) => {
   margin-left: 0;
 }
 
-.button:hover {
-  background-color: #45a049;
-}
-
 .current-sensitivity {
   text-align: center;
   margin-top: 0.2rem;
@@ -69,17 +55,6 @@ const setSensitivity = (value) => {
 
 .current-sensitivity span {
   margin-left: 0.1rem;
-}
-
-.message {
-  margin-top: 0.1rem;
-  padding: 0.7rem;
-  background-color: #e7f3e7;
-  color: #2c662d;
-  border: 1px solid #2c662d;
-  border-radius: 0.05rem;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
 }
 
 span {

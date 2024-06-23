@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <Singleton.h>
 #include <system/Settings.h>
-#include "LedController.h"
+#include "LedMode.h"
 
 class Settings : public Singleton<Settings>
 {

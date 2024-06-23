@@ -20,7 +20,6 @@ export const useSettingsStore = defineStore("settings", () => {
     const volume = ref(0);
 
     const macAddress = ref("");
-    const bluetoothAddress = ref("");
     const ledMode = ref(0);
     const refreshAvailableNetworks = () => {
 
@@ -32,18 +31,17 @@ export const useSettingsStore = defineStore("settings", () => {
 
     const loadSettings = () => {
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", "/loadsettings", false ); // false for synchronous request
+        xmlHttp.open( "GET", "/loadsettings", false); // false for synchronous request
         xmlHttp.send( null );
-        console.log("Sended");
-        console.log(xmlHttp.responseText);
 
         try {
-            const settings = xmlHttp.responseXML;
+            const settings = JSON.parse(xmlHttp.responseText);
 
-            deviceName.value = settings["deviceName"].value;
-            devicePassword.value = settings["devicePassword"].value;
-            volume.value = settings["volume"].value;
-            ledMode.value = settings["ledMode"].value;
+            deviceName.value = settings["deviceName"];
+            devicePassword.value = settings["devicePassword"];
+            volume.value = settings["volume"];
+            ledMode.value = settings["ledMode"];
+            macAddress.value = settings["macAddress"];
         } catch (error) {
             console.error(error);
         }
@@ -51,7 +49,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     const saveSettings = () => {
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/saveSettings", false);
+        xmlHttp.open( "POST", "/savesettings", false);
         xmlHttp.send(JSON.stringify(useSettingsStore().$state));
     }
 
@@ -74,7 +72,6 @@ export const useSettingsStore = defineStore("settings", () => {
         availableNetworks,
         volume,
         macAddress,
-        bluetoothAddress,
         refreshAvailableNetworks,
         refreshAvailableBluetoothDevices,
         loadSettings,

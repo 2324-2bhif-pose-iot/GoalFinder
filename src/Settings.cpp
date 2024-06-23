@@ -15,8 +15,6 @@
  */
 
 #include "Settings.h"
-#include "AsyncJson.h"
-#include "ArduinoJson.h"
 #include "WiFi.h"
 #include <math.h>
 
@@ -33,7 +31,7 @@ const char* Settings::keyVibrationSensorSensitivity = "vibrationSensorSensitivit
 const int Settings::defaultVibrationSensorSensitivity = 100;
 
 const char* Settings::keyLedMode = "ledMode";
-const LedMode defaultLedMode = LedMode::Flash;
+const LedMode Settings::defaultLedMode = LedMode::Flash;
 	
 Settings::Settings() :
     Singleton<Settings>(),

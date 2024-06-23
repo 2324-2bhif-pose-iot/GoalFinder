@@ -6,13 +6,13 @@
         <div class="volume-slider-control">
           <label>{{ $t("word.volume") }}</label>
           <div class="button-container">
-            <Button class="volume-button" @click="setVolume(25)">25%</Button>
-            <Button class="volume-button" @click="setVolume(50)">50%</Button>
-            <Button class="volume-button" @click="setVolume(100)">100%</Button>
+            <Button class="button" @click="setVolume(25)">25%</Button>
+            <Button class="button" @click="setVolume(50)">50%</Button>
+            <Button class="button" @click="setVolume(75)">75%</Button>
+            <Button class="button" @click="setVolume(100)">100%</Button>
           </div>
         </div>
         <div class="current-volume">{{ $t("word.curr_volume") }}: {{ settings.volume }}%</div>
-        <div v-if="message" class="alert-message">{{ message }}</div>
       </template>
     </Card>
   </div>
@@ -21,17 +21,11 @@
 <script setup>
 import { useSettingsStore } from "@/stores/settings.js";
 import Button from "primevue/button";
-import { ref } from 'vue';
 
 const settings = useSettingsStore();
-let message = ref('');
 
 const setVolume = (value) => {
   settings.volume = value;
-  message.value = `${$t("word.volume")} ${settings.volume}%`;
-  setTimeout(() => {
-    message.value = '';
-  }, 3000);
 };
 </script>
 
@@ -44,10 +38,15 @@ const setVolume = (value) => {
 
 .button-container {
   margin-left: auto;
+  display: flex;
 }
 
-.volume-button {
-  margin-left: 0.1rem;
+.button {
+  margin-left: 10px;
+}
+
+.button:first-child {
+  margin-left: 0;
 }
 
 .current-volume {

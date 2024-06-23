@@ -1,6 +1,6 @@
 #pragma once
+#include "LedMode.h"
 
-enum LedMode {Standard, Fade, Flash, Turbo,Off};
 
 class LedController
 {

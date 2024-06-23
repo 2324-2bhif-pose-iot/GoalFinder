@@ -3,12 +3,10 @@ import { ref } from 'vue';
 import Button from 'primevue/button';
 import { useSettingsStore } from "@/stores/settings.js";
 
-const message = ref('');
 const settings = useSettingsStore();
 
 function setLedMode(value) {
   settings.ledMode = value;
-  message.value = `${$t("word.curr_mode")}: ${settings.ledMode}`;
 }
 </script>
 
@@ -29,9 +27,6 @@ function setLedMode(value) {
     <div class="current-modus">
       <span>{{ $t("word.curr_mode") }}: {{ settings.ledMode }}</span>
     </div>
-    <transition name="fade">
-      <div v-if="message" class="message">{{ message }}</div>
-    </transition>
   </div>
 </template>
 
@@ -63,17 +58,6 @@ function setLedMode(value) {
 
 .current-modus span {
   margin-left: 0.1rem;
-}
-
-.message {
-  margin-top: 0.1rem;
-  padding: 0.7rem;
-  background-color: #e7f3e7;
-  color: #2c662d;
-  border: 1px solid #2c662d;
-  border-radius: 0.05rem;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
 }
 
 span {

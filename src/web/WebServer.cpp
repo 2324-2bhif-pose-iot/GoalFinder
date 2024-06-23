@@ -1,6 +1,5 @@
 #include "WebServer.h"
 #include <ESPmDNS.h>
-#include <elegantWebpage.h>
 #include <AsyncJson.h>
 #include <ArduinoJson.h>
 #include "Settings.h"
@@ -49,13 +48,9 @@ static void HandleNotFound(AsyncWebServerRequest* request)
 
 static void HandleRequest(AsyncWebServerRequest* request)
 {
-    //String filePath = WEBAPP_DIR + request->url();   
-    
     String filePath = WEBAPP_DIR + request->url();  
     const String contentType = GetContentType(&filePath);
-    filePath += COMPRESSED_FILE_EXTENSION;  
-
-    Serial.println(filePath);
+    filePath += COMPRESSED_FILE_EXTENSION;
 
     if(!internalFS->FileExists(filePath))
     {
@@ -88,13 +83,14 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     response->addHeader("Server", "Settings");
     JsonVariant& root = response->getRoot();
 
-    Settings* settings = Settings::GetInstance();
+    Settings* settings = Settings::GetInstance();    
     
-    root["macAdress"] = settings->GetMacAddress();
     root["deviceName"] = settings->GetDeviceName();
     root["devicePassword"] = settings->GetDevicePassword();
     root["vibrationSensorSensitivity"] = settings->GetVibrationSensorSensitivity();
     root["volume"] = settings->GetVolume();
+    root["ledMode"] = (int)settings->GetLedMode();
+    root["macAddress"] = settings->GetMacAddress();
 
     response->setLength();
     request->send(response);
@@ -104,17 +100,23 @@ static void HandleSaveSettings(AsyncWebServerRequest* request)
 {
     JsonDocument document;
 
-    if(request->hasParam("plain")) 
+    Serial.println("Saved Settings: " + request->getParam("body")->value());
+    Serial.println("Saved Settings param: " + request->getParam("plain")->value());
+
+    if(request->hasParam("body")) 
     {
         JsonDocument doc;
+
+        Serial.println("Saved Settings: " + request->getParam("body")->value());
         
-        deserializeJson(doc, request->getParam("plain")->value().c_str());
+        deserializeJson(doc, request->getParam("body")->value().c_str());
 
         Settings* settings = Settings::GetInstance();
         settings->SetDeviceName(doc["deviceName"]);
         settings->SetDevicePassword(doc["devicePassword"]);
         settings->SetVibrationSensorSensitivity(doc["vibrationSensorSensitivity"]);
         settings->SetVolume(doc["volume"]);
+        settings->SetLedMode(doc["ledMode"]);
     }    
 
     request->send(204);

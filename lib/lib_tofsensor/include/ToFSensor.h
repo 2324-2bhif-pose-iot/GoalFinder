@@ -9,7 +9,7 @@ class ToFSensor
         
         ToFSensor() : wireConfig(0) 
         {
-
+            
         }
 
         void Init(int sclPin, int sdaPin);

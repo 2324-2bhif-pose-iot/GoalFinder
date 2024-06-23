@@ -9,8 +9,12 @@
     <h1 class="mb-3">{{$t("header.about")}}</h1>
     <Card>
       <template #content>
-        <img v-if="!settings.enableDarkMode" id="htl-logo" src="@/assets/htllogo_2022_black_v2.png" alt="logo"/>
-        <img v-else id="htl-logo" src="@/assets/htllogo_2022_white_v2.png" alt="logo"/>
+        <div class="row">
+          <img src="@/assets/ssa_logo.svg" alt="Smart Sport Assistance" class="logo">
+          <img src="@/assets/uni_wien_logo.png" alt="Uni Wien" class="logo">
+        </div>
+        <img v-if="!settings.enableDarkMode" src="@/assets/htllogo_black.png" alt="HTL Leonding" class="logo">
+        <img v-else src="@/assets/htllogo_white.png" alt="HTL Leonding" class="logo">
         <p class="mt-5">
           Dieses Gerät wurde im Zuge des "Smart Sport Assistance" Projekt in Kooperation mit Universität Wien von Schülern der HTBLA Leonding, Klasse 2BHIF, Jahrgang 23/24 entwickelt.
         </p>
@@ -29,8 +33,8 @@
 </template>
 
 <style scoped>
-  #htl-logo {
-    width: 35rem;
-    max-width: 100%;
+  .logo {
+    padding: 1rem;
+    width: 20rem;
   }
 </style>

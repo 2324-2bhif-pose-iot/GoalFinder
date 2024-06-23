@@ -32,6 +32,7 @@ watch(() => settings.enableDarkMode, value => {
 
 onMounted(() => {
   settings.enableDarkMode = localStorage.getItem("enable-dark-mode") === "true";
+  settings.loadSettings();
 });
 
 </script>
