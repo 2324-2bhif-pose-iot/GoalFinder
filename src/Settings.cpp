@@ -27,7 +27,7 @@ const String Settings::defaultDeviceName = "Goalfinder";
 const char* Settings::keyDevicePassword = "devicePassword";
 const String Settings::defaultDevicePassword = emptyString;
 
-const char* Settings::keyVibrationSensorSensitivity = "vibrationSensorSensitivity";
+const char* Settings::keyVibrationSensorSensitivity = "shotSensitivity";
 const int Settings::defaultVibrationSensorSensitivity = 100;
 
 const char* Settings::keyLedMode = "ledMode";

@@ -62,7 +62,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void AnnounceHit() ;
 		void AnnounceMiss();
 		void ProcessAnnouncement();
-		void AnnounceEvent(const char* traceMsg, const char* sounds[], size_t soundCnt);
+		void AnnounceEvent(const char* traceMsg, const char* sound);
 		void PlaySound(const char* soundFileName);
 
 		void UpdateSettings(bool force = false);
@@ -81,6 +81,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int shotVibrationThreshold;
 		static const int maxShotDurationMs;
 
+		static const char* waitingClip;
 		static const char* hitClips[];
 		static const int   hitClipsCnt;
 		static const char* tickClips[];
@@ -96,6 +97,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		VibrationSensor vibrationSensor;
 		LedController ledController;
 
+		bool announcing;
 		unsigned long lastMetronomeTickTime;
 		unsigned long metronomeIntervalMs;
 		unsigned long lastShockTime;

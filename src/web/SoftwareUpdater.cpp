@@ -1,5 +1,6 @@
 #include "SoftwareUpdater.h"
-#include <AsyncElegantOTA.h>
+// #include <AsyncOTA.h>
+// #include <ElegantOTA.h>
 
 SoftwareUpdater::SoftwareUpdater(AsyncWebServer* server) 
 {
@@ -8,5 +9,6 @@ SoftwareUpdater::SoftwareUpdater(AsyncWebServer* server)
 
 void SoftwareUpdater::Begin() 
 {
-    AsyncElegantOTA.begin(server);    
+    // ElegantOTA.begin(server);    
+    // AsyncOTA.begin(server);    
 }

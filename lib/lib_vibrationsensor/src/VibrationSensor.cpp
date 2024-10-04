@@ -1,24 +1,27 @@
 #include <VibrationSensor.h>
 #include <Arduino.h>
 
+
+VibrationSensor::~VibrationSensor()
+{
+}
+
 void VibrationSensor::Init() 
 {
+    // TODO: Make pins configurable
     vs = 13;
     pinMode(vs, INPUT);
 }
 
-long VibrationSensor::Vibration() 
+long VibrationSensor::Vibration(uint64_t measureTimeUs) 
 {
-   long measurement = pulseIn(vs, HIGH);
+   long measurement = pulseIn(vs, HIGH, measureTimeUs);
    return measurement;
    
 }
 
-VibrationSensor::~VibrationSensor()
-{
-
-}
-
+// TODO Add a method which detects vibration (boolean result)
+// based on sensitivity and measured pulse
 
 void VibrationSensor::SetSensitivity(int sensitivity)
 {

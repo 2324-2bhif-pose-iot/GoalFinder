@@ -10,12 +10,15 @@ class AudioPlayer
         AudioPlayer(FileSystem* fileSystem, int bclkPin, int wclkPin, int doutPin);
         virtual ~AudioPlayer();
         void PlayMP3(const char* path);
-        void SetVolume(int percent);
+        void SetVolume(uint8_t percent);
         void Loop();
-        bool GetIsPlaying();
+        void Stop();
+        bool IsPlaying();
     private:
         FileSystem* fileSystem;
         AudioFileSource* currentFile;
         AudioGeneratorMP3* mp3Generator;
         AudioOutputI2S* audioOutput;
+        /** The volume in percent */
+        uint8_t volumePc;
 };

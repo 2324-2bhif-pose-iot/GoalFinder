@@ -48,6 +48,8 @@ static void HandleNotFound(AsyncWebServerRequest* request)
 
 static void HandleRequest(AsyncWebServerRequest* request)
 {
+    Serial.printf("Web Server: received request %s\n", request->url().c_str());
+
     String filePath = WEBAPP_DIR + request->url();  
     const String contentType = GetContentType(&filePath);
     filePath += COMPRESSED_FILE_EXTENSION;
@@ -100,12 +102,13 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
 {
     JsonDocument doc;
         
+    Serial.printf("Web Server: received settings: %s\n", data);
     deserializeJson(doc, (const char*)data);
 
     Settings* settings = Settings::GetInstance();
     settings->SetDeviceName(doc["deviceName"]);
     settings->SetDevicePassword(doc["devicePassword"]);
-    settings->SetVibrationSensorSensitivity(doc["vibrationSensorSensitivity"]);
+    settings->SetVibrationSensorSensitivity(doc["shotSensitivity"]);
     settings->SetVolume(doc["volume"]);
     settings->SetLedMode(doc["ledMode"]);
 
@@ -125,8 +128,12 @@ WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 
 void WebServer::Init() 
 {
-    server.rewrite( "/", INDEX_PATH);        
+    server.rewrite( "", INDEX_PATH);
+    server.rewrite( "/", INDEX_PATH);
     server.onNotFound(HandleNotFound); 
+    
+    // TODO Replace any serial.out with "Log"
+    Serial.println("Web server initialized!");
 }
 
 void WebServer::Begin() 
