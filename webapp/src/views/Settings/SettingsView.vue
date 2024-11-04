@@ -1,91 +1,54 @@
-<script setup>
-import router from "@/router/index.js";
-import {i18n} from "@/main.js";
+<script setup lang="ts">
+import Page from "@/components/Page.vue";
+import GearIcon from "@/components/icons/GearIcon.vue";
+import VolumeUpIcon from "@/components/icons/VolumeUpIcon.vue";
+import InfoCircleIcon from "@/components/icons/InfoCircleIcon.vue";
+import LightbulbIcon from "@/components/icons/LightbulbIcon.vue";
 import {onMounted} from "vue";
-import {useSettingsStore} from "@/stores/settings.js";
+import {useSettingsStore} from "@/stores/settings";
 
-const options = [
-  {
-    label: i18n.global.t("settings.general"),
-    command: () => router.push("/settings/general")
-  },
-  /* {
-    label: i18n.global.t("settings.wifi"),
-    command: () => router.push("/settings/connectivity")
-  },*/
-  {
-    label: i18n.global.t("settings.devices"),
-    command: () => router.push("/settings/devices")
-  },
-  {
-    label: i18n.global.t("settings.audio"),
-    command: () => router.push("/settings/audio")
-  },
-  {
-    label: i18n.global.t("settings.system"),
-    command: () => router.push("/settings/system")
-  },
-]
+const settingsStore = useSettingsStore();
 
-const settings = useSettingsStore();
-
+onMounted(() => {
+  settingsStore.getSettings();
+});
 </script>
 
 <template>
-  <div class="container">
-    <div id="top-menu">
-      <h1>{{$t("header.settings")}}</h1>
-      <Button @click="settings.saveSettings()" :disabled="!settings.isValid">
-        {{$t("word.save")}}
-      </Button>
+  <Page :title="$t('header.settings')">
+    <div id="settings-nav">
+      <RouterLink class="settings-link" to="/settings/general"><div><GearIcon/> {{ $t("settings.general") }}</div></RouterLink>
+      <RouterLink class="settings-link" to="/settings/devices"><div><LightbulbIcon/> {{ $t("settings.devices") }}</div></RouterLink>
+      <RouterLink class="settings-link" to="/settings/audio"><div><VolumeUpIcon/> {{ $t("settings.audio") }}</div></RouterLink>
+      <RouterLink class="settings-link" to="/settings/system"><div><InfoCircleIcon/> {{ $t("settings.system") }}</div></RouterLink>
     </div>
-    <div class="row mt-5">
-      <div class="col-md-3 mb-3">
-        <Menu class="p-1" :model="options"/>
-
-        <!-- <ul class="list-group">
-          <router-link class="list-group-item list-group-item-action settings-item" to="/settings/general">
-            <SettingsIcon/>
-            General
-          </router-link>
-          <router-link class="list-group-item list-group-item-action settings-item" to="/settings/connectivity">
-            <WifiIcon/>
-            Connectivity
-          </router-link>
-          <router-link class="list-group-item list-group-item-action settings-item" to="/settings/devices">
-            <BluetoothIcon/>
-            Devices
-          </router-link>
-          <router-link class="list-group-item list-group-item-action settings-item" to="/settings/audio">
-            <VolumeIcon/>
-            Audio
-          </router-link>
-          <router-link class="list-group-item list-group-item-action settings-item" to="/settings/system">
-            <InfoIcon/>
-            System
-          </router-link>
-        </ul> -->
-      </div>
-      <router-view class="col-md"/>
-    </div>
-  </div>
+    <RouterView/>
+  </Page>
 </template>
 
 <style scoped>
-
-  #top-menu {
+  #settings-nav {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    overflow-x: auto;
+    gap: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-right: -1rem;
+    margin-left: -1rem;
+    padding: 0 1rem 0.5rem 1rem;
+    font-weight: bold;
   }
 
-  #top-menu Button {
-    margin-left: auto;
+  .settings-link :hover {
+    color: cornflowerblue;
+    transition: 0.4s;
   }
 
-  .settings-item svg {
-    width: 1.15rem;
-    height: 1.15rem;
-    margin-top: 0.1rem;
+  .settings-link > div {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .router-link-active {
+    color: cornflowerblue;
   }
 </style>

@@ -1,83 +1,59 @@
-<script setup>
-import {ref, watch} from "vue";
+<script setup lang="ts">
 
-import { useRouter } from 'vue-router';
-import {i18n} from "@/main.js";
-import {useSettingsStore} from "@/stores/settings.js";
-
-const router = useRouter();
-
-const items = ref(
-    [
-      {
-        label: i18n.global.t("header.home"),
-        command: () => {router.push("/")}
-      },
-      {
-        label: i18n.global.t("header.sessions"),
-        command: () => {router.push("/list")}
-      },
-      {
-        label: i18n.global.t("header.settings"),
-        command: () => {router.push("/settings")}
-      }
-    ]
-);
-
-const settings = useSettingsStore();
-
-watch(() => settings.enableDarkMode, value => {
-  let label = document.getElementById("dark-mode-switch-label");
-  if(value === true) {
-    label.innerText = i18n.global.t("word.dark");
-  } else {
-    label.innerText = i18n.global.t("word.light");
-  }
-});
-
+import Button from "@/components/Button.vue";
 </script>
 
 <template>
-  <div >
-    <Menubar :model="items" id="root">
-      <template #start>
-        <div class="me-2">
-          Goal Finder
-        </div>
-      </template>
-      <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action">
-          <span class="ml-2">{{ item.label }}</span>
-        </a>
-      </template>
-      <template #end>
-        <div>
-         <div id="dark-mode-switch-container">
-           <label id="dark-mode-switch-label">{{ $t("word.light") }}</label>
-           <InputSwitch v-model="settings.enableDarkMode"/>
-         </div>
-          <router-link to="/about">
-            <Button severity="secondary" text>
-              {{ $t("header.about") }}
-            </Button>
-          </router-link>
-        </div>
-      </template>
-    </Menubar>
+  <div>
+    <div id="nav-bar">
+      <RouterLink to="/"><h1>Goalfinder</h1></RouterLink>
+      <div id="links-container">
+        <RouterLink to="/games"><Button class="link">{{ $t("header.game") }}</Button></RouterLink>
+        <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>
+        <RouterLink to="/about"><Button class="link">{{ $t("header.about") }}</Button></RouterLink>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-#root {
-  display: flex;
-  align-items: bottom;
-}
+  #nav-bar {
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(30px) saturate(120%);
+    -webkit-backdrop-filter: blur(30px) saturate(120%);
+    padding: 0.3rem 0 0.3rem 0;
+    border-bottom: 2px solid var(--border-color);
+  }
 
-#dark-mode-switch-container {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.3rem;
-}
+  h1 {
+    margin: 0.5rem;
+    color: cornflowerblue;
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      display: block;
+    }
+  }
+
+  #links-container {
+    margin-left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .link {
+    min-width: 6rem;
+    font-weight: bold;
+  }
+
+  .router-link-active > Button {
+    border-color: cornflowerblue;
+  }
 </style>

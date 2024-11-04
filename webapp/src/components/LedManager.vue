@@ -1,11 +1,10 @@
-<script setup>
-import { ref } from 'vue';
-import Button from 'primevue/button';
-import { useSettingsStore } from "@/stores/settings.js";
+<script setup lang="ts">
+import {useSettingsStore} from "@/stores/settings";
+import Button from "@/components/Button.vue";
 
 const settings = useSettingsStore();
 
-function setLedMode(value) {
+function setLedMode(value: number) {
   settings.ledMode = value;
 }
 </script>

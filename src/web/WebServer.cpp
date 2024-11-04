@@ -52,16 +52,16 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     String filePath = WEBAPP_DIR + request->url();  
     const String contentType = GetContentType(&filePath);
-    filePath += COMPRESSED_FILE_EXTENSION;
+    //filePath += COMPRESSED_FILE_EXTENSION;
 
     if(!internalFS->FileExists(filePath))
     {
-        filePath = WEBAPP_DIR INDEX_PATH COMPRESSED_FILE_EXTENSION;
+        filePath = WEBAPP_DIR INDEX_PATH;//COMPRESSED_FILE_EXTENSION;
     }
 
-    File currFile = internalFS->OpenFile(filePath);  
+    //File currFile = internalFS->OpenFile(filePath);  
 
-    AsyncWebServerResponse *response = request->beginChunkedResponse(contentType, [currFile](uint8_t *buffer, size_t maxLen, size_t index) -> size_t 
+    /*AsyncWebServerResponse *response = request->beginChunkedResponse(contentType, [currFile](uint8_t *buffer, size_t maxLen, size_t index) -> size_t 
     {
         File file = currFile;
         return file.read(buffer, maxLen);
@@ -71,10 +71,12 @@ static void HandleRequest(AsyncWebServerRequest* request)
     {
         File file = currFile;
         file.close();
-    }); 
+    }); */
 
-    response->addHeader("Transfer-Encoding", "chunked");
-    response->addHeader("Content-Encoding", "gzip"); //The complete webapp is compressed with gzip to save space and load the files faster
+    AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
+    response->addHeader("Cache-Control", "max-age=604800");
+    //response->addHeader("Transfer-Encoding", "chunked");
+    //response->addHeader("Content-Encoding", "gzip"); //The complete webapp is compressed with gzip to save space and load the files faster
     request->send(response);
     request->beginResponseStream(contentType);
 }
@@ -149,6 +151,7 @@ void WebServer::Begin()
     server.on("/savesettings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
     server.on("/restart", HTTP_POST, HandleRestart);
     server.on("/*", HTTP_GET, HandleRequest);
+    //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
 
     server.begin();
     Serial.println("[INFO] Started web server.");

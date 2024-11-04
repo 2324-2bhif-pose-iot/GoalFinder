@@ -1,68 +1,49 @@
-<script setup>
-
+<script setup lang="ts">
+import Button from "@/components/Button.vue";
+import Page from "@/components/Page.vue";
+import Card from "@/components/Card.vue";
 </script>
 
 <template>
-  <div class="container">
-    <h1>Goal Finder Dashboard</h1>
-    <div class="row" id="card-container">
-      <!--<Card class="col-sm-6 dashboard-card">
-        <template #title>{{ $t("header.game_card") }}</template>
-        <template #content>
-          <p class="m-0">
-            Create a new basketball game
-          </p>
-          <router-link to="/games">
-            <Button class="mt-3">
-              {{ $t("word.open") }}
-            </Button>
-          </router-link>
-        </template>
-      </Card>-->
-      <Card class="col-sm-6 dashboard-card">
-        <template #title>{{ $t("header.settings_card") }}</template>
-        <template #content>
-          <p class="m-0">
-            {{ $t("description.settings_description") }}
-          </p>
-          <router-link to="/settings">
-            <Button class="mt-3">
-              {{ $t("word.open") }}
-            </Button>
-          </router-link>
-        </template>
+  <Page title="Dashboard">
+    <h2>{{ $t("word.welcome_back") }}!</h2>
+    <p>{{ $t("description.dashboard_description") }}</p>
+    <div id="card-container">
+      <Card class="quick-link">
+        <div>
+          <h2>{{ $t("header.game") }}</h2>
+          <p>{{ $t("description.game_description") }}</p>
+          <RouterLink to="/games"><Button primary>{{ $t("word.open") }}</Button></RouterLink>
+        </div>
       </Card>
-      <Card class="col-sm-6 dashboard-card">
-        <template #title>{{ $t("header.sessions_card") }}</template>
-        <template #content>
-          <p class="m-0">
-            {{ $t("description.sessions_description") }}
-          </p>
-          <router-link to="/list">
-            <Button class="mt-3">
-              {{ $t("word.open") }}
-            </Button>
-          </router-link>
-        </template>
+      <Card class="quick-link">
+        <div>
+          <h2>{{ $t("header.settings") }}</h2>
+          <p>{{ $t("description.settings_description") }}</p>
+          <RouterLink to="/settings"><Button primary>{{ $t("word.open") }}</Button></RouterLink>
+        </div>
       </Card>
     </div>
-  </div>
+  </Page>
 </template>
 
 <style scoped>
   #card-container {
+    gap: 0.5rem;
     display: flex;
-    gap: 0.3rem;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
   }
 
-  .dashboard-card {
-    width: 49%;
+  .quick-link {
+    width: 0;
+    flex-basis: 100%;
   }
 
-  .dashboard-card p {
-    height: 40%
+  .quick-link h2 {
+    margin: 0;
+  }
+
+  .quick-link > div {
+    margin: 0.5rem;
   }
 </style>

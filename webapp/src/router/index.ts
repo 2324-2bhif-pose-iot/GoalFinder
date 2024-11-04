@@ -1,0 +1,66 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('../views/HomeView.vue')
+    },
+    {
+      path: '/games',
+      name: 'games',
+      component: () => import('../views/GamesView.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      redirect: '/settings/general',
+      component: () => import('../views/Settings/SettingsView.vue'),
+      children: [
+        {
+          path: "general",
+          name: "general",
+          component: () => import('../views/Settings/GeneralSettingsView.vue')
+        },
+        {
+          path: "devices",
+          name: "devices",
+          component: () => import('../views/Settings/DevicesSettingsView.vue')
+        },
+        {
+          path: "audio",
+          name: "audio",
+          component: () => import('../views/Settings/AudioSettingsView.vue')
+        },
+        {
+          path: "system",
+          name: "system",
+          component: () => import('../views/Settings/SystemSettingsView.vue')
+        },
+      ]
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
+    },
+      //404 not found
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue')
+    }
+    /*{
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      //component: () => import('../views/AboutView.vue')
+    }*/
+  ]
+})
+
+export default router

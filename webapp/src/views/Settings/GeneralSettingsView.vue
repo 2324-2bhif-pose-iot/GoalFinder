@@ -1,48 +1,34 @@
-<script setup>
-  import {useSettingsStore} from "@/stores/settings.js";
+<script setup lang="ts">
+import InputForm from "@/components/InputForm.vue";
+import {useSettingsStore} from "@/stores/settings";
 
-  const settings = useSettingsStore();
+const settings = useSettingsStore();
 
-  function isSSIDValid(value)
+function isSSIDValid(value: string)
+{
+  const regex = /^[a-zA-Z0-9_]+$/;
+  if(value == null || value.length < 3 || value.length > 32 || !regex.test(value))
   {
-      const regex = /^[a-zA-Z0-9_]+$/;
-      if(value == null || value < 3 || value > 32 || !regex.test(value))
-      {
-          settings.isValid = false;
-          return false;
-      }
-      settings.isValid = true;
-      return true;
+    settings.isValid = false;
+    return false;
   }
+  settings.isValid = true;
+  return true;
+}
 </script>
 
 <template>
-  <div>
-    <Card>
-      <template #title>{{ $t("settings.general") }}</template>
-      <template #content>
-        <div class="input-form mb-3">
-          <label for="device-name">{{ $t("word.device_name") }}</label>
-          <InputText id="device-name" v-model="settings.deviceName" aria-describedby="device-name-help" :invalid="!isSSIDValid(settings.deviceName)" />
-          <small id="device-name-help">{{ $t("description.device_name_description") }}</small>
-        </div>
-        <!--
-        <div class="input-form mb-3">
-          <label for="device-password">{{ $t("word.device_password") }}</label>
-          <Password id="device-password" :feedback="false" v-model="settings.devicePassword" aria-describedby="device-password-help" />
-          <small id="device-password-help">{{ $t("description.device_password_description") }}</small>
-        </div>
-        --->
-      </template>
-    </Card>
-  </div>
-
+  <h3>{{ $t("settings.general") }}</h3>
+  <form id="general-input">
+    <InputForm v-model="settings.deviceName" :label="$t('word.device_name')" :placeholder="$t('description.device_name_description')" type="text"/>
+    <InputForm v-model="settings.devicePassword" :label="$t('word.device_password')" :placeholder="$t('description.device_password_description')" type="password"/>
+  </form>
 </template>
 
 <style scoped>
-  .input-form {
+  #general-input {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 1rem;
   }
 </style>

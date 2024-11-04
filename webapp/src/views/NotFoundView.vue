@@ -1,27 +1,28 @@
-<script setup>
+<script setup lang="ts">
 
+import Page from "@/components/Page.vue";
+import Button from "@/components/Button.vue";
+import Card from "@/components/Card.vue";
+import WifiOffIcon from "@/components/icons/WifiOffIcon.vue";
 </script>
 
 <template>
-  <div class="container" id="root">
-    <Card class="mt-5">
-      <template #content>
-        <h1 class="text-center">404</h1>
-        <h2 class="text-center">Seite nicht gefunden</h2>
-        <router-link class="btn btn-primary btn-lg w-100 mt-5" to="/">
-          <Button>Zurück zur Startseite</Button>
-        </router-link>
-      </template>
-    </Card>
-    <div>
-
-    </div>
+  <div id="card">
+    <WifiOffIcon id="no-internet-icon"/>
+    <h2>404 Not Found</h2>
+    <p>The Page you are looking for doesn't exist or an other error occured.</p>
+    <RouterLink to="/"><Button>Go Home</Button></RouterLink>
   </div>
 </template>
 
 <style scoped>
-  #root {
-    display: flex;
-    justify-content: center;
+  #card {
+    text-align: center;
+    margin: 20vmin;
+  }
+
+  #no-internet-icon {
+    width: 10rem;
+    color: cornflowerblue;
   }
 </style>

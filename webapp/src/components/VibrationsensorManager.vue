@@ -6,6 +6,7 @@
         <div class="button-container">
           <Button class="button" @click="setSensitivity(25)">25%</Button>
           <Button class="button" @click="setSensitivity(50)">50%</Button>
+          <Button class="button" @click="setSensitivity(75)">75%</Button>
           <Button class="button" @click="setSensitivity(100)">100%</Button>
         </div>
       </div>
@@ -16,13 +17,13 @@
   </div>
 </template>
 
-<script setup>
-import Button from 'primevue/button';
-import { useSettingsStore } from "@/stores/settings.js";
+<script setup lang="ts">
+import Button from "@/components/Button.vue";
+import { useSettingsStore } from "@/stores/settings";
 
 const settings = useSettingsStore();
 
-const setSensitivity = (value) => {
+const setSensitivity = (value: number) => {
   settings.vibrationSensorSensitivity = value;
 };
 </script>

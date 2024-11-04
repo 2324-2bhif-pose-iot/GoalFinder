@@ -108,6 +108,8 @@ void GoalfinderApp::Process()
     if (!audioPlayer.IsPlaying()) {
         TickMetronome();
     }
+
+    delay(1); //For webserver
 }
 
 void GoalfinderApp::UpdateSettings(bool force) {
