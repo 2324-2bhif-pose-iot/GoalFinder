@@ -48,7 +48,7 @@ const sortedPersons = computed(() => {
 </script>
 
 <template>
-  <Page :title="$t('header.game')">
+  <Page :title="$t('header.game_shot_challenge')">
     <div class="basketball-shot-tracker" v-if="!showLeaderboard">
       <form @submit.prevent="addPerson">
         <div>

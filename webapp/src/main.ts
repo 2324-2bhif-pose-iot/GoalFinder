@@ -85,7 +85,9 @@ const i18n = createI18n({
             header: {
                 dashboard: "Goal Finder Dashboard",
                 home: "Startseite",
-                game: "Spiel",
+                games: "Spiele",
+                game_shot_challenge: "Wurf-Challenge",
+                team_game: "Mannschaftsspiel",
                 sessions: "Sitzungen",
                 settings: "Einstellungen",
                 about: "Über uns",
@@ -95,10 +97,12 @@ const i18n = createI18n({
             },
             description: {
                 settings_description: "Einstellungen für das Gerät vornehmen",
+                gameMode_description: "Ein Spielmodus wählen",
                 game_description: "Ein neues Spiel erstellen",
                 device_name_description: "Einen neuen Namen für dieses Gerät eingeben.",
                 device_password_description: "Ein neues Passwort für dieses Gerät eingeben.",
-                dashboard_description: "Hier können Sie neue Spiele erstellen und die Geräteeinstellungen konfigurieren."
+                dashboard_description: "Hier können Sie neue Spiele erstellen und die Geräteeinstellungen konfigurieren.",
+                gameModes_description: "Hier können Sie einen Spielmodus auswählen"
             },
             settings: {
                 settings: "Einstellungen",

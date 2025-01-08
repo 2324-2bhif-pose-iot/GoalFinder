@@ -8,7 +8,7 @@ import Button from "@/components/Button.vue";
     <div id="nav-bar">
       <RouterLink to="/"><h1>Goalfinder</h1></RouterLink>
       <div id="links-container">
-        <RouterLink to="/games"><Button class="link">{{ $t("header.game") }}</Button></RouterLink>
+        <RouterLink to="/games"><Button class="link">{{ $t("header.games") }}</Button></RouterLink>
         <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>
         <RouterLink to="/about"><Button class="link">{{ $t("header.about") }}</Button></RouterLink>
       </div>

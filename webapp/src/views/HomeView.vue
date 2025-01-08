@@ -11,8 +11,8 @@ import Card from "@/components/Card.vue";
     <div id="card-container">
       <Card class="quick-link">
         <div>
-          <h2>{{ $t("header.game") }}</h2>
-          <p>{{ $t("description.game_description") }}</p>
+          <h2>{{ $t("header.games") }}</h2>
+          <p>{{ $t("description.gameMode_description") }}</p>
           <RouterLink to="/games"><Button primary>{{ $t("word.open") }}</Button></RouterLink>
         </div>
       </Card>
