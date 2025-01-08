@@ -5,7 +5,7 @@ import Card from "@/components/Card.vue";
 </script>
 
 <template>
-  <Page title="Spiel Modi">
+  <Page :title="$t('header.games')">
     <p>{{ $t("description.gameModes_description") }}</p>
     <div id="card-container">
       <Card class="quick-link">

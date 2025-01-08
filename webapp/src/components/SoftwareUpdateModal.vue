@@ -40,7 +40,7 @@ defineExpose({show});
   }
 
   #update-icon {
-    color: lightskyblue;
+    color: cornflowerblue;
     width: 10rem;
   }
 </style>

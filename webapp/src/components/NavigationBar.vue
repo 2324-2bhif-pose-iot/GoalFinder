@@ -1,6 +1,11 @@
 <script setup lang="ts">
-
 import Button from "@/components/Button.vue";
+import PowerIcon from "@/components/icons/PowerIcon.vue";
+import ToggleButton from "@/components/ToggleButton.vue";
+import {ref} from "vue";
+
+const powerButtonValue = ref(false);
+
 </script>
 
 <template>
@@ -11,6 +16,9 @@ import Button from "@/components/Button.vue";
         <RouterLink to="/games"><Button class="link">{{ $t("header.games") }}</Button></RouterLink>
         <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>
         <RouterLink to="/about"><Button class="link">{{ $t("header.about") }}</Button></RouterLink>
+        <ToggleButton id="power-state-button" v-model="powerButtonValue">
+         <PowerIcon id="power-icon"/>
+        </ToggleButton>
       </div>
     </div>
   </div>
@@ -37,6 +45,9 @@ import Button from "@/components/Button.vue";
   }
 
   @media (min-width: 768px) {
+    #nav-bar {
+    }
+
     h1 {
       display: block;
     }
@@ -55,5 +66,13 @@ import Button from "@/components/Button.vue";
 
   .router-link-active > Button {
     border-color: cornflowerblue;
+  }
+
+  #power-state-button {
+    padding: 0 0.4rem 0 0.4rem;
+  }
+
+  #power-icon {
+    width: 1.4rem;
   }
 </style>
