@@ -1,4 +1,4 @@
-name: PlatformIO Firmware
+name: Firmware
 run-name: Build Firmware
 
 on:
@@ -26,3 +26,9 @@ jobs:
 
       - name: Build PlatformIO Project
         run: pio run -e wemos_d1_mini32
+
+      - name: Upload Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          path: .pio/build/wemos_d1_mini32/firmware.bin
+          name: firmware
