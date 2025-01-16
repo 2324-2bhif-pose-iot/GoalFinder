@@ -2,6 +2,8 @@
 #include <ESPmDNS.h>
 #include <AsyncJson.h>
 #include <ArduinoJson.h>
+#include <GoalfinderApp.h>
+
 #include "Settings.h"
 
 #define WEBAPP_DOMAIN "goalfinder"
@@ -106,6 +108,9 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
         
     Serial.printf("Web Server: received settings: %s\n", data);
     deserializeJson(doc, (const char*)data);
+
+    GoalfinderApp* app = GoalfinderApp::GetInstance();
+    app->SetIsMuted(doc["isMuted"]);
 
     Settings* settings = Settings::GetInstance();
     settings->SetDeviceName(doc["deviceName"]);

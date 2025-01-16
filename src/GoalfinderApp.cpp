@@ -58,6 +58,12 @@ GoalfinderApp::GoalfinderApp() :
 {
 }
 
+void GoalfinderApp::SetIsMuted(bool value)
+{
+    this->isMuted = value;
+}
+
+
 GoalfinderApp::~GoalfinderApp() 
 {
 }
@@ -100,13 +106,17 @@ void GoalfinderApp::Process()
 {
     // Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
     UpdateSettings();
-    audioPlayer.Loop();
-    DetectShot();
-    ProcessAnnouncement();
-    ledController.Loop();
-    
-    if (!audioPlayer.IsPlaying()) {
-        TickMetronome();
+
+    if (this->isMuted)
+    {
+        audioPlayer.Loop();
+        DetectShot();
+        ProcessAnnouncement();
+        ledController.Loop();
+
+        if (!audioPlayer.IsPlaying()) {
+            TickMetronome();
+        }
     }
 
     delay(1); //For webserver

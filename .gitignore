@@ -211,3 +211,5 @@ fp-info-cache
 *.FCStd3
 *.lck
 *.docx
+
+.idea

@@ -21,6 +21,9 @@ export const useSettingsStore = defineStore("settings", () => {
 
     const macAddress = ref("");
     const ledMode = ref(0);
+
+    const isMuted = ref(false);
+
     const refreshAvailableNetworks = () => {
 
     }
@@ -106,6 +109,7 @@ export const useSettingsStore = defineStore("settings", () => {
         saveSettings,
         restartDevice,
         ledMode,
-        isValid
+        isValid,
+        isMuted
     };
 })
