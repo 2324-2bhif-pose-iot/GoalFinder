@@ -149,7 +149,8 @@ const i18n = createI18n({
                 software_update: "Software Aktualisierung",
                 curr_version: "Derzeitige Version",
                 finish: "Beenden",
-                leaderboard: "Rangliste"
+                leaderboard: "Rangliste",
+                bluetooth: "Bluetooth"
             }
         }
     }
