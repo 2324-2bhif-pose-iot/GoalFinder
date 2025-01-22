@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useSettingsStore} from "@/stores/settings";
-import Button from "@/components/Button.vue";
 import ToggleButton from "./ToggleButton.vue";
 import BluetoothIcon from "@/components/icons/BluetoothIcon.vue";
 

@@ -19,6 +19,8 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: '../data/web',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         assetFileNames: 'assets/[name][extname]',

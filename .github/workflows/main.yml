@@ -3,6 +3,8 @@ run-name: Build Firmware
 
 on:
   push:
+    tags:
+      - "v*.*.*"
     branches:
       - main
 
@@ -24,11 +26,22 @@ jobs:
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
 
-      - name: Build PlatformIO Project
-        run: pio run -e wemos_d1_mini32
+      - name: Build Firmware
+        run: pio run -t mergebin -e wemos_d1_mini32
 
-      - name: Upload Firmware
-        uses: actions/upload-artifact@v4
+      - name: Build Filesystem
+        run: pio run -t buildfs -e wemos_d1_mini32
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
         with:
-          path: .pio/build/wemos_d1_mini32/firmware.bin
-          name: firmware
+          files: |
+            .pio/build/wemos_d1_mini32/firmware.bin
+            .pio/build/wemos_d1_mini32/littlefs.bin
+            .pio/build/wemos_d1_mini32/system.bin
+
+      #- name: Upload Firmware
+       # uses: actions/upload-artifact@v4
+        #with:
+         # path: .pio/build/wemos_d1_mini32/firmware.bin
+          #name: firmware
