@@ -3,7 +3,7 @@
 import Modal from "@/components/Modal.vue";
 import UpdateIcon from "@/components/icons/UpdateIcon.vue";
 import Button from "@/components/Button.vue";
-import {useTemplateRef} from "vue";
+import {ref, useTemplateRef} from "vue";
 
 const modal = useTemplateRef<typeof Modal>("modal");
 
@@ -13,15 +13,34 @@ const show = () => {
 
 defineExpose({show});
 
+const fileInput = ref<HTMLInputElement | null>(null)
+let firmwareFile: File;
+
+function onFileChanged() {
+  firmwareFile = fileInput.value!.files![0];
+  console.log(firmwareFile);
+}
+
+async function uploadFirmwareFile() {
+  const data = new FormData();
+  data.append('file', firmwareFile);
+
+  const response = await fetch("/update", { method: 'POST', body: data });
+
+  if(response.ok) {
+    console.log("Successfully uploaded!");
+  }
+}
+
 </script>
 
 <template>
   <Modal title="Software Update" id="update-modal" ref="modal">
     <div id="update-content">
       <UpdateIcon id="update-icon"/>
-      <div class="nav">
-        <Button>Firmware</Button>
-        <Button>Filesystem</Button>
+      <div>
+        <input type="file" ref="fileInput" @change="onFileChanged" accept=".bin">
+        <Button @click="uploadFirmwareFile">Upload Firmware</Button>
       </div>
     </div>
   </Modal>

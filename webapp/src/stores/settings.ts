@@ -23,7 +23,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const macAddress = ref("");
     const ledMode = ref(0);
 
-    const isMuted = ref(false);
+    const isSoundEnabled = ref(false);
 
     const refreshAvailableNetworks = () => {
 
@@ -45,26 +45,9 @@ export const useSettingsStore = defineStore("settings", () => {
                 volume.value = json["volume"];
                 ledMode.value = json["ledMode"];
                 macAddress.value = json["macAddress"];
+                isSoundEnabled.value = json["isSoundEnabled"];
             }
 
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    const loadSettings = () => {
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", "/loadsettings", false); // false for synchronous request
-        xmlHttp.send(null);
-
-        try {
-            const settings = JSON.parse(xmlHttp.responseText);
-
-            deviceName.value = settings["deviceName"];
-            devicePassword.value = settings["devicePassword"];
-            volume.value = settings["volume"];
-            ledMode.value = settings["ledMode"];
-            macAddress.value = settings["macAddress"];
         } catch (error) {
             console.error(error);
         }
@@ -111,6 +94,6 @@ export const useSettingsStore = defineStore("settings", () => {
         restartDevice,
         ledMode,
         isValid,
-        isMuted
+        isSoundEnabled
     };
 })

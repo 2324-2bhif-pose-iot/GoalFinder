@@ -58,11 +58,15 @@ GoalfinderApp::GoalfinderApp() :
 {
 }
 
-void GoalfinderApp::SetIsMuted(bool value)
+void GoalfinderApp::SetIsSoundEnabled(bool value)
 {
-    this->isMuted = value;
+    this->isSoundEnabled = value;
 }
 
+bool GoalfinderApp::IsSoundEnabled()
+{
+    return this->isSoundEnabled;
+}
 
 GoalfinderApp::~GoalfinderApp() 
 {
@@ -87,6 +91,7 @@ void GoalfinderApp::Init()
     String ssid = settings->GetDeviceName();
     String wifiPw = settings->GetDevicePassword();
 
+    WiFi.mode(WIFI_AP);
     WiFi.softAP(ssid, wifiPw);
     WiFi.setSleep(false);
     Serial.println(WiFi.softAPIP());
@@ -107,7 +112,7 @@ void GoalfinderApp::Process()
     // Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
     UpdateSettings();
 
-    if (this->isMuted)
+    if (this->isSoundEnabled)
     {
         audioPlayer.Loop();
         DetectShot();
@@ -205,7 +210,8 @@ void GoalfinderApp::PlaySound(const char* soundFileName) {
 
 void GoalfinderApp::DetectShot() {
     // Serial.printf("%4.3f: starting shot detection ...\n", millis() / 1000.0);
-    // if(lastShockTime == 0 && vibrationSensor.Vibration(5000) > shotVibrationThreshold) {
+    // if(lastShockTime == 0 && vibrationSensor.Vibration(5000) > shotVibrationThreshold) { 
+
     if(lastShockTime == 0) {
         if (!(announcing && audioPlayer.IsPlaying())) {
             announcing = false; // reset announcing after playback is finished

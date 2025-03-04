@@ -2,7 +2,6 @@
 import Button from "@/components/Button.vue";
 import PowerIcon from "@/components/icons/PowerIcon.vue";
 import ToggleButton from "@/components/ToggleButton.vue";
-import {ref} from "vue";
 import {useSettingsStore} from "@/stores/settings";
 
 const settings = useSettingsStore();
@@ -17,7 +16,7 @@ const settings = useSettingsStore();
         <RouterLink to="/games"><Button class="link">{{ $t("header.games") }}</Button></RouterLink>
         <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>
         <RouterLink to="/about"><Button class="link">{{ $t("header.about") }}</Button></RouterLink>
-        <ToggleButton id="power-state-button" v-model="settings.isMuted">
+        <ToggleButton id="power-state-button" v-model="settings.isSoundEnabled">
          <PowerIcon id="power-icon"/>
         </ToggleButton>
       </div>

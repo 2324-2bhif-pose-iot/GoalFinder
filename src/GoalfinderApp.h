@@ -28,7 +28,8 @@
 
 class GoalfinderApp : public Singleton<GoalfinderApp> {
 	public:
-		void SetIsMuted(bool value);
+		void SetIsSoundEnabled(bool value);
+		bool IsSoundEnabled();
 
 		/** Destructor */
 		virtual ~GoalfinderApp();
@@ -99,7 +100,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		VibrationSensor vibrationSensor;
 		LedController ledController;
 
-		bool isMuted;
+		bool isSoundEnabled;
 
 		bool announcing;
 		unsigned long lastMetronomeTickTime;

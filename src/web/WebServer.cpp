@@ -97,6 +97,7 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     root["volume"] = settings->GetVolume();
     root["ledMode"] = (int)settings->GetLedMode();
     root["macAddress"] = settings->GetMacAddress();
+    root["isSoundEnabled"] = GoalfinderApp::GetInstance()->IsSoundEnabled();
 
     response->setLength();
     request->send(response);
@@ -110,7 +111,7 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     deserializeJson(doc, (const char*)data);
 
     GoalfinderApp* app = GoalfinderApp::GetInstance();
-    app->SetIsMuted(doc["isMuted"]);
+    app->SetIsSoundEnabled(doc["isSoundEnabled"]);
 
     Settings* settings = Settings::GetInstance();
     settings->SetDeviceName(doc["deviceName"]);
@@ -150,11 +151,11 @@ void WebServer::Begin()
         Serial.println("[ERROR] Could not start mDNS service!");
     }
 
-    updater.Begin();
+    updater.Begin("/update");
 
     server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
     server.on("/savesettings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
-    server.on("/restart", HTTP_POST, HandleRestart);
+    server.on("/restart", HTTP_POST, HandleRestart);    
     server.on("/*", HTTP_GET, HandleRequest);
     //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
 
