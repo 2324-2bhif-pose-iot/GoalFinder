@@ -1,13 +1,19 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 
+const API_URL = "/api"
+
 export const useSettingsStore = defineStore("settings", () => {
     let isValid = false;
     const enableDarkMode = ref(false);
+    const isSoundEnabled = ref(false);
 
+    //General
     const deviceName = ref("");
     const devicePassword = ref("");
 
+    //Devices
+    const ledMode = ref(0);
     const isBluetoothEnabled = ref(false);
     const connectedBluetoothDevices = ref([]);
     const availableBluetoothDevices = ref([]);
@@ -18,12 +24,12 @@ export const useSettingsStore = defineStore("settings", () => {
     const connectedNetwork = ref("");
     const availableNetworks = ref([]);
 
+    //Audio
     const volume = ref(0);
 
+    //System
     const macAddress = ref("");
-    const ledMode = ref(0);
-
-    const isSoundEnabled = ref(false);
+    const version = ref("");
 
     const refreshAvailableNetworks = () => {
 
@@ -33,9 +39,9 @@ export const useSettingsStore = defineStore("settings", () => {
 
     }
 
-    async function getSettings() {
+    async function getSettings(): Promise<void> {
         try {
-            const response = await fetch("/loadsettings");
+            const response = await fetch(`${API_URL}/settings`, {method: "GET"});
 
             if(response.ok) {
                 const json = await response.json();
@@ -46,6 +52,7 @@ export const useSettingsStore = defineStore("settings", () => {
                 ledMode.value = json["ledMode"];
                 macAddress.value = json["macAddress"];
                 isSoundEnabled.value = json["isSoundEnabled"];
+                version.value = json["version"];
             }
 
         } catch (error) {
@@ -53,13 +60,9 @@ export const useSettingsStore = defineStore("settings", () => {
         }
     }
 
-    async function saveSettings() {
-        /*let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/savesettings", false);
-        xmlHttp.send(JSON.stringify(useSettingsStore().$state));*/
-        console.log("Saving settings");
+    async function saveSettings(): Promise<void> {
         try {
-            const response = await fetch("/savesettings", {
+            await fetch(`${API_URL}/settings`, {
                 method: "POST",
                 body: JSON.stringify(useSettingsStore().$state),
             });
@@ -68,10 +71,21 @@ export const useSettingsStore = defineStore("settings", () => {
         }
     }
 
-    const restartDevice = () => {
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/restart", false);
-        xmlHttp.send(null);
+    async function restartDevice() : Promise<void> {
+        try {
+            await fetch(`${API_URL}/restart`, {method: "POST"});
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function updateFirmware(firmwareFile: File): Promise<boolean> {
+        const data = new FormData();
+        data.append('file', firmwareFile);
+
+        const response = await fetch(`${API_URL}/update`, { method: 'POST', body: data });
+
+        return response.ok;
     }
 
     return {
@@ -94,6 +108,8 @@ export const useSettingsStore = defineStore("settings", () => {
         restartDevice,
         ledMode,
         isValid,
-        isSoundEnabled
+        isSoundEnabled,
+        version,
+        updateFirmware
     };
 })

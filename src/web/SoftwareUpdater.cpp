@@ -22,8 +22,8 @@ void SoftwareUpdater::HandleUpdate(AsyncWebServerRequest *request, String filena
         //update_status = "Update started!";
         Serial.println("Update started");
         int update_content_len = request->contentLength();
-        
-        if (!Update.begin(update_content_len, U_FLASH))
+
+        if (!Update.begin(update_content_len, U_FLASH)) //, U_FLASH
         {
             Update.printError(Serial);
         }
@@ -45,6 +45,7 @@ void SoftwareUpdater::HandleUpdate(AsyncWebServerRequest *request, String filena
         response->addHeader("Refresh", "5");
         response->addHeader("Location", "/");
         request->send(response);
+        
         if (!Update.end(true))
         {
             Update.printError(Serial);
@@ -57,4 +58,8 @@ void SoftwareUpdater::HandleUpdate(AsyncWebServerRequest *request, String filena
             //eDM_Config.Flags.RebootESP = 1;
         }
     }
+}
+
+bool SoftwareUpdater::IsUpdating() {
+    return Update.isRunning();
 }

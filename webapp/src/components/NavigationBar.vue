@@ -11,7 +11,7 @@ const settings = useSettingsStore();
 <template>
   <div>
     <div id="nav-bar">
-      <RouterLink to="/"><h1>Goalfinder</h1></RouterLink>
+      <RouterLink to="/"><h1>GoalFinder</h1></RouterLink>
       <div id="links-container">
         <RouterLink to="/games"><Button class="link">{{ $t("header.games") }}</Button></RouterLink>
         <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>

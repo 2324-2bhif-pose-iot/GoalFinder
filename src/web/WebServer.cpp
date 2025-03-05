@@ -11,6 +11,8 @@
 #define INDEX_PATH "/index.html"
 #define COMPRESSED_FILE_EXTENSION ".gz"
 
+#define API_URL "/api"
+
 FileSystem* internalFS;
 
 static String GetContentType(const String* fileName) 
@@ -76,7 +78,7 @@ static void HandleRequest(AsyncWebServerRequest* request)
     }); */
 
     AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
-    response->addHeader("Cache-Control", "max-age=604800");
+    //response->addHeader("Cache-Control", "max-age=604800");
     //response->addHeader("Transfer-Encoding", "chunked");
     //response->addHeader("Content-Encoding", "gzip"); //The complete webapp is compressed with gzip to save space and load the files faster
     request->send(response);
@@ -136,8 +138,8 @@ WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
 
 void WebServer::Init() 
 {
-    server.rewrite( "", INDEX_PATH);
-    server.rewrite( "/", INDEX_PATH);
+    server.rewrite("", INDEX_PATH);
+    server.rewrite("/", INDEX_PATH);
     server.onNotFound(HandleNotFound); 
     
     // TODO Replace any serial.out with "Log"
@@ -151,11 +153,11 @@ void WebServer::Begin()
         Serial.println("[ERROR] Could not start mDNS service!");
     }
 
-    updater.Begin("/update");
+    updater.Begin(API_URL"/update");
 
-    server.on("/loadsettings", HTTP_GET, HandleLoadSettings);
-    server.on("/savesettings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
-    server.on("/restart", HTTP_POST, HandleRestart);    
+    server.on(API_URL"/settings", HTTP_GET, HandleLoadSettings);
+    server.on(API_URL"/settings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
+    server.on(API_URL"/restart", HTTP_POST, HandleRestart);    
     server.on("/*", HTTP_GET, HandleRequest);
     //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
 
@@ -171,5 +173,4 @@ void WebServer::Stop()
 
 WebServer::~WebServer()
 {
-    
 }

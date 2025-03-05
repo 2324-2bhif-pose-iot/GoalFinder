@@ -4,32 +4,34 @@ import Modal from "@/components/Modal.vue";
 import UpdateIcon from "@/components/icons/UpdateIcon.vue";
 import Button from "@/components/Button.vue";
 import {ref, useTemplateRef} from "vue";
+import {useSettingsStore} from "@/stores/settings";
 
 const modal = useTemplateRef<typeof Modal>("modal");
 
 const show = () => {
-  modal.value?.openDialog();
+    modal.value?.openDialog();
 };
 
 defineExpose({show});
 
+const settings = useSettingsStore();
+
 const fileInput = ref<HTMLInputElement | null>(null)
-let firmwareFile: File;
+let firmwareFile: File | undefined = undefined;
 
 function onFileChanged() {
-  firmwareFile = fileInput.value!.files![0];
-  console.log(firmwareFile);
+    firmwareFile = fileInput.value!.files![0];
+    console.log(firmwareFile);
 }
 
 async function uploadFirmwareFile() {
-  const data = new FormData();
-  data.append('file', firmwareFile);
+    if(firmwareFile) {
+        const wasSuccessful = await settings.updateFirmware(firmwareFile);
 
-  const response = await fetch("/update", { method: 'POST', body: data });
-
-  if(response.ok) {
-    console.log("Successfully uploaded!");
-  }
+        if(wasSuccessful) {
+          console.log("Successfully uploaded");
+        }
+    }
 }
 
 </script>
