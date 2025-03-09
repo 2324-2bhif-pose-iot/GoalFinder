@@ -1,17 +1,47 @@
 <script setup lang="ts">
 import Page from "@/components/Page.vue";
 import Button from "@/components/Button.vue";
-import {Player} from "@/models/Player";
+import {Player} from "@/models/player";
 import InputForm from "@/components/InputForm.vue";
-import {computed, reactive, ref} from "vue";
+import {computed, ref, watch} from "vue";
 
-let players = ref([] as Player[]);
-let showLeaderboard = ref(false);
+const players = ref([] as Player[]);
+const showLeaderboard = ref(false);
 
-let newPlayerName = ref("");
+const newPlayerName = ref("");
+
+let currentPlayerIndex: number = 0;
+let counter = 0;
+
+let intervalId: number;
+
+function initCounter() {
+  counter = 60;
+  clearInterval(intervalId);
+
+  intervalId = setInterval(() => {
+      counter--;
+  }, 1000)
+}
+
+function formatTime(ms: number) {
+  const seconds = Math.floor(Math.abs(ms / 1000))
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  const s = Math.round(seconds % 60)
+  const t = [h, m > 9 ? m : h ? '0' + m : m || '0', s > 9 ? s : '0' + s]
+      .filter(Boolean)
+      .join(':')
+  return ms < 0 && seconds ? `-${t}` : t
+}
 
 function addPerson() {
   if (newPlayerName.value) {
+    if(players.value.some(player => player.name === newPlayerName.value)) {
+      newPlayerName.value += " 2";
+      //TODO change that no duplicates are allowed
+    }
+
     players.value.push(new Player(newPlayerName.value));
     newPlayerName.value = "";
   }
@@ -45,6 +75,9 @@ const sortedPersons = computed(() => {
     return diffB - diffA;
   })});
 
+const prettyCounter = computed(() => {
+  return formatTime(counter);
+})
 </script>
 
 <template>
@@ -55,8 +88,16 @@ const sortedPersons = computed(() => {
           <label for="personName">{{ $t("word.add_person") }}</label>
           <InputForm id="personName" v-model="newPlayerName"/>
         </div>
-        <Button type="submit" primary>{{ $t("word.add_person") }}</Button>
+        <div class="buttons-container">
+          <Button type="submit">{{ $t("word.add_person") }}</Button>
+          <Button primary @click="initCounter">Start</Button>
+        </div>
       </form>
+
+      <div v-if="players.length" id="current-player-container">
+        <h1>{{ prettyCounter }}</h1>
+        <h1>{{ players[currentPlayerIndex].name }}</h1>
+      </div>
 
       <div v-if="players.length">
         <h3>{{ $t("word.person_list") }}</h3>
@@ -64,7 +105,7 @@ const sortedPersons = computed(() => {
           <li v-for="(person, index) in players" :key="index">
             <span>{{ person.name }}</span>
             <div class="buttons-container">
-              <Button @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
+              <Button primary @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
               <Button @click="recordShot(index, false)" severity="warning">{{ $t("word.miss") }}</Button>
               <Button @click="removePerson(index)" severity="danger">{{ $t("word.remove") }}</Button>
             </div>
@@ -73,16 +114,7 @@ const sortedPersons = computed(() => {
       </div>
 
       <div v-if="players.length">
-        <h3>{{ $t("word.results") }}</h3>
-        <ul>
-          <li v-for="(person, index) in players" :key="index">
-            <strong>{{ person.name }}</strong> - {{ $t("word.hits") }}: {{ person.hits }}, {{ $t("word.misses") }}: {{ person.misses }}
-          </li>
-        </ul>
-      </div>
-
-      <div v-if="players.length">
-        <Button @click="finish">{{ $t("word.finish") }}</Button>
+        <Button primary @click="finish">{{ $t("word.finish") }}</Button>
       </div>
     </div>
 
@@ -93,15 +125,12 @@ const sortedPersons = computed(() => {
           <strong>{{ index + 1 }}. {{ person.name }}</strong> - {{ $t("word.hits") }}: {{ person.hits }}, {{ $t("word.misses") }}: {{ person.misses }}
         </li>
       </ul>
-      <Button @click="restart">{{ $t("word.restart") }}</Button>
+      <Button primary @click="restart">{{ $t("word.restart") }}</Button>
     </div>
   </Page>
 </template>
 
 <style scoped>
-.basketball-shot-tracker h2, .basketball-shot-tracker h3, .leaderboard h2 {
-  text-align: center;
-}
 
 .basketball-shot-tracker form div {
   margin-bottom: 15px;
@@ -133,5 +162,19 @@ const sortedPersons = computed(() => {
 .buttons-container {
   display: flex;
   gap: 10px;
+}
+
+#current-player-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 1rem 2rem 1rem;
+}
+
+#current-player-container h1 {
+  margin: 0;
 }
 </style>

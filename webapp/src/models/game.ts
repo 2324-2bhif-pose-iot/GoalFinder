@@ -1,38 +1,17 @@
-import type {Team} from "@/models/team";
+import type {Player} from "@/models/player";
 
-export class Game {
-    private readonly _teamOne: Team;
-    private readonly _teamTwo: Team;
-    private _duration: number = 0; //In seconds
-    private readonly _date: Date;
+class Game {
+    private readonly players: Player[];
 
-    constructor(teamOne: Team, teamTwo: Team, date: Date) {
-        this._teamOne = teamOne;
-        this._teamTwo = teamTwo;
-        this._date = date;
+    constructor(name: string) {
+        this.players = [];
     }
 
-    get teamOne() {
-        return this._teamOne;
+    public addPlayer(player: Player): void {
+        this.players.push(player);
     }
 
-    get teamTwo() {
-        return this._teamTwo;
-    }
-
-    get date() {
-        return this._date;
-    }
-
-    get duration() {
-        return this._duration;
-    }
-
-    set duration(value: number) {
-        if(value < 0) {
-            throw new Error("Duration cannot be negative");
-        }
-
-        this._duration = value;
+    public removePlayer(player: Player): void {
+        this.players.splice(this.players.indexOf(player), 1);
     }
 }
