@@ -70,6 +70,9 @@ const settings = useSettingsStore();
 
   #power-state-button {
     padding: 0 0.4rem 0 0.4rem;
+    display: flex;
+    vertical-align: center;
+    justify-content: center;
   }
 
   #power-icon {

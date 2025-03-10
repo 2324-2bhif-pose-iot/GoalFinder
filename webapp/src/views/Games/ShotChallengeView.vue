@@ -1,62 +1,25 @@
 <script setup lang="ts">
 import Page from "@/components/Page.vue";
 import Button from "@/components/Button.vue";
-import {Player} from "@/models/player";
 import InputForm from "@/components/InputForm.vue";
-import {computed, ref, watch} from "vue";
+import {reactive, ref, useTemplateRef} from "vue";
+import {ShotChallengeGame} from "@/models/game";
+import {Player} from "@/models/player";
+import ToggleButton from "@/components/ToggleButton.vue";
+import PlayIcon from "@/components/icons/PlayIcon.vue";
 
-const players = ref([] as Player[]);
+const game = reactive(new ShotChallengeGame());
 const showLeaderboard = ref(false);
+const playerName = ref("");
 
-const newPlayerName = ref("");
-
-let currentPlayerIndex: number = 0;
-let counter = 0;
-
-let intervalId: number;
-
-function initCounter() {
-  counter = 60;
-  clearInterval(intervalId);
-
-  intervalId = setInterval(() => {
-      counter--;
-  }, 1000)
-}
-
-function formatTime(ms: number) {
-  const seconds = Math.floor(Math.abs(ms / 1000))
-  const h = Math.floor(seconds / 3600)
-  const m = Math.floor((seconds % 3600) / 60)
-  const s = Math.round(seconds % 60)
-  const t = [h, m > 9 ? m : h ? '0' + m : m || '0', s > 9 ? s : '0' + s]
-      .filter(Boolean)
-      .join(':')
-  return ms < 0 && seconds ? `-${t}` : t
-}
-
-function addPerson() {
-  if (newPlayerName.value) {
-    if(players.value.some(player => player.name === newPlayerName.value)) {
-      newPlayerName.value += " 2";
-      //TODO change that no duplicates are allowed
-    }
-
-    players.value.push(new Player(newPlayerName.value));
-    newPlayerName.value = "";
-  }
-}
+const addPlayerForm = useTemplateRef<HTMLFormElement>("add-player-form");
 
 function recordShot(index: number, isHit: boolean) {
   if (isHit) {
-    players.value[index].addHit()
+    game.addHitToPlayer(index);
   } else {
-    players.value[index].addMiss();
+    game.addMissToPlayer(index);
   }
-}
-
-function removePerson(index: number) {
-  players.value.splice(index, 1);
 }
 
 function finish() {
@@ -65,55 +28,75 @@ function finish() {
 
 function restart() {
   showLeaderboard.value = false;
-  players.value = [];
+  game.reset();
 }
 
-const sortedPersons = computed(() => {
-  return players.value.slice().sort((a, b) => {
-    const diffA = a.hits - a.misses;
-    const diffB = b.hits - b.misses;
-    return diffB - diffA;
-  })});
+function onPlayerAddFormSubmit() {
+  game.addPlayer(new Player(playerName.value));
+  addPlayerForm.value!.reset();
+}
 
-const prettyCounter = computed(() => {
-  return formatTime(counter);
-})
+function onGameStartBtnClick() {
+  if(game.isRunning) {
+    game.pause();
+  }
+  else {
+    game.start();
+  }
+}
+
 </script>
 
 <template>
   <Page :title="$t('header.game_shot_challenge')">
     <div class="basketball-shot-tracker" v-if="!showLeaderboard">
-      <form @submit.prevent="addPerson">
+      <form ref="add-player-form" @submit.prevent="onPlayerAddFormSubmit">
         <div>
-          <label for="personName">{{ $t("word.add_person") }}</label>
-          <InputForm id="personName" v-model="newPlayerName"/>
+          <label for="player-name-input">{{ $t("word.add_person") }}</label>
+          <InputForm id="player-name-input" v-model="playerName"/>
         </div>
         <div class="buttons-container">
           <Button type="submit">{{ $t("word.add_person") }}</Button>
-          <Button primary @click="initCounter">Start</Button>
+          <ToggleButton readonly id="game-state-button" v-model="game.isRunning" @click="onGameStartBtnClick">
+            <PlayIcon id="play-icon"/>
+          </ToggleButton>
         </div>
       </form>
 
-      <div v-if="players.length" id="current-player-container">
-        <h1>{{ prettyCounter }}</h1>
-        <h1>{{ players[currentPlayerIndex].name }}</h1>
+      <div v-if="game.players.length" id="current-player-container">
+        <h1>{{ game.timer }}</h1>
+        <h1>{{ game.getSelectedPlayer().name }}</h1>
       </div>
 
-      <div v-if="players.length">
+      <div v-if="game.players.length">
         <h3>{{ $t("word.person_list") }}</h3>
-        <ul>
-          <li v-for="(person, index) in players" :key="index">
-            <span>{{ person.name }}</span>
-            <div class="buttons-container">
-              <Button primary @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
-              <Button @click="recordShot(index, false)" severity="warning">{{ $t("word.miss") }}</Button>
-              <Button @click="removePerson(index)" severity="danger">{{ $t("word.remove") }}</Button>
-            </div>
-          </li>
-        </ul>
+        <table id="player-list">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Hits</th>
+              <th>Misses</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(person, index) in game.players" :key="index">
+              <td>{{ person.name }}</td>
+              <td>{{ person.hits }}</td>
+              <td>{{ person.misses }}</td>
+              <td>
+                <div class="buttons-container">
+                  <Button primary @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
+                  <Button @click="recordShot(index, false)" severity="warning">{{ $t("word.miss") }}</Button>
+                  <Button @click="game.removePlayer(index)" severity="danger">{{ $t("word.remove") }}</Button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div v-if="players.length">
+      <div v-if="game.players.length">
         <Button primary @click="finish">{{ $t("word.finish") }}</Button>
       </div>
     </div>
@@ -121,7 +104,7 @@ const prettyCounter = computed(() => {
     <div class="leaderboard" v-else>
       <h2>{{ $t("word.leaderboard") }}</h2>
       <ul>
-        <li v-for="(person, index) in sortedPersons" :key="index"> <!-- This should be sorted persons -->
+        <li v-for="(person, index) in game.sortedPlayers" :key="index">
           <strong>{{ index + 1 }}. {{ person.name }}</strong> - {{ $t("word.hits") }}: {{ person.hits }}, {{ $t("word.misses") }}: {{ person.misses }}
         </li>
       </ul>
@@ -147,6 +130,19 @@ const prettyCounter = computed(() => {
   box-sizing: border-box;
 }
 
+#player-list {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+#player-list th {
+  text-align: left;
+}
+
+#player-list td {
+  padding: 1rem 0 0 0.2rem;
+}
+
 .basketball-shot-tracker ul, .leaderboard ul {
   list-style-type: none;
   padding: 0;
@@ -160,7 +156,8 @@ const prettyCounter = computed(() => {
 }
 
 .buttons-container {
-  display: flex;
+  display: inline-flex;
+  flex-basis: content;
   gap: 10px;
 }
 
@@ -176,5 +173,16 @@ const prettyCounter = computed(() => {
 
 #current-player-container h1 {
   margin: 0;
+}
+
+#game-state-button {
+  padding: 0 0.4rem 0 0.4rem;
+  display: flex;
+  vertical-align: center;
+  justify-content: center;
+}
+
+#play-icon {
+  width: 1.4rem;
 }
 </style>

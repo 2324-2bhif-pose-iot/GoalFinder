@@ -1,11 +1,12 @@
 <script setup lang="ts">
   const props = defineProps({
-    primary: Boolean
+    primary: Boolean,
+    disabled: Boolean
   });
 </script>
 
 <template>
-  <button :class="primary ? 'primary' : ''"><slot/></button>
+  <button :disabled="disabled" :class="primary ? 'primary' : ''"><slot/></button>
 </template>
 
 <style scoped>

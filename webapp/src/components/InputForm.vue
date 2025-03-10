@@ -2,7 +2,7 @@
   const props = defineProps([
     'label',
     'placeholder',
-    'type',
+    'type'
   ]);
 
   const model = defineModel();
