@@ -93,7 +93,7 @@ export class ShotChallengeGame extends Game {
                         this.getSelectedPlayer().addHit();
                     }
 
-                    const missesData = await fetch("/api/hits", {method: "GET"});
+                    const missesData = await fetch("/api/misses", {method: "GET"});
 
                     const misses: number = parseInt(await missesData.text());
 
