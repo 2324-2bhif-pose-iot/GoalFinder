@@ -1,5 +1,7 @@
 import type {Player} from "@/models/player";
 
+const API_URL = "/api"
+
 abstract class Game {
     private readonly _players: Player[];
     private _isRunning: boolean = false;
@@ -85,7 +87,7 @@ export class ShotChallengeGame extends Game {
                 this._timer--;
 
                 try {
-                    const hitsData = await fetch("/api/hits", {method: "GET"});
+                    const hitsData = await fetch(`${API_URL}/hits`, {method: "GET"});
 
                     const hits: number = parseInt(await hitsData.text());
 
@@ -93,7 +95,7 @@ export class ShotChallengeGame extends Game {
                         this.getSelectedPlayer().addHit();
                     }
 
-                    const missesData = await fetch("/api/misses", {method: "GET"});
+                    const missesData = await fetch(`${API_URL}/misses`, {method: "GET"});
 
                     const misses: number = parseInt(await missesData.text());
 
