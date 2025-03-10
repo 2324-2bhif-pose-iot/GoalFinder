@@ -31,6 +31,12 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void SetIsSoundEnabled(bool value);
 		bool IsSoundEnabled();
 
+		int GetDetectedHits();
+		int GetDetectedMisses();
+
+		void ResetDetectedHits();
+		void ResetDetectedMisses();
+
 		/** Destructor */
 		virtual ~GoalfinderApp();
 
@@ -99,6 +105,9 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		ToFSensor tofSensor;
 		VibrationSensor vibrationSensor;
 		LedController ledController;
+
+		int detectedHits = 0;
+		int detectedMisses = 0;
 
 		bool isSoundEnabled;
 

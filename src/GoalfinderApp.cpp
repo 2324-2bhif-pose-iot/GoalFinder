@@ -17,8 +17,8 @@ const int GoalfinderApp::pinRandomSeed = 36;
 
 const int GoalfinderApp::ledPwmChannel = 0;
 
-const int GoalfinderApp::ballHitDetectionDistance = 500; // TODO: Make configurable
-const int GoalfinderApp::shotVibrationThreshold = 4000; // TODO: Make configurable??
+const int GoalfinderApp::ballHitDetectionDistance = 180; // TODO: Make configurable
+const int GoalfinderApp::shotVibrationThreshold = 2000; // TODO: Make configurable??
 const int GoalfinderApp::maxShotDurationMs = 5000; // TODO: Make configurable
 
 const char* GoalfinderApp::waitingClip = "/waiting.mp3";
@@ -66,6 +66,14 @@ void GoalfinderApp::SetIsSoundEnabled(bool value)
 bool GoalfinderApp::IsSoundEnabled()
 {
     return this->isSoundEnabled;
+}
+
+int GoalfinderApp::GetDetectedHits() {
+    return detectedHits;
+}
+
+int GoalfinderApp::GetDetectedMisses() {
+    return detectedMisses;
 }
 
 GoalfinderApp::~GoalfinderApp() 
@@ -147,6 +155,14 @@ void GoalfinderApp::UpdateSettings(bool force) {
     }
 }
 
+void GoalfinderApp::ResetDetectedHits() {
+    detectedHits = 0;
+}
+
+void GoalfinderApp::ResetDetectedMisses() {
+    detectedMisses = 0;
+}
+
 void GoalfinderApp::TickMetronome() {
     unsigned long currentTime = millis();
     if ((currentTime - lastMetronomeTickTime) > metronomeIntervalMs) {
@@ -167,11 +183,13 @@ void GoalfinderApp::OnShotDetected() {
 
 void GoalfinderApp::AnnounceHit() {
     announcement = Announcement::Hit;
+    detectedHits++;
     // Serial.printf("%4.3f: announce hit: %d\n", millis() / 1000.0, announcement);
 }
 
 void GoalfinderApp::AnnounceMiss() {
     announcement = Announcement::Miss;
+    detectedMisses++;
     // Serial.printf("%4.3f: announce miss: %d\n", millis() / 1000.0, announcement);
 }
 
@@ -180,6 +198,7 @@ void GoalfinderApp::ProcessAnnouncement() {
     switch(announcement) {
         case Announcement::Shot:
             AnnounceEvent("-> shot", 0);
+            //Send websocket
             break;
         case Announcement::Hit:
             AnnounceEvent("-> hit", hitClips[0]);

@@ -81,8 +81,29 @@ export class ShotChallengeGame extends Game {
 
     public start(): void {
         if(!this.isRunning) {
-            this.timerIntervalId = setInterval(() => {
+            this.timerIntervalId = setInterval(async () => {
                 this._timer--;
+
+                try {
+                    const hitsData = await fetch("/api/hits", {method: "GET"});
+
+                    const hits: number = parseInt(await hitsData.text());
+
+                    for (let i = 0; i < hits; i++) {
+                        this.getSelectedPlayer().addHit();
+                    }
+
+                    const missesData = await fetch("/api/hits", {method: "GET"});
+
+                    const misses: number = parseInt(await missesData.text());
+
+                    for (let i = 0; i < misses; i++) {
+                        this.getSelectedPlayer().addMiss();
+                    }
+                }
+                catch (e) {
+                    console.log(e);
+                }
 
                 if (this._timer <= 0) {
                     this.resetTimer();

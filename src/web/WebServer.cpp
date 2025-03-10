@@ -125,6 +125,22 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     request->send(204);
 }
 
+static void HandleHits(AsyncWebServerRequest* request) {
+    int hits = GoalfinderApp::GetInstance()->GetDetectedHits();
+
+    GoalfinderApp::GetInstance()->ResetDetectedHits();
+
+    request->send(200, "text/plain", String(hits));
+}
+
+static void HandleMisses(AsyncWebServerRequest* request) {
+    int misses = GoalfinderApp::GetInstance()->GetDetectedMisses();
+
+    GoalfinderApp::GetInstance()->ResetDetectedMisses();
+
+    request->send(200, "text/plain", String(misses));
+}
+
 static void HandleRestart(AsyncWebServerRequest* request) 
 {
     ESP.restart();
@@ -158,6 +174,8 @@ void WebServer::Begin()
     server.on(API_URL"/settings", HTTP_GET, HandleLoadSettings);
     server.on(API_URL"/settings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
     server.on(API_URL"/restart", HTTP_POST, HandleRestart);    
+    server.on(API_URL"/hits", HTTP_GET, HandleHits);
+    server.on(API_URL"/misses", HTTP_GET, HandleMisses);
     server.on("/*", HTTP_GET, HandleRequest);
     //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
 
