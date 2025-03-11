@@ -1,12 +1,9 @@
 #include <GoalfinderApp.h>
-// #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <Settings.h>
+#include <mutex>
 
-// Cleanup - replaced by constants
-// #define RANGE_WHEN_BALL_GOES_IN 180
-// #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
-
+// Konstante Pins für Peripherie
 const int GoalfinderApp::pinTofSda = 22;
 const int GoalfinderApp::pinTofScl = 21;
 const int GoalfinderApp::pinI2sBclk = 23;
@@ -17,29 +14,30 @@ const int GoalfinderApp::pinRandomSeed = 36;
 
 const int GoalfinderApp::ledPwmChannel = 0;
 
-const int GoalfinderApp::ballHitDetectionDistance = 500; // TODO: Make configurable
-const int GoalfinderApp::shotVibrationThreshold = 4000; // TODO: Make configurable??
-const int GoalfinderApp::maxShotDurationMs = 5000; // TODO: Make configurable
+const int GoalfinderApp::ballHitDetectionDistance = 500;
+const int GoalfinderApp::shotVibrationThreshold = 4000;
+const int GoalfinderApp::maxShotDurationMs = 5000;
 
 const char* GoalfinderApp::waitingClip = "/waiting.mp3";
 
-const char* GoalfinderApp::hitClips[] = {
-    "/hit-1.mp3",
-    // "/hit-2.mp3",
-};
+const char* GoalfinderApp::hitClips[] = { "/hit-1.mp3" };
 const int   GoalfinderApp::hitClipsCnt = sizeof(GoalfinderApp::hitClips) / sizeof(GoalfinderApp::hitClips[0]);
 
-const char* GoalfinderApp::tickClips[] = {
-    "/tick-1.mp3"
-};
+const char* GoalfinderApp::tickClips[] = { "/tick-1.mp3" };
 const int   GoalfinderApp::tickClipsCnt = sizeof(GoalfinderApp::tickClips) / sizeof(GoalfinderApp::tickClips[0]);
 
-const char* GoalfinderApp::missClips[] = {
-    "/miss-1.mp3",
-    // "/miss-2.mp3",
-    // "/miss-3.mp3",
-};
+const char* GoalfinderApp::missClips[] = { "/miss-1.mp3" };
 const int   GoalfinderApp::missClipsCnt = sizeof(GoalfinderApp::missClips) / sizeof(GoalfinderApp::missClips[0]);
+
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+TaskHandle_t Task3;
+
+SemaphoreHandle_t xMutex;
+
+void Task1code(void *pvParameters);
+void Task2code(void *pvParameters);
+void Task3code(void *pvParameters);
 
 GoalfinderApp::GoalfinderApp() :
     Singleton<GoalfinderApp>(),
@@ -74,19 +72,17 @@ GoalfinderApp::~GoalfinderApp()
 
 void GoalfinderApp::Init() 
 {
-    delay(100); // swing in ;)
+    delay(100);
     Serial.begin(115200);
     randomSeed(analogRead(pinRandomSeed));
 
-    // TODO: Replace all serial outputs with "Log" for a more fine grained logging control
-    if(!fileSystem.Begin()) 
+    if (!fileSystem.Begin()) 
     {
         Serial.println("FS initialization failed");
         return;
-    } else {
-        Serial.println("FS initialized");
-    }
-    
+    } 
+    Serial.println("FS initialized");
+
     Settings* settings = Settings::GetInstance();
     String ssid = settings->GetDeviceName();
     String wifiPw = settings->GetDevicePassword();
@@ -105,27 +101,17 @@ void GoalfinderApp::Init()
     ledController.SetMode(LedMode::Flash);
 
     UpdateSettings(true);
+
+    xTaskCreatePinnedToCore(Task1code, "Task1", 8192, NULL, 1, &Task1, 0);
+    delay(500);
+
+    xTaskCreatePinnedToCore(Task2code, "Task2", 8192, NULL, 1, &Task2, 1);
+    delay(500);
+
+    xTaskCreatePinnedToCore(Task3code, "Task3", 8192, NULL, 2, &Task3, 1);
+    delay(500);
 }
 
-void GoalfinderApp::Process()
-{
-    // Serial.printf("%4.3f: processing ...\n", millis() / 1000.0);
-    UpdateSettings();
-
-    if (this->isSoundEnabled)
-    {
-        audioPlayer.Loop();
-        DetectShot();
-        ProcessAnnouncement();
-        ledController.Loop();
-
-        if (!audioPlayer.IsPlaying()) {
-            TickMetronome();
-        }
-    }
-
-    delay(1); //For webserver
-}
 
 void GoalfinderApp::UpdateSettings(bool force) {
     Settings* settings = Settings::GetInstance();
@@ -134,16 +120,6 @@ void GoalfinderApp::UpdateSettings(bool force) {
         ledController.SetMode(settings->GetLedMode());
         vibrationSensor.SetSensitivity(settings->GetVibrationSensorSensitivity());
         // TODO: Add metronome interval in milliseconds
-        // TODO: Add "expert mode" for LED:
-            // TODO: Add LED fade in time (softness),
-            // TODO: Add LED on time (shine),
-            // TODO: Add LED fade out time (softness),
-            // TODO: Add option to sync LED fade out time with fade in time,
-            // TODO: Add LED off time (dark),
-            // TODO: Add number of repetitions (see "Turbo"),
-            // TODO: Add blank time (only when for more than 1 repetition - see Turbo),
-            // TODO: Implement a generic LED controller method based on the settings above 
-            //       and reimplement predefined LED controller patterns to set those settings accordingly
     }
 }
 
@@ -156,7 +132,8 @@ void GoalfinderApp::TickMetronome() {
             // shot detection pending
             clipName = waitingClip;
         }
-        PlaySound(clipName);
+     
+       PlaySound(clipName);
     }
 }
 
@@ -167,16 +144,13 @@ void GoalfinderApp::OnShotDetected() {
 
 void GoalfinderApp::AnnounceHit() {
     announcement = Announcement::Hit;
-    // Serial.printf("%4.3f: announce hit: %d\n", millis() / 1000.0, announcement);
 }
 
 void GoalfinderApp::AnnounceMiss() {
     announcement = Announcement::Miss;
-    // Serial.printf("%4.3f: announce miss: %d\n", millis() / 1000.0, announcement);
 }
 
 void GoalfinderApp::ProcessAnnouncement() {
-    // Serial.printf("%4.3f: processing announcements: %d\n", millis() / 1000.0, announcement);
     switch(announcement) {
         case Announcement::Shot:
             AnnounceEvent("-> shot", 0);
@@ -203,24 +177,16 @@ void GoalfinderApp::AnnounceEvent(const char* traceMsg, const char* sound) {
 
 void GoalfinderApp::PlaySound(const char* soundFileName) {
     if (soundFileName != 0) {
-        Serial.printf("%4.3f: starting playback of: '%s'\n", millis() / 1000.0, soundFileName != 0 ? soundFileName : "NULL");
+        Serial.printf("%4.3f: starting playback of: '%s'\n", millis() / 1000.0, soundFileName);
         audioPlayer.PlayMP3(soundFileName);
     }
 }
 
 void GoalfinderApp::DetectShot() {
-    // Serial.printf("%4.3f: starting shot detection ...\n", millis() / 1000.0);
-    // if(lastShockTime == 0 && vibrationSensor.Vibration(5000) > shotVibrationThreshold) { 
-
-    if(lastShockTime == 0) {
+    if (lastShockTime == 0) {
         if (!(announcing && audioPlayer.IsPlaying())) {
             announcing = false; // reset announcing after playback is finished
-            // TODO Make magic number of vibration measurement timeout constant
             long vibration = vibrationSensor.Vibration(10000);
-            if (vibration > 0) {
-                Serial.printf("%4.3f: measured vibration %ld ...\n", millis() / 1000.0, vibration);
-            }
-            // TODO Make "shotVibrationThreshold" the "sensibility" of the shock-sensor
             if (vibration > shotVibrationThreshold) {
                 lastShockTime = millis();
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
@@ -231,17 +197,73 @@ void GoalfinderApp::DetectShot() {
     unsigned long currentTime = millis();
     if (lastShockTime > 0 && (currentTime - lastShockTime) < maxShotDurationMs) {
         int distance = tofSensor.ReadSingleMillimeters();
-        Serial.printf("%4.3f: detecting hit: d = [%d < %d]\n", millis() / 1000.0, distance, ballHitDetectionDistance);
-        // TODO make lower limit a constant
         if(distance > 20 && distance < ballHitDetectionDistance) {
             AnnounceHit();
             lastShockTime = 0;
         }
     }
     if (lastShockTime > 0 && (currentTime - lastShockTime) > maxShotDurationMs) {
-        Serial.printf("%4.3f: miss detected\n", millis() / 1000.0);
         AnnounceMiss();
         lastShockTime = 0;
     }
-    // Serial.printf("%4.3f: ... completed shot detection\n", millis() / 1000.0);
+}
+
+void GoalfinderApp::Process()
+{
+    UpdateSettings();
+}
+
+void Task1code(void *pvParameters) {
+    Serial.printf("Task1 running on core %d\n", xPortGetCoreID());
+
+    GoalfinderApp* app = GoalfinderApp::GetInstance();
+    if (!app) {
+        Serial.println("GoalfinderApp instance is NULL");
+        vTaskDelete(NULL);
+        return;
+    }
+
+    for (;;) {
+        app->audioPlayer.Loop();
+        if (!app->audioPlayer.IsPlaying()) {
+            app->TickMetronome();
+        }
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+/**/
+void Task2code(void *pvParameters) {
+    Serial.printf("Task2 running on core %d\n", xPortGetCoreID());
+
+    GoalfinderApp* app = GoalfinderApp::GetInstance();
+    if (!app) {
+        Serial.println("GoalfinderApp instance is NULL");
+        vTaskDelete(NULL);
+        return;
+    }
+
+    for (;;) {
+        app->DetectShot();
+        app->ProcessAnnouncement();
+        Serial.println("task2");
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void Task3code(void *pvParameters) {
+    Serial.printf("Task3 running on core %d\n", xPortGetCoreID());
+
+    GoalfinderApp* app = GoalfinderApp::GetInstance();
+    if (!app) {
+        Serial.println("GoalfinderApp instance is NULL");
+        vTaskDelete(NULL);
+        return;
+    }
+
+    for (;;) {
+        app->ledController.Loop();
+        Serial.println("task3");
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
 }

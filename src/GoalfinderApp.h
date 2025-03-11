@@ -40,6 +40,15 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Processes one single iteration step. */
 		void Process();
 
+		void TickMetronome();
+
+		void DetectShot();
+
+		void ProcessAnnouncement();
+
+		AudioPlayer audioPlayer;
+		LedController ledController;
+
 	private:
 		/** The enumeration of announcements */
 		struct Announcement {
@@ -59,12 +68,10 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Singleton constructor */
 		GoalfinderApp();
 
-		void TickMetronome();
-		void DetectShot();
+
 		void OnShotDetected() ;
 		void AnnounceHit() ;
 		void AnnounceMiss();
-		void ProcessAnnouncement();
 		void AnnounceEvent(const char* traceMsg, const char* sound);
 		void PlaySound(const char* soundFileName);
 
@@ -95,10 +102,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		FileSystem fileSystem;
 		WebServer webServer;
 		SNTP sntp;
-		AudioPlayer audioPlayer;
 		ToFSensor tofSensor;
 		VibrationSensor vibrationSensor;
-		LedController ledController;
 
 		bool isSoundEnabled;
 
