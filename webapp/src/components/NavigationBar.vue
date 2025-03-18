@@ -17,7 +17,7 @@ const settings = useSettingsStore();
         <RouterLink to="/settings"><Button class="link">{{ $t("header.settings") }}</Button></RouterLink>
         <RouterLink to="/about"><Button class="link">{{ $t("header.about") }}</Button></RouterLink>
         <ToggleButton id="power-state-button" v-model="settings.isSoundEnabled">
-         <PowerIcon id="power-icon"/>
+          <PowerIcon id="power-icon"/>
         </ToggleButton>
       </div>
     </div>

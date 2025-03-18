@@ -7,16 +7,21 @@ import {ShotChallengeGame} from "@/models/game";
 import {Player} from "@/models/player";
 import ToggleButton from "@/components/ToggleButton.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
+import {useSettingsStore} from "@/stores/settings";
 
 const game = reactive(new ShotChallengeGame());
 const showLeaderboard = ref(false);
 const playerName = ref("");
+const settings = useSettingsStore();
 
 const addPlayerForm = useTemplateRef<HTMLFormElement>("add-player-form");
 
 function recordShot(index: number, isHit: boolean) {
   if (isHit) {
     game.addHitToPlayer(index);
+
+    //efgdrgerwger
+
   } else {
     game.addMissToPlayer(index);
   }
@@ -39,6 +44,7 @@ function onPlayerAddFormSubmit() {
 function onGameStartBtnClick() {
   if(game.isRunning) {
     game.pause();
+    settings.isSoundEnabled = false;
   }
   else {
     game.start();

@@ -38,6 +38,7 @@ abstract class Game {
 
     public addHitToPlayer(playerIndex: number): void {
         this._players[playerIndex].addHit();
+
     }
 
     public addMissToPlayer(playerIndex: number): void {
@@ -81,33 +82,23 @@ export class ShotChallengeGame extends Game {
         this.reset();
     }
 
-    public start(): void {
+    public async start(): Promise<void> {
         if(!this.isRunning) {
             this.timerIntervalId = setInterval(async () => {
                 this._timer--;
 
-                try {
-                    const hitsData = await fetch(`${API_URL}/hits`, {method: "GET"});
+                const newHitsData = await fetch(`${API_URL}/hits`, {method: "GET"});
+                const newHits = parseInt(await newHitsData.text());
+                console.log(newHits);
 
-                    const hits: number = parseInt(await hitsData.text());
-
-                    for (let i = 0; i < hits; i++) {
-                        this.getSelectedPlayer().addHit();
-                    }
-
-                    const missesData = await fetch(`${API_URL}/misses`, {method: "GET"});
-
-                    const misses: number = parseInt(await missesData.text());
-
-                    for (let i = 0; i < misses; i++) {
-                        this.getSelectedPlayer().addMiss();
-                    }
-                }
-                catch (e) {
-                    console.log(e);
+                if(newHits > 0) {
+                    this.getSelectedPlayer().addHit();
+                    this.resetTimer();
+                    this.selectNewPlayer();
                 }
 
-                if (this._timer <= 0) {
+                if(this._timer <= 0) {
+                    this.getSelectedPlayer().addMiss();
                     this.resetTimer();
                     this.selectNewPlayer();
                 }
