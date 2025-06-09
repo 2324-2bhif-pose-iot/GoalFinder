@@ -75,6 +75,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void PlaySound(const char* soundFileName);
 
 		void UpdateSettings(bool force = false);
+
+		static const int wifiTimeout;
 		
 		static const int pinTofSda;
 		static const int pinTofScl;
@@ -109,7 +111,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		int detectedHits = 0;
 		int detectedMisses = 0;
 
-		bool isSoundEnabled;
+		bool isSoundEnabled = false;
 
 		bool announcing;
 		unsigned long lastMetronomeTickTime;
