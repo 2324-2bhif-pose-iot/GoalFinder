@@ -2,11 +2,14 @@
 // #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <Settings.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
 
 // Cleanup - replaced by constants
 // #define RANGE_WHEN_BALL_GOES_IN 180
 // #define VIBRATION_WHEN_BALL_HITS_BOARD 2000
 
+const int GoalfinderApp::wifiTimeout = 10; // In Seconds
 const int GoalfinderApp::pinTofSda = 22;
 const int GoalfinderApp::pinTofScl = 21;
 const int GoalfinderApp::pinI2sBclk = 23;
@@ -96,13 +99,59 @@ void GoalfinderApp::Init()
     }
     
     Settings* settings = Settings::GetInstance();
+
+    WiFi.mode(WIFI_STA);
+    WiFi.begin("GoalFinder Hub");
+
+    int timeout = 0;
+    
+    while(WiFi.status() != WL_CONNECTED && timeout <= wifiTimeout) {
+        delay(1000);
+        timeout += 1;
+        Serial.print(".");
+    }
+
     String ssid = settings->GetDeviceName();
     String wifiPw = settings->GetDevicePassword();
 
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP(ssid, wifiPw);
-    WiFi.setSleep(false);
-    Serial.println(WiFi.softAPIP());
+    if(timeout <= wifiTimeout) {
+        Serial.println(WiFi.localIP());
+
+        HTTPClient http;
+        http.begin("http://goalfinderhub.local:3000/api/devices/");
+
+        JsonDocument doc;
+
+        doc["macAddress"] = settings->GetMacAddress();
+        doc["ipAddress"] = WiFi.localIP().toString();
+
+        String requestBody;
+        serializeJson(doc, requestBody);
+
+        http.addHeader("Content-Type", "application/json");
+        int responseCode = http.POST(requestBody);
+
+        if (responseCode == 204) {
+            Serial.printf("HTTP POST success: %d\n", responseCode);
+            String response = http.getString();
+            Serial.println(response);
+        } else {
+            Serial.printf("HTTP POST failed: %s\n", http.errorToString(responseCode).c_str());
+            SetIsSoundEnabled(true);
+            WiFi.mode(WIFI_AP);
+            WiFi.softAP(ssid, wifiPw);
+            WiFi.setSleep(false);
+            Serial.println(WiFi.softAPIP());
+        }
+
+        http.end();
+    } else {
+        SetIsSoundEnabled(true);
+        WiFi.mode(WIFI_AP);
+        WiFi.softAP(ssid, wifiPw);
+        WiFi.setSleep(false);
+        Serial.println(WiFi.softAPIP());
+    }
 
     webServer.Begin();
     

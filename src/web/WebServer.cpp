@@ -144,6 +144,17 @@ static void HandleMisses(AsyncWebServerRequest* request) {
 static void HandleRestart(AsyncWebServerRequest* request) 
 {
     ESP.restart();
+    request->send(204);
+}
+
+static void HandleStart(AsyncWebServerRequest* request) {
+    GoalfinderApp::GetInstance()->SetIsSoundEnabled(true);
+    request->send(204);
+}
+
+static void HandleStop(AsyncWebServerRequest* request) {
+    GoalfinderApp::GetInstance()->SetIsSoundEnabled(false);
+    request->send(204);
 }
 
 WebServer::WebServer(FileSystem* fileSystem) : server(80), updater(&server)
@@ -169,16 +180,33 @@ void WebServer::Begin()
         Serial.println("[ERROR] Could not start mDNS service!");
     }
 
+    DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+
     updater.Begin(API_URL"/update");
 
+    server.on(API_URL"/start", HTTP_POST, HandleStart);
+    server.on(API_URL"/stop", HTTP_POST, HandleStop);
     server.on(API_URL"/settings", HTTP_GET, HandleLoadSettings);
     server.on(API_URL"/settings", HTTP_POST, [](AsyncWebServerRequest* request) {}, 0, HandleSaveSettings);
     server.on(API_URL"/restart", HTTP_POST, HandleRestart);    
     server.on(API_URL"/hits", HTTP_GET, HandleHits);
     server.on(API_URL"/misses", HTTP_GET, HandleMisses);
     server.on("/*", HTTP_GET, HandleRequest);
-    //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
 
+    server.onNotFound([](AsyncWebServerRequest *request) {
+        if (request->method() == HTTP_OPTIONS) {
+            // Handle CORS preflight
+            AsyncWebServerResponse* response = request->beginResponse(200);
+            response->addHeader("Access-Control-Allow-Origin", "*");
+            response->addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            response->addHeader("Access-Control-Allow-Headers", "Content-Type");
+            request->send(response);
+        } else {
+            request->send(404);
+        }
+    });
+
+    //server.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html").setCacheControl("max-age=604800");
     server.begin();
     Serial.println("[INFO] Started web server.");
 }
