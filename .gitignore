@@ -213,3 +213,6 @@ fp-info-cache
 *.docx
 
 .idea
+/docs/EAD/*.zip
+/docs/EAD/*.kicad_prl
+/docs/Housing/*.FCBak
