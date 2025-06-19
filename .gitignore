@@ -216,3 +216,4 @@ fp-info-cache
 /docs/EAD/*.zip
 /docs/EAD/*.kicad_prl
 /docs/Housing/*.FCBak
+/docs/Housing/*.3mf
