@@ -31,6 +31,8 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		void SetIsSoundEnabled(bool value);
 		bool IsSoundEnabled();
 
+		bool GetIsClient();
+
 		int GetDetectedHits();
 		int GetDetectedMisses();
 
@@ -65,6 +67,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		/** Singleton constructor */
 		GoalfinderApp();
 
+		void InitAP();
 		void TickMetronome();
 		void DetectShot();
 		void OnShotDetected() ;
@@ -112,6 +115,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		int detectedMisses = 0;
 
 		bool isSoundEnabled = false;
+		bool isClient = false; // Is connected to GoalFinderHub?
 
 		bool announcing;
 		unsigned long lastMetronomeTickTime;

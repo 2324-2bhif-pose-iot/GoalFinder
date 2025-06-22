@@ -4,6 +4,9 @@
 #include <Settings.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include <ESPmDNS.h>
+
+#define WEBAPP_DOMAIN "goalfinder"
 
 // Cleanup - replaced by constants
 // #define RANGE_WHEN_BALL_GOES_IN 180
@@ -21,8 +24,8 @@ const int GoalfinderApp::pinRandomSeed = 36;
 const int GoalfinderApp::ledPwmChannel = 0;
 
 const int GoalfinderApp::ballHitDetectionDistance = 180; // TODO: Make configurable
-const int GoalfinderApp::shotVibrationThreshold = 2000; // TODO: Make configurable??
-const int GoalfinderApp::maxShotDurationMs = 5000; // TODO: Make configurable
+const int GoalfinderApp::shotVibrationThreshold = 3000; // TODO: Make configurable??
+const int GoalfinderApp::maxShotDurationMs = 3500; // TODO: Make configurable
 
 const char* GoalfinderApp::waitingClip = "/waiting.mp3";
 
@@ -71,6 +74,10 @@ bool GoalfinderApp::IsSoundEnabled()
     return this->isSoundEnabled;
 }
 
+bool GoalfinderApp::GetIsClient() {
+    return this->isClient;
+}
+
 int GoalfinderApp::GetDetectedHits() {
     return detectedHits;
 }
@@ -81,6 +88,25 @@ int GoalfinderApp::GetDetectedMisses() {
 
 GoalfinderApp::~GoalfinderApp() 
 {
+    MDNS.end();
+    webServer.Stop();
+}
+
+void GoalfinderApp::InitAP() {
+    if(!MDNS.begin(WEBAPP_DOMAIN)) 
+    {
+        Serial.println("[ERROR] Could not start mDNS service!");
+    }
+
+    Settings* settings = Settings::GetInstance();
+
+    String ssid = settings->GetDeviceName();
+    String wifiPw = settings->GetDevicePassword();
+
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP(ssid, wifiPw);
+    WiFi.setSleep(false);
+    Serial.println(WiFi.softAPIP());
 }
 
 void GoalfinderApp::Init() 
@@ -111,9 +137,6 @@ void GoalfinderApp::Init()
         Serial.print(".");
     }
 
-    String ssid = settings->GetDeviceName();
-    String wifiPw = settings->GetDevicePassword();
-
     if(timeout <= wifiTimeout) {
         Serial.println(WiFi.localIP());
 
@@ -124,6 +147,11 @@ void GoalfinderApp::Init()
 
         doc["macAddress"] = settings->GetMacAddress();
         doc["ipAddress"] = WiFi.localIP().toString();
+        doc["deviceName"] = settings->GetDeviceName();
+        doc["devicePassword"] = settings->GetDevicePassword();
+        doc["vibrationSensorSensitivity"] = settings->GetVibrationSensorSensitivity();
+        doc["volume"] = settings->GetVolume();
+        doc["ledMode"] = (int)settings->GetLedMode();
 
         String requestBody;
         serializeJson(doc, requestBody);
@@ -135,22 +163,18 @@ void GoalfinderApp::Init()
             Serial.printf("HTTP POST success: %d\n", responseCode);
             String response = http.getString();
             Serial.println(response);
+
+            this->isClient = true;
         } else {
             Serial.printf("HTTP POST failed: %s\n", http.errorToString(responseCode).c_str());
-            SetIsSoundEnabled(true);
-            WiFi.mode(WIFI_AP);
-            WiFi.softAP(ssid, wifiPw);
-            WiFi.setSleep(false);
-            Serial.println(WiFi.softAPIP());
         }
 
         http.end();
-    } else {
+    }
+
+    if(!this->isClient) {
         SetIsSoundEnabled(true);
-        WiFi.mode(WIFI_AP);
-        WiFi.softAP(ssid, wifiPw);
-        WiFi.setSleep(false);
-        Serial.println(WiFi.softAPIP());
+        InitAP();
     }
 
     webServer.Begin();
@@ -233,6 +257,25 @@ void GoalfinderApp::OnShotDetected() {
 void GoalfinderApp::AnnounceHit() {
     announcement = Announcement::Hit;
     detectedHits++;
+
+    if(this->isClient) {
+        HTTPClient http;
+        http.begin("http://goalfinderhub.local:3000/api/games/hit");
+        http.addHeader("Content-Type", "application/json");
+
+        JsonDocument doc;
+
+        doc["macAddress"] = Settings::GetInstance()->GetMacAddress();
+
+        String requestBody;
+        serializeJson(doc, requestBody);
+
+        int responseCode = http.POST(requestBody);
+
+        if(responseCode != 204) {
+            Serial.printf("HTTP POST on hit failed: %s\n", http.errorToString(responseCode).c_str());
+        }
+    }
     // Serial.printf("%4.3f: announce hit: %d\n", millis() / 1000.0, announcement);
 }
 
@@ -277,12 +320,14 @@ void GoalfinderApp::PlaySound(const char* soundFileName) {
 }
 
 void GoalfinderApp::DetectShot() {
+    //TODO fix
     // Serial.printf("%4.3f: starting shot detection ...\n", millis() / 1000.0);
     // if(lastShockTime == 0 && vibrationSensor.Vibration(5000) > shotVibrationThreshold) { 
 
     if(lastShockTime == 0) {
         if (!(announcing && audioPlayer.IsPlaying())) {
             announcing = false; // reset announcing after playback is finished
+
             // TODO Make magic number of vibration measurement timeout constant
             long vibration = vibrationSensor.Vibration(10000);
             if (vibration > 0) {

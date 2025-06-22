@@ -3,6 +3,7 @@ import Button from "@/components/Button.vue";
 import PowerIcon from "@/components/icons/PowerIcon.vue";
 import ToggleButton from "@/components/ToggleButton.vue";
 import {useSettingsStore} from "@/stores/settings";
+import {ref, watch} from "vue";
 
 const settings = useSettingsStore();
 

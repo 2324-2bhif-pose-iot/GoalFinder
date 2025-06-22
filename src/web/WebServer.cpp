@@ -1,12 +1,10 @@
 #include "WebServer.h"
-#include <ESPmDNS.h>
 #include <AsyncJson.h>
 #include <ArduinoJson.h>
 #include <GoalfinderApp.h>
 
 #include "Settings.h"
 
-#define WEBAPP_DOMAIN "goalfinder"
 #define WEBAPP_DIR "/web"
 #define INDEX_PATH "/index.html"
 #define COMPRESSED_FILE_EXTENSION ".gz"
@@ -113,7 +111,7 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     deserializeJson(doc, (const char*)data);
 
     GoalfinderApp* app = GoalfinderApp::GetInstance();
-    app->SetIsSoundEnabled(doc["isSoundEnabled"]);
+    //app->SetIsSoundEnabled(doc["isSoundEnabled"]);
 
     Settings* settings = Settings::GetInstance();
     settings->SetDeviceName(doc["deviceName"]);
@@ -175,11 +173,6 @@ void WebServer::Init()
 
 void WebServer::Begin() 
 {
-    if(!MDNS.begin(WEBAPP_DOMAIN)) 
-    {
-        Serial.println("[ERROR] Could not start mDNS service!");
-    }
-
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
     updater.Begin(API_URL"/update");
@@ -213,7 +206,6 @@ void WebServer::Begin()
 
 void WebServer::Stop() 
 {    
-    MDNS.end();
     server.end();
 }
 

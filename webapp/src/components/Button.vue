@@ -24,6 +24,7 @@
     cursor: pointer;
     background: inherit;
     border-color: cornflowerblue;
+    color: cornflowerblue;
   }
 
   .primary {

@@ -15,6 +15,7 @@ void VibrationSensor::Init()
 
 long VibrationSensor::Vibration(uint64_t measureTimeUs) 
 {
+    
    long measurement = pulseIn(vs, HIGH, measureTimeUs);
    //long measurement = pulseIn(vs, HIGH);
    return measurement;

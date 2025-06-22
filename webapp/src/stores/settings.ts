@@ -66,6 +66,17 @@ export const useSettingsStore = defineStore("settings", () => {
                 method: "POST",
                 body: JSON.stringify(useSettingsStore().$state),
             });
+
+            if(isSoundEnabled.value) {
+                await fetch(`${API_URL}/start`, {
+                    method: "POST"
+                });
+            }
+            else {
+                await fetch(`${API_URL}/stop`, {
+                    method: "POST"
+                })
+            }
         } catch (error) {
             console.error(error);
         }
