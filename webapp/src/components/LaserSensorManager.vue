@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useSettingsStore} from "@/stores/settings";
-import Button from "@/components/Button.vue";
 import InputForm from "@/components/InputForm.vue";
 
 const settings = useSettingsStore();
@@ -38,15 +37,6 @@ const settings = useSettingsStore();
 
 .button:first-child {
   margin-left: 0;
-}
-
-.current-modus {
-  text-align: center;
-  margin-top: 0.2rem;
-}
-
-.current-modus span {
-  margin-left: 0.1rem;
 }
 
 span {
