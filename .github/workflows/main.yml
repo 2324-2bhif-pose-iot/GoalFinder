@@ -22,6 +22,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: firmware
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
@@ -46,9 +50,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            .pio/build/wemos_d1_mini32/firmware.bin
-            .pio/build/wemos_d1_mini32/littlefs.bin
-            .pio/build/wemos_d1_mini32/system.bin
+            firmware/.pio/build/wemos_d1_mini32/firmware.bin
+            firmware/.pio/build/wemos_d1_mini32/littlefs.bin
+            firmware/.pio/build/wemos_d1_mini32/system.bin
 
       #- name: Upload Firmware
        # uses: actions/upload-artifact@v4
