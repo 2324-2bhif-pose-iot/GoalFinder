@@ -19,7 +19,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: '../data/web',
+    outDir: '../firmware/data/web',
     emptyOutDir: true,
     rollupOptions: {
       output: {
