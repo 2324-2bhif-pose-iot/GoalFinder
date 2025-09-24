@@ -372,7 +372,7 @@ void GoalfinderApp::DetectShot()
         }
     }*/
 
-    if (lastShockTime == 0)
+    /*if (lastShockTime == 0)
     {
         if (!(announcing && audioPlayer.IsPlaying()))
         {
@@ -391,9 +391,9 @@ void GoalfinderApp::DetectShot()
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
             }
         }
-    }
+    }*/
 
-    /*if (lastShockTime == 0)
+    if (lastShockTime == 0)
     {
         if (audioPlayer.IsPlaying())
         {
@@ -417,7 +417,7 @@ void GoalfinderApp::DetectShot()
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
             }
         }
-    }*/
+    }
 
     int ballHitDetectionDistance = Settings::GetInstance()->GetBallHitDetectionDistance();
 
