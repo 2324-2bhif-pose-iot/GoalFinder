@@ -11,7 +11,7 @@ const settings = useSettingsStore();
       <div class="label-container">
         <label>{{ $t("word.measuring")}} {{ $t("word.distance") }}</label>
         <div class="button-container">
-          <InputForm type="number" class="button" v-model="settings.laserSensorDistance" inputmode="numeric" min="150" max="300" step="10"></InputForm>
+          <InputForm type="number" class="button" v-model="settings.ballHitDetectionDistance" inputmode="numeric" min="150" max="300" step="10"></InputForm>
         </div>
       </div>
     </div>

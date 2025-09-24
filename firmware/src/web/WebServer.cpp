@@ -54,12 +54,26 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     String filePath = WEBAPP_DIR + request->url();  
     const String contentType = GetContentType(&filePath);
-    //filePath += COMPRESSED_FILE_EXTENSION;
+    filePath += COMPRESSED_FILE_EXTENSION;
 
-    if(!internalFS->FileExists(filePath))
+    bool fileExists = internalFS->FileExists(filePath);
+
+
+    if(!fileExists)
     {
-        filePath = WEBAPP_DIR INDEX_PATH;//COMPRESSED_FILE_EXTENSION;
+        filePath = WEBAPP_DIR INDEX_PATH COMPRESSED_FILE_EXTENSION;
     }
+
+    AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
+
+    if(fileExists) 
+    {
+        response->addHeader("Content-Encoding", "gzip");
+    }
+
+    response->addHeader("Cache-Control", "max-age=604800"); // 1 week
+
+
 
     //File currFile = internalFS->OpenFile(filePath);  
 
@@ -75,12 +89,12 @@ static void HandleRequest(AsyncWebServerRequest* request)
         file.close();
     }); */
 
-    AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
+    //AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
     //response->addHeader("Cache-Control", "max-age=604800");
     //response->addHeader("Transfer-Encoding", "chunked");
     //response->addHeader("Content-Encoding", "gzip"); //The complete webapp is compressed with gzip to save space and load the files faster
     request->send(response);
-    request->beginResponseStream(contentType);
+    //request->beginResponseStream(contentType);
 }
 
 static void HandleLoadSettings(AsyncWebServerRequest* request) 
@@ -94,6 +108,7 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     root["deviceName"] = settings->GetDeviceName();
     root["devicePassword"] = settings->GetDevicePassword();
     root["vibrationSensorSensitivity"] = settings->GetVibrationSensorSensitivity();
+    root["ballHitDetectionDistance"] = settings->GetBallHitDetectionDistance();
     root["volume"] = settings->GetVolume();
     root["ledMode"] = (int)settings->GetLedMode();
     root["macAddress"] = settings->GetMacAddress();
@@ -117,6 +132,7 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     settings->SetDeviceName(doc["deviceName"]);
     settings->SetDevicePassword(doc["devicePassword"]);
     settings->SetVibrationSensorSensitivity(doc["shotSensitivity"]);
+    settings->SetBallHitDetectionDistance(doc["ballHitDetectionDistance"]);
     settings->SetVolume(doc["volume"]);
     settings->SetLedMode(doc["ledMode"]);
 

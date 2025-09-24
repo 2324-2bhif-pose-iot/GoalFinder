@@ -19,7 +19,7 @@
 #include <math.h>
 
 const char* Settings::keyVolume = "volume";
-const int Settings::defaultVolume = 100;
+const int Settings::defaultVolume = 25;
 
 const char* Settings::keyDeviceName = "deviceName";
 const String Settings::defaultDeviceName = "Goalfinder";
@@ -29,6 +29,9 @@ const String Settings::defaultDevicePassword = emptyString;
 
 const char* Settings::keyVibrationSensorSensitivity = "shotSensitivity";
 const int Settings::defaultVibrationSensorSensitivity = 100;
+
+const char* Settings::keyBallHitDetectionDistance = "ballHitDetectionDistance";
+const int Settings::defaultBallHitDetectionDistance = 180;
 
 const char* Settings::keyLedMode = "ledMode";
 const LedMode Settings::defaultLedMode = LedMode::Flash;
@@ -116,6 +119,16 @@ void Settings::SetVibrationSensorSensitivity(int vibrationSensorSensitivity)
 	store.PutInt(keyVibrationSensorSensitivity, vibrationSensorSensitivity);
 	SetModified();
 };
+
+int Settings::GetBallHitDetectionDistance() 
+{
+	return store.GetInt(keyBallHitDetectionDistance, defaultBallHitDetectionDistance);
+}
+
+void Settings::SetBallHitDetectionDistance(int ballHitDetectionDistance)
+{
+	ballHitDetectionDistance = max(min(ballHitDetectionDistance, 200), 0);
+}
 
 LedMode Settings::GetLedMode()
 {

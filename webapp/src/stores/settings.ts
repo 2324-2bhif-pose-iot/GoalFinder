@@ -19,7 +19,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const availableBluetoothDevices = ref([]);
     
     const vibrationSensorSensitivity = ref(0);
-    const laserSensorDistance = ref(0);
+    const ballHitDetectionDistance = ref(0);
 
     const isWifiEnabled = ref(false);
     const connectedNetwork = ref("");
@@ -54,6 +54,7 @@ export const useSettingsStore = defineStore("settings", () => {
                 macAddress.value = json["macAddress"];
                 isSoundEnabled.value = json["isSoundEnabled"];
                 version.value = json["version"];
+                ballHitDetectionDistance.value = json["ballHitDetectionDistance"];
             }
 
         } catch (error) {
@@ -108,7 +109,7 @@ export const useSettingsStore = defineStore("settings", () => {
         connectedBluetoothDevices,
         availableBluetoothDevices,
         vibrationSensorSensitivity,
-        laserSensorDistance,
+        ballHitDetectionDistance,
         isWifiEnabled,
         connectedNetwork,
         availableNetworks,
