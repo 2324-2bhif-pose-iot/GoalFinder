@@ -439,5 +439,6 @@ void GoalfinderApp::DetectShot()
         AnnounceMiss();
         lastShockTime = 0;
     }
+    
     // Serial.printf("%4.3f: ... completed shot detection\n", millis() / 1000.0);
 }
