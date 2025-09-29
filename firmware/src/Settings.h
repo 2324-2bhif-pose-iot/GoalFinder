@@ -34,6 +34,10 @@ class Settings : public Singleton<Settings>
 
         void SetVibrationSensorSensitivity(int vibrationSensorSensitivity);
 
+        int GetBallHitDetectionDistance();
+
+        void SetBallHitDetectionDistance(int ballHitDetectionDistance);
+
         LedMode GetLedMode();
 
         void SetLedMode(LedMode ledMode);
@@ -56,6 +60,9 @@ class Settings : public Singleton<Settings>
 
         static const char* keyVibrationSensorSensitivity;
         static const int defaultVibrationSensorSensitivity;
+
+        static const char* keyBallHitDetectionDistance;
+        static const int defaultBallHitDetectionDistance;
         
         static const char* keyLedMode;
         static const LedMode defaultLedMode;

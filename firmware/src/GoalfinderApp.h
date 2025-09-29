@@ -91,7 +91,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 
 		static const int ledPwmChannel;
 		
-		static const int ballHitDetectionDistance;
+		//static const int ballHitDetectionDistance;
 		static const int shotVibrationThreshold;
 		static const int maxShotDurationMs;
 

@@ -8,10 +8,12 @@ import compression from "vite-plugin-compression2";
 export default defineConfig({
   plugins: [
     vue(),
-    /*compression(
+    compression(
         {
-          deleteOriginalAssets: true
-        })*/
+            algorithms: ['gzip'],
+            threshold: 0,// ✅ force .gz extension
+            deleteOriginalAssets: true,  // compress everything, even small files
+        })
   ],
   resolve: {
     alias: {
