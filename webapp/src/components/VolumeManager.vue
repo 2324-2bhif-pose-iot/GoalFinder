@@ -1,12 +1,21 @@
 <script setup lang="ts">
-  import {useSettingsStore} from "@/stores/settings";
-  import Button from "@/components/Button.vue";
+import { ref } from "vue";
+import { useSettingsStore } from "@/stores/settings";
+import Button from "@/components/Button.vue";
 
-  const settings = useSettingsStore();
+const settings = useSettingsStore();
 
-  const setVolume = (value: number) => {
-    settings.volume = value;
-  };
+// Lautstärke setzen
+const setVolume = (value: number) => {
+  settings.volume = value;
+};
+const setHitSound = (value: number) => {
+  settings.hitSound = value;
+};
+const setMissSound = (value: number) => {
+  settings.missSound = value;
+}; 
+
 </script>
 
 <template>
@@ -20,7 +29,32 @@
       <Button class="button" @click="setVolume(100)">100%</Button>
     </div>
   </div>
-  <div class="current-volume">{{ $t("word.curr_volume") }}: {{ settings.volume }}%</div>
+   <div class="current-volume">
+    {{ $t("word.curr_volume") }}: {{ settings.volume }}%
+  </div>
+
+  <div class="sound-config">
+    <div class="sound-select">
+      <label id="Hit-Sound">Hit-Sound:</label>
+      <Button class="button"  @click="setHitSound(0)">Sound 1</Button>
+      <Button class="button" @click="setHitSound(1)">Sound 2</Button>
+      <Button class="button" @click="setHitSound(2)">Sound 3</Button>
+    </div>
+
+    <div class="sound-select">
+      <label>Miss-Sound:</label>
+      <Button class="button" @click="setMissSound(0)">Sound 1</Button>
+      <Button class="button" @click="setMissSound(1)">Sound 2</Button>
+      <Button class="button" @click="setMissSound(2)">Sound 3</Button>
+    </div>
+  </div>
+
+   <div class="current-volume">
+    Derzeitiger Hit-Sound: {{ settings.hitSound + 1 }}
+  </div>
+  <div class="current-volume">
+      Derzeitiger Miss-Sound : {{ settings.missSound + 1 }}
+  </div>
 </template>
 
 <style scoped>
@@ -47,5 +81,15 @@
   text-align: center;
   margin-top: 0.1rem;
   font-weight: bold;
+}
+
+#Hit-Sound {
+  margin-right: 0.8rem; 
+}
+
+.sound-select {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 }
 </style>

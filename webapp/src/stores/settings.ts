@@ -26,6 +26,8 @@ export const useSettingsStore = defineStore("settings", () => {
 
     //Audio
     const volume = ref(0);
+    const hitSound = ref(0);
+    const missSound = ref(0);
 
     //System
     const macAddress = ref("");
@@ -53,6 +55,8 @@ export const useSettingsStore = defineStore("settings", () => {
                 macAddress.value = json["macAddress"];
                 isSoundEnabled.value = json["isSoundEnabled"];
                 version.value = json["version"];
+                hitSound.value = json["hitSound"];
+                missSound.value = json["missSound"];
             }
 
         } catch (error) {
