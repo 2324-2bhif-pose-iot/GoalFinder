@@ -27,6 +27,9 @@ export const useSettingsStore = defineStore("settings", () => {
 
     //Audio
     const volume = ref(0);
+    const metronomeSound = ref(0);
+    const hitSound = ref(0);
+    const missSound = ref(0);
 
     //System
     const macAddress = ref("");
@@ -50,6 +53,9 @@ export const useSettingsStore = defineStore("settings", () => {
                 deviceName.value = json["deviceName"];
                 devicePassword.value = json["devicePassword"];
                 volume.value = json["volume"];
+                metronomeSound.value = json["metronomeSound"];
+                hitSound.value = json["hitSound"];
+                missSound.value = json["missSound"];
                 ledMode.value = json["ledMode"];
                 macAddress.value = json["macAddress"];
                 isSoundEnabled.value = json["isSoundEnabled"];
@@ -114,6 +120,9 @@ export const useSettingsStore = defineStore("settings", () => {
         connectedNetwork,
         availableNetworks,
         volume,
+        metronomeSound,
+        hitSound,
+        missSound,
         macAddress,
         refreshAvailableNetworks,
         refreshAvailableBluetoothDevices,

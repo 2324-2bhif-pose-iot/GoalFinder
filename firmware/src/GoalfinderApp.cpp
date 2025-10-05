@@ -27,22 +27,27 @@ const int GoalfinderApp::ledPwmChannel = 0;
 const int GoalfinderApp::shotVibrationThreshold = 3000; // TODO: Make configurable??
 const int GoalfinderApp::maxShotDurationMs = 3500;      // TODO: Make configurable
 
-const char *GoalfinderApp::waitingClip = "/waiting.mp3";
+//const char *GoalfinderApp::waitingClip = "/waiting.mp3";
 
 const char *GoalfinderApp::hitClips[] = {
     "/hit-1.mp3",
     // "/hit-2.mp3",
 };
+
 const int GoalfinderApp::hitClipsCnt = sizeof(GoalfinderApp::hitClips) / sizeof(GoalfinderApp::hitClips[0]);
 
 const char *GoalfinderApp::tickClips[] = {
-    "/tick-1.mp3"};
+    "/waiting.mp3",
+    "/tick-1.mp3",
+    "/tick-4.mp3"
+};
+
 const int GoalfinderApp::tickClipsCnt = sizeof(GoalfinderApp::tickClips) / sizeof(GoalfinderApp::tickClips[0]);
 
 const char *GoalfinderApp::missClips[] = {
     "/miss-1.mp3",
-    // "/miss-2.mp3",
-    // "/miss-3.mp3",
+    "/miss-3.mp3",
+    "/miss-2.mp3",
 };
 const int GoalfinderApp::missClipsCnt = sizeof(GoalfinderApp::missClips) / sizeof(GoalfinderApp::missClips[0]);
 
@@ -257,12 +262,13 @@ void GoalfinderApp::TickMetronome()
     if ((currentTime - lastMetronomeTickTime) > metronomeIntervalMs)
     {
         lastMetronomeTickTime = currentTime;
-        const char *clipName = tickClips[0];
-        if (lastShockTime > 0)
+        //const char *clipName = tickClips[0];
+        const char *clipName = tickClips[Settings::GetInstance()->GetMetronomeSound()];
+        /*if (lastShockTime > 0)
         {
             // shot detection pending
             clipName = waitingClip;
-        }
+        }*/
         PlaySound(clipName);
     }
 }
@@ -318,10 +324,12 @@ void GoalfinderApp::ProcessAnnouncement()
         // Send websocket
         break;
     case Announcement::Hit:
-        AnnounceEvent("-> hit", hitClips[0]);
+        //AnnounceEvent("-> hit", hitClips[0]);
+        AnnounceEvent("-> hit", hitClips[Settings::GetInstance()->GetHitSound()]);
         break;
     case Announcement::Miss:
-        AnnounceEvent("-> miss", missClips[0]);
+        //AnnounceEvent("-> miss", missClips[0]);
+        AnnounceEvent("-> hit", missClips[Settings::GetInstance()->GetMissSound()]);
         break;
     default:
         break;
