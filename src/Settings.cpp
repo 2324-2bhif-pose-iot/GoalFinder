@@ -32,6 +32,13 @@ const int Settings::defaultVibrationSensorSensitivity = 100;
 
 const char* Settings::keyLedMode = "ledMode";
 const LedMode Settings::defaultLedMode = LedMode::Flash;
+
+const char* Settings::keyHitSound = "hitSound";
+const int Settings::defaultHitSound = 0;
+
+const char* Settings::keyMissSound = "missSound";
+const int Settings::defaultMissSound = 0;
+
 	
 Settings::Settings() :
     Singleton<Settings>(),
@@ -50,6 +57,24 @@ String Settings::GetMacAddress() {
 
 int Settings::GetVolume() {
 	return store.GetInt(keyVolume, defaultVolume);
+}
+
+int Settings::GetHitSound() {
+	return store.GetInt(keyHitSound, defaultHitSound);
+}
+
+void Settings::SetHitSound(int hitSound) {
+	store.PutInt(keyHitSound, hitSound);
+	SetModified();
+}
+
+void Settings::SetMissSound(int missSound) {
+	store.PutInt(keyMissSound, missSound);
+	SetModified();
+}
+
+int Settings::GetMissSound() {
+	return store.GetInt(keyMissSound, defaultMissSound);
 }
 
 void Settings::SetVolume(int volume) {

@@ -38,6 +38,11 @@ class Settings : public Singleton<Settings>
 
         void SetLedMode(LedMode ledMode);
 
+        void SetHitSound(int hitSound);
+        int GetHitSound();
+
+        void SetMissSound(int missSound);
+        int GetMissSound();
 
     private:
 		friend class Singleton<Settings>;
@@ -59,6 +64,12 @@ class Settings : public Singleton<Settings>
         
         static const char* keyLedMode;
         static const LedMode defaultLedMode;
+
+        static const char* keyHitSound;
+        static const int defaultHitSound;
+
+        static const char* keyMissSound;
+        static const int defaultMissSound;
 
         System::Settings store;
         bool modified;

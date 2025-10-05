@@ -1,7 +1,6 @@
 #include <GoalfinderApp.h>
 #include <HardwareSerial.h>
 #include <Settings.h>
-#include <mutex>
 
 // Konstante Pins für Peripherie
 const int GoalfinderApp::pinTofSda = 22;
@@ -134,6 +133,7 @@ void GoalfinderApp::TickMetronome() {
         }
      
        PlaySound(clipName);
+       Serial.println("Metronome");
     }
 }
 
@@ -151,6 +151,7 @@ void GoalfinderApp::AnnounceMiss() {
 }
 
 void GoalfinderApp::ProcessAnnouncement() {
+    Serial.println("Announce Process");
     switch(announcement) {
         case Announcement::Shot:
             AnnounceEvent("-> shot", 0);
@@ -183,29 +184,26 @@ void GoalfinderApp::PlaySound(const char* soundFileName) {
 }
 
 void GoalfinderApp::DetectShot() {
+    Serial.println("Detecting Shot");
     if (lastShockTime == 0) {
-        if (!(announcing && audioPlayer.IsPlaying())) {
-            announcing = false; // reset announcing after playback is finished
-            long vibration = vibrationSensor.Vibration(10000);
-            if (vibration > shotVibrationThreshold) {
+        {
+            long vibration = 0;
+            //Serial.printf("Vibration: %d\n", vibration);
+            if (vibration > 0) {
                 lastShockTime = millis();
+                Serial.printf("Last shock time: %d\n", lastShockTime);
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
             }
         }
     }
-
-    unsigned long currentTime = millis();
-    if (lastShockTime > 0 && (currentTime - lastShockTime) < maxShotDurationMs) {
+        unsigned long currentTime = millis();
+   
         int distance = tofSensor.ReadSingleMillimeters();
+        Serial.printf("Distance: %d\n", distance);
         if(distance > 20 && distance < ballHitDetectionDistance) {
             AnnounceHit();
             lastShockTime = 0;
         }
-    }
-    if (lastShockTime > 0 && (currentTime - lastShockTime) > maxShotDurationMs) {
-        AnnounceMiss();
-        lastShockTime = 0;
-    }
 }
 
 void GoalfinderApp::Process()
@@ -246,7 +244,6 @@ void Task2code(void *pvParameters) {
     for (;;) {
         app->DetectShot();
         app->ProcessAnnouncement();
-        Serial.println("task2");
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
@@ -263,7 +260,6 @@ void Task3code(void *pvParameters) {
 
     for (;;) {
         app->ledController.Loop();
-        Serial.println("task3");
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }

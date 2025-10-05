@@ -100,6 +100,8 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     root["ledMode"] = (int)settings->GetLedMode();
     root["macAddress"] = settings->GetMacAddress();
     root["isSoundEnabled"] = GoalfinderApp::GetInstance()->IsSoundEnabled();
+    root["hitSound"] = settings->GetHitSound();
+    root["missSound"] = settings->GetMissSound();
 
     response->setLength();
     request->send(response);
@@ -121,6 +123,8 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     settings->SetVibrationSensorSensitivity(doc["shotSensitivity"]);
     settings->SetVolume(doc["volume"]);
     settings->SetLedMode(doc["ledMode"]);
+    settings->SetHitSound(doc["hitSound"]);
+    settings->SetMissSound(doc["missSound"]);
 
     request->send(204);
 }
