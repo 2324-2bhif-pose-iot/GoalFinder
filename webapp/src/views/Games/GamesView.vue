@@ -15,6 +15,21 @@ import Card from "@/components/Card.vue";
         </div>
       </Card>
     </div>
+
+    <div id="timed-shots-challenge">
+      <Card class="quick-link">
+        <div>
+          <h2>{{ $t("header.game_timed_shots_challenge") }}</h2>
+          <RouterLink to="/games/timed-shots-challenge"><Button primary>{{ $t("word.open") }}</Button></RouterLink>
+        </div>
+      </Card>
+    </div>
   </Page>
 </template>
+
+<style>
+#timed-shots-challenge {
+    margin-top: 1rem;
+}
+</style>
 

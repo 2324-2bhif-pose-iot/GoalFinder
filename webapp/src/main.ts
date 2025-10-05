@@ -89,6 +89,7 @@ const i18n = createI18n({
                 home: "Startseite",
                 games: "Spiele",
                 game_shot_challenge: "Wurf-Challenge",
+                game_timed_shots_challenge: "Timed-Shots-Challenge",
                 team_game: "Mannschaftsspiel",
                 sessions: "Sitzungen",
                 settings: "Einstellungen",
