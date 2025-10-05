@@ -58,7 +58,6 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     bool fileExists = internalFS->FileExists(filePath);
 
-
     if(!fileExists)
     {
         filePath = WEBAPP_DIR INDEX_PATH COMPRESSED_FILE_EXTENSION;
@@ -66,11 +65,12 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
 
-    if(fileExists) 
+    /*if(fileExists) 
     {
-        response->addHeader("Content-Encoding", "gzip");
-    }
 
+    }*/
+   
+    response->addHeader("Content-Encoding", "gzip");
     response->addHeader("Cache-Control", "max-age=604800"); // 1 week
 
 

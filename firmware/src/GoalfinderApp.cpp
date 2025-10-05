@@ -37,8 +37,8 @@ const char *GoalfinderApp::hitClips[] = {
 const int GoalfinderApp::hitClipsCnt = sizeof(GoalfinderApp::hitClips) / sizeof(GoalfinderApp::hitClips[0]);
 
 const char *GoalfinderApp::tickClips[] = {
-    "/waiting.mp3",
     "/tick-1.mp3",
+    "/waiting.mp3",
     "/tick-4.mp3"
 };
 
@@ -329,7 +329,7 @@ void GoalfinderApp::ProcessAnnouncement()
         break;
     case Announcement::Miss:
         //AnnounceEvent("-> miss", missClips[0]);
-        AnnounceEvent("-> hit", missClips[Settings::GetInstance()->GetMissSound()]);
+        AnnounceEvent("-> miss", missClips[Settings::GetInstance()->GetMissSound()]);
         break;
     default:
         break;
@@ -359,7 +359,7 @@ void GoalfinderApp::PlaySound(const char *soundFileName)
 void GoalfinderApp::DetectShot()
 {
     // TODO fix
-    //  Serial.printf("%4.3f: starting shot detection ...\n", millis() / 1000.0);
+    //Serial.printf("%4.3f: starting shot detection ...\n", millis() / 1000.0);
     //  if(lastShockTime == 0 && vibrationSensor.Vibration(5000) > shotVibrationThreshold) {
     /*if (lastShockTime == 0)
     {
@@ -380,9 +380,9 @@ void GoalfinderApp::DetectShot()
         }
     }*/
 
-    /*if (lastShockTime == 0)
+    if (lastShockTime == 0)
     {
-        if (!(announcing && audioPlayer.IsPlaying()))
+        if (!announcing)
         {
             announcing = false; // reset announcing after playback is finished
 
@@ -399,9 +399,9 @@ void GoalfinderApp::DetectShot()
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
             }
         }
-    }*/
+    }
 
-    if (lastShockTime == 0)
+    /*if (lastShockTime == 0)
     {
         if (audioPlayer.IsPlaying())
         {
@@ -425,7 +425,7 @@ void GoalfinderApp::DetectShot()
                 Serial.printf("%4.3f: shot detected\n", millis() / 1000.0);
             }
         }
-    }
+    }*/
 
     int ballHitDetectionDistance = Settings::GetInstance()->GetBallHitDetectionDistance();
 
