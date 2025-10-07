@@ -35,6 +35,8 @@ const i18n = createI18n({
             },
             settings: {
                 settings: "Settings",
+                led: "LED",
+                sensoren: "Sensoren",
                 general: "General",
                 wifi: "WiFi",
                 devices: "Devices",
@@ -89,7 +91,7 @@ const i18n = createI18n({
                 home: "Startseite",
                 games: "Spiele",
                 game_shot_challenge: "Wurf-Challenge",
-                game_timed_shots_challenge: "Timed-Shots-Challenge",
+                game_timed_shots_challenge: "Zeitspiel-Challenge",
                 team_game: "Mannschaftsspiel",
                 sessions: "Sitzungen",
                 settings: "Einstellungen",

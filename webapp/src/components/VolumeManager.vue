@@ -40,39 +40,39 @@ const setMissSound = (value: number) => {
   </div>
 
   <div class="sound-select">
-    <label>Metronome Sound</label>
+    <label>Metronom Geräusch</label>
     <div class="button-container">
-      <Button class="button" @click="setMetronomeSound(0)">Sound 1</Button>
-      <Button class="button" @click="setMetronomeSound(1)">Sound 2</Button>
-      <Button class="button" @click="setMetronomeSound(2)">Sound 3</Button>
+      <Button class="button" @click="setMetronomeSound(0)">Ton 1</Button>
+      <Button class="button" @click="setMetronomeSound(1)">Ton 2</Button>
+      <Button class="button" @click="setMetronomeSound(2)">Ton 3</Button>
     </div>
   </div>
   <div class="current-value">
-    Current Metronome Sound: {{ settings.metronomeSound + 1 }}
+    Derzeitiges Metronom Geräusch: {{ settings.metronomeSound + 1 }}
   </div>
 
   <div class="sound-select">
-    <label>Hit Sound</label>
+    <label>Treffer Ton</label>
     <div class="button-container">
-      <Button class="button" @click="setHitSound(0)">Sound 1</Button>
+      <Button class="button" @click="setHitSound(0)">Ton 1</Button>
       <!-- <Button class="button" @click="setHitSound(1)">Sound 2</Button>
       <Button class="button" @click="setHitSound(2)">Sound 3</Button> -->
     </div>
   </div>
   <div class="current-value">
-    Current Hit Sound: {{ settings.hitSound + 1 }}
+    Derzeitiger Treffer Ton: {{ settings.hitSound + 1 }}
   </div>
 
   <div class="sound-select">
-    <label>Miss Sound</label>
+    <label>Fehlschuss Ton</label>
     <div class="button-container">
-      <Button class="button" @click="setMissSound(0)">Sound 1</Button>
-      <Button class="button" @click="setMissSound(1)">Sound 2</Button>
-      <Button class="button" @click="setMissSound(2)">Sound 3</Button>
+      <Button class="button" @click="setMissSound(0)">Ton 1</Button>
+      <Button class="button" @click="setMissSound(1)">Ton 2</Button>
+      <Button class="button" @click="setMissSound(2)">Ton 3</Button>
     </div>
   </div>
   <div class="current-value">
-    Current Miss Sound : {{ settings.missSound + 1 }}
+   Derzeitiger Fehlschuss Ton : {{ settings.missSound + 1 }}
   </div>
 </template>
 
