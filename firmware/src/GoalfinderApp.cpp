@@ -25,7 +25,7 @@ const int GoalfinderApp::ledPwmChannel = 0;
 
 // const int GoalfinderApp::ballHitDetectionDistance = 180; // TODO: Make configurable
 const int GoalfinderApp::shotVibrationThreshold = 3000; // TODO: Make configurable??
-const int GoalfinderApp::maxShotDurationMs = 3500;      // TODO: Make configurable
+const int GoalfinderApp::maxShotDurationMs = 1500;//3500;      // TODO: Mtake configurable
 
 //const char *GoalfinderApp::waitingClip = "/waiting.mp3";
 
@@ -382,7 +382,7 @@ void GoalfinderApp::DetectShot()
 
     if (lastShockTime == 0)
     {
-        if (!announcing)
+        if (!(announcing && audioPlayer.IsPlaying()))
         {
             announcing = false; // reset announcing after playback is finished
 
@@ -427,15 +427,16 @@ void GoalfinderApp::DetectShot()
         }
     }*/
 
-    int ballHitDetectionDistance = Settings::GetInstance()->GetBallHitDetectionDistance();
+    int ballHitDetectionDistance = 150; //Settings::GetInstance()->GetBallHitDetectionDistance();
 
     unsigned long currentTime = millis();
     if (lastShockTime > 0 && (currentTime - lastShockTime) < maxShotDurationMs)
     {
         int distance = tofSensor.ReadSingleMillimeters();
         Serial.printf("%4.3f: detecting hit: d = [%d < %d]\n", millis() / 1000.0, distance, ballHitDetectionDistance);
+        
         // TODO make lower limit a constant
-        if (distance > 20 && distance < ballHitDetectionDistance)
+        if (distance < ballHitDetectionDistance)
         {
             AnnounceHit();
             lastShockTime = 0;
