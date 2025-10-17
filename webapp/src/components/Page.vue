@@ -16,39 +16,30 @@
 </template>
 
 <style scoped>
-  #page-title {
-    color: cornflowerblue;
-  }
+#page-title {
+  color: cornflowerblue;
+  text-align: center;
+  margin-top: 1rem;
+}
 
-  #page {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  @media (min-width: 768px) {
-    #page {
-      width: 750px;
-    }
-  }
-  @media (min-width: 992px) {
-    #page {
-      width: 970px;
-    }
-  }
-  @media (min-width: 1200px) {
-    #page {
-      width: 1170px;
-    }
-  }
+/* Seite mit flexiblem, mittigem Layout */
+#page {
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 1170px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
+/* Abstand für Inhaltskarte */
+.page-content {
+  margin-top: 3vh;
+}
+
+/* Für größere Bildschirme leicht mehr Abstand */
+@media (min-width: 768px) {
   .page-content {
     margin-top: 5vh;
   }
-
-  @media (min-width: 768px) {
-    .page-content {
-      margin-top: 0;
-    }
-  }
+}
 </style>

@@ -58,7 +58,6 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     bool fileExists = internalFS->FileExists(filePath);
 
-
     if(!fileExists)
     {
         filePath = WEBAPP_DIR INDEX_PATH COMPRESSED_FILE_EXTENSION;
@@ -66,11 +65,12 @@ static void HandleRequest(AsyncWebServerRequest* request)
 
     AsyncWebServerResponse* response = request->beginResponse(LittleFS, filePath, contentType);
 
-    if(fileExists) 
+    /*if(fileExists) 
     {
-        response->addHeader("Content-Encoding", "gzip");
-    }
 
+    }*/
+   
+    response->addHeader("Content-Encoding", "gzip");
     response->addHeader("Cache-Control", "max-age=604800"); // 1 week
 
 
@@ -110,6 +110,9 @@ static void HandleLoadSettings(AsyncWebServerRequest* request)
     root["vibrationSensorSensitivity"] = settings->GetVibrationSensorSensitivity();
     root["ballHitDetectionDistance"] = settings->GetBallHitDetectionDistance();
     root["volume"] = settings->GetVolume();
+    root["metronomeSound"] = settings->GetMetronomeSound();
+    root["hitSound"] = settings->GetHitSound();
+    root["missSound"] = settings->GetMissSound();
     root["ledMode"] = (int)settings->GetLedMode();
     root["macAddress"] = settings->GetMacAddress();
     root["isSoundEnabled"] = GoalfinderApp::GetInstance()->IsSoundEnabled();
@@ -134,6 +137,9 @@ static void HandleSaveSettings(AsyncWebServerRequest* request, uint8_t* data, si
     settings->SetVibrationSensorSensitivity(doc["shotSensitivity"]);
     settings->SetBallHitDetectionDistance(doc["ballHitDetectionDistance"]);
     settings->SetVolume(doc["volume"]);
+    settings->SetMetronomeSound(doc["metronomeSound"]);
+    settings->SetHitSound(doc["hitSound"]);
+    settings->SetMissSound(doc["missSound"]);
     settings->SetLedMode(doc["ledMode"]);
 
     request->send(204);

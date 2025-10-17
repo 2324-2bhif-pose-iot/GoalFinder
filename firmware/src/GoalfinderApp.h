@@ -95,7 +95,7 @@ class GoalfinderApp : public Singleton<GoalfinderApp> {
 		static const int shotVibrationThreshold;
 		static const int maxShotDurationMs;
 
-		static const char* waitingClip;
+		//static const char* waitingClip;
 		static const char* hitClips[];
 		static const int   hitClipsCnt;
 		static const char* tickClips[];

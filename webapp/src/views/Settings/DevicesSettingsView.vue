@@ -7,9 +7,9 @@ import LaserSensorManager from "@/components/LaserSensorManager.vue";
 
 <template>
   <h3>{{ $t("settings.devices") }}</h3>
-  <h4>Lighting</h4>
+  <h4>{{$t("settings.led")}}</h4>
   <LedManager/>
-  <h4>Sensors</h4>
+  <h4>{{$t("settings.sensoren")}}</h4>
   <VibrationSensorManager/>
   <LaserSensorManager/>
   <h4>Bluetooth</h4>

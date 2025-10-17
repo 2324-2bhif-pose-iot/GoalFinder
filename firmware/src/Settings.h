@@ -22,6 +22,18 @@ class Settings : public Singleton<Settings>
         /** Sets the volume. The range is clipped to 0 to 100 percent.*/
         void SetVolume(int volume);
 
+        void SetMetronomeSound(int metronomeSound);
+
+        int GetMetronomeSound();
+
+        void SetHitSound(int hitSound);
+
+        int GetHitSound();
+
+        void SetMissSound(int missSound);
+
+        int GetMissSound();
+
         String GetDeviceName();
 
         void SetDeviceName(String deviceName);
@@ -51,6 +63,15 @@ class Settings : public Singleton<Settings>
 
         static const char* keyVolume;
         static const int defaultVolume;
+
+        static const char* keyMetronomeSound;
+        static const int defaultMetronomeSound;
+
+        static const char* keyHitSound;
+        static const int defaultHitSound;
+
+        static const char* keyMissSound;
+        static const int defaultMissSound;
 
         static const char* keyDeviceName;
         static const String defaultDeviceName;

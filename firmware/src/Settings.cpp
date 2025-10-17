@@ -21,6 +21,15 @@
 const char* Settings::keyVolume = "volume";
 const int Settings::defaultVolume = 25;
 
+const char* Settings::keyMetronomeSound = "metronomeSound";
+const int Settings::defaultMetronomeSound = 0;
+
+const char* Settings::keyHitSound = "hitSound";
+const int Settings::defaultHitSound = 0;
+
+const char* Settings::keyMissSound = "missSound";
+const int Settings::defaultMissSound = 0;
+
 const char* Settings::keyDeviceName = "deviceName";
 const String Settings::defaultDeviceName = "Goalfinder";
 
@@ -60,6 +69,37 @@ void Settings::SetVolume(int volume) {
 	store.PutInt(keyVolume, volume);
 	SetModified();
 }
+
+void Settings::SetMetronomeSound(int metronomeSound) {
+	metronomeSound = max(min(metronomeSound, 2), 0);
+	store.PutInt(keyMetronomeSound, metronomeSound);
+	SetModified();
+}
+
+int Settings::GetMetronomeSound() {
+	return store.GetInt(keyMetronomeSound, defaultMetronomeSound);
+}
+
+int Settings::GetHitSound() {
+	return store.GetInt(keyHitSound, defaultHitSound);
+}
+
+void Settings::SetHitSound(int hitSound) {
+	hitSound = max(min(hitSound, 0), 0);
+	store.PutInt(keyHitSound, hitSound);
+	SetModified();
+}
+
+void Settings::SetMissSound(int missSound) {
+	missSound = max(min(missSound, 2), 0);
+	store.PutInt(keyMissSound, missSound);
+	SetModified();
+}
+
+int Settings::GetMissSound() {
+	return store.GetInt(keyMissSound, defaultMissSound);
+}
+
 
 bool Settings::IsModified() const {
 	return modified;

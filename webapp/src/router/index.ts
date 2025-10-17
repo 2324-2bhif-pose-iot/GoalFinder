@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('../views/Games/ShotChallengeView.vue')
     },
     {
+      path: "/games/timed-shots-challenge",
+      name: "timed_shots-challenge",
+      component: () => import('../views/Games/TimedShotsChallengeView.vue')
+    },
+    {
       path: '/settings',
       name: 'settings',
       redirect: '/settings/general',

@@ -3,18 +3,13 @@ import Page from "@/components/Page.vue";
 import Button from "@/components/Button.vue";
 import InputForm from "@/components/InputForm.vue";
 import {reactive, ref, useTemplateRef} from "vue";
-import {ShotChallengeGame} from "@/models/game";
+import {TimedShotsChallengeGame} from "@/models/game";
 import {Player} from "@/models/player";
 import ToggleButton from "@/components/ToggleButton.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
 import {useSettingsStore} from "@/stores/settings";
-import IconButton from "@/components/IconButton.vue";
 
-import AddIcon from "@/components/icons/AddIcon.vue";
-import MinusIcon from "@/components/icons/MinusIcon.vue";
-import TrashIcon from "@/components/icons/TrashIcon.vue";
-
-const game = reactive(new ShotChallengeGame());
+const game = reactive(new TimedShotsChallengeGame());
 const showLeaderboard = ref(false);
 const playerName = ref("");
 const settings = useSettingsStore();
@@ -24,9 +19,6 @@ const addPlayerForm = useTemplateRef<HTMLFormElement>("add-player-form");
 function recordShot(index: number, isHit: boolean) {
   if (isHit) {
     game.addHitToPlayer(index);
-
-    //efgdrgerwger
-
   } else {
     game.addMissToPlayer(index);
   }
@@ -57,9 +49,9 @@ function onGameStartBtnClick() {
 }
 
 </script>
-a
+
 <template>
-  <Page :title="$t('header.game_shot_challenge')">
+  <Page :title="$t('header.game_timed_shots_challenge')">
     <div class="basketball-shot-tracker" v-if="!showLeaderboard">
       <form ref="add-player-form" @submit.prevent="onPlayerAddFormSubmit">
         <div>
@@ -84,10 +76,10 @@ a
         <table id="player-list">
           <thead>
             <tr>
-              <th>Spieler</th>
-              <th>Treffer</th>
-              <th>Fehlschüsse</th>
-              <th>Bearbeiten</th>
+              <th>Player</th>
+              <th>Hits</th>
+              <th>Misses</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -96,18 +88,10 @@ a
               <td>{{ person.hits }}</td>
               <td>{{ person.misses }}</td>
               <td>
-                <div class="icon-buttons-container">
-                  <IconButton primary @click="recordShot(index, true)" title="Treffer">
-                    <AddIcon />
-                  </IconButton>
-
-                  <IconButton warning @click="recordShot(index, false)" title="Fehlschuss">
-                    <MinusIcon />
-                  </IconButton>
-
-                  <IconButton danger @click="game.removePlayer(index)" title="Entfernen">
-                    <TrashIcon />
-                  </IconButton>
+                <div class="buttons-container">
+                  <Button primary @click="recordShot(index, true)">{{ $t("word.hit") }}</Button>
+                  <Button @click="recordShot(index, false)" severity="warning">{{ $t("word.miss") }}</Button>
+                  <Button @click="game.removePlayer(index)" severity="danger">{{ $t("word.remove") }}</Button>
                 </div>
               </td>
             </tr>
@@ -204,41 +188,4 @@ a
 #play-icon {
   width: 1.4rem;
 }
-
-/* --- Responsive Tabelle --- */
-#player-list {
-  width: 100%;
-  border-collapse: collapse;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-  border-spacing: 0;
-}
-
-#player-list th,
-#player-list td {
-  padding: 0.5rem;
-  text-align: left;
-}
-
-
-.icon-buttons-container {
-  display: flex;
-  gap: 0.4rem;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-
-/* Auf kleinen Screens sollen sie nebeneinander bleiben */
-@media (max-width: 768px) {
-  .icon-buttons-container {
-    flex-wrap: nowrap;
-    justify-content: space-around;
-  }
-}
-
-
-
-
 </style>

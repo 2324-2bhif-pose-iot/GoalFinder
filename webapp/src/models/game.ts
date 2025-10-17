@@ -132,3 +132,78 @@ export class ShotChallengeGame extends Game {
         this._timer = ShotChallengeGame.PLAY_DURATION;
     }
 }
+
+export class TimedShotsChallengeGame extends Game {
+    private static readonly PLAY_DURATION: number = 120;
+
+    private _timer: number = 0;
+    private timerIntervalId: number = -1;
+    private selectedPlayerIndex: number = 0;
+
+    public get timer(): number {
+        return this._timer;
+    }
+
+    public getSelectedPlayer(): Player {
+        return this.players[this.selectedPlayerIndex];
+    }
+
+    public constructor() {
+        super();
+        this.resetTimer();
+    }
+
+    public removePlayer(playerIndex: number): void {
+        super.removePlayer(playerIndex);
+
+        this.reset();
+    }
+
+    public async start(): Promise<void> {
+        if(!this.isRunning) {
+            this.timerIntervalId = setInterval(async () => {
+                this._timer--;
+
+                const newHitsData = await fetch(`${API_URL}/hits`, {method: "GET"});
+                const newHits = parseInt(await newHitsData.text());
+                console.log(newHits);
+
+                if(newHits > 0) {
+                    this.getSelectedPlayer().addHit();
+                }
+
+                if(this._timer <= 0) {
+                    this.getSelectedPlayer().addMiss();
+                    this.resetTimer();
+                    this.selectNewPlayer();
+                }
+            }, 1000);
+        }
+
+        super.start();
+    }
+
+    public pause(): void {
+        clearInterval(this.timerIntervalId);
+
+        super.pause();
+    }
+
+    public reset(): void {
+        this.selectedPlayerIndex = 0;
+        this.pause();
+        this.resetTimer();
+    }
+
+    private selectNewPlayer(): void {
+        this.selectedPlayerIndex++;
+
+        if(this.selectedPlayerIndex >= this.players.length) {
+            this.selectedPlayerIndex = 0;
+        }
+    }
+
+    private resetTimer(): void {
+        this._timer = TimedShotsChallengeGame.PLAY_DURATION;
+    }
+}
