@@ -26,24 +26,20 @@ const router = createRouter({
     {
       path: '/settings',
       name: 'settings',
-      redirect: '/settings/general',
+      redirect: '/settings/audio',
       component: () => import('../views/Settings/SettingsView.vue'),
       children: [
         {
-          path: "general",
-          name: "general",
-          component: () => import('../views/Settings/GeneralSettingsView.vue')
+          path: "audio",
+          name: "audio",
+          component: () => import('../views/Settings/AudioSettingsView.vue')
         },
         {
           path: "devices",
           name: "devices",
           component: () => import('../views/Settings/DevicesSettingsView.vue')
         },
-        {
-          path: "audio",
-          name: "audio",
-          component: () => import('../views/Settings/AudioSettingsView.vue')
-        },
+        
         {
           path: "system",
           name: "system",

@@ -46,6 +46,7 @@ const i18n = createI18n({
                 device_password: "Device password"
             },
             word : {
+                on: "Ein",
                 welcome_back: "Welcome back",
                 save: "Save",
                 open: "Open",
@@ -144,7 +145,6 @@ const i18n = createI18n({
                 misses: "Fehlschüsse",
                 led_mode:"LED Modus",
                 standard: "Standart",
-                fade: "Verblassen",
                 flash: "Blitzartig",
                 turbo: "Turbo",
                 off: "Aus",

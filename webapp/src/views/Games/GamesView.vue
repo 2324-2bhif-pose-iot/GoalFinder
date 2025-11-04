@@ -49,7 +49,6 @@ import Card from "@/components/Card.vue";
 
 .game-description {
   margin: 0.5rem 0 1rem 0;
-  color: #fffefe;
   font-size: 0.95rem;
   line-height: 1.4;
 }

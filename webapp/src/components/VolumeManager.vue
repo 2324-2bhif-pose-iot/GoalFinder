@@ -52,18 +52,6 @@ const setMissSound = (value: number) => {
   </div>
 
   <div class="sound-select">
-    <label>Treffer Ton</label>
-    <div class="button-container">
-      <Button class="button" @click="setHitSound(0)">Ton 1</Button>
-      <!-- <Button class="button" @click="setHitSound(1)">Sound 2</Button>
-      <Button class="button" @click="setHitSound(2)">Sound 3</Button> -->
-    </div>
-  </div>
-  <div class="current-value">
-    Derzeitiger Treffer Ton: {{ settings.hitSound + 1 }}
-  </div>
-
-  <div class="sound-select">
     <label>Fehlschuss Ton</label>
     <div class="button-container">
       <Button class="button" @click="setMissSound(0)">Ton 1</Button>

@@ -4,8 +4,9 @@ import Button from "@/components/Button.vue";
 
 const settings = useSettingsStore();
 
-function setLedMode(value: number) {
-  settings.ledMode = value;
+function setLedMode(value: string, mode: number) {
+  settings.ledModeStr = value;
+  settings.ledMode = mode;
 }
 </script>
 
@@ -15,16 +16,16 @@ function setLedMode(value: number) {
       <div class="label-container">
         <label for="modus">{{ $t("word.led_mode") }}</label>
         <div class="button-container">
-          <Button class="button" @click="setLedMode(1)">{{ $t("word.standard") }}</Button>
-          <Button class="button" @click="setLedMode(2)">{{ $t("word.fade") }}</Button>
-          <Button class="button" @click="setLedMode(3)">{{ $t("word.flash") }}</Button>
-          <Button class="button" @click="setLedMode(4)">{{ $t("word.turbo") }}</Button>
-          <Button class="button" @click="setLedMode(5)">{{ $t("word.off") }}</Button>
+          <Button class="button" @click="setLedMode('Ein', 1)">{{ $t("word.on") }}</Button>
+          <Button class="button" @click="setLedMode('Fade', 2)">{{ $t("word.fade") }}</Button>
+          <Button class="button" @click="setLedMode('Blitzartig', 3)">{{ $t("word.flash") }}</Button>
+          <Button class="button" @click="setLedMode('Turbo', 4)">{{ $t("word.turbo") }}</Button>
+          <Button class="button" @click="setLedMode('Aus', 5)">{{ $t("word.off") }}</Button>
         </div>
       </div>
     </div>
     <div class="current-modus">
-      <span>{{ $t("word.curr_mode") }}: {{ settings.ledMode }}</span>
+      <span>{{ $t("word.curr_mode") }}: {{ settings.ledModeStr }}</span>
     </div>
   </div>
 </template>

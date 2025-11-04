@@ -14,6 +14,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
     //Devices
     const ledMode = ref(0);
+    const ledModeStr = ref("Aus");
     const isBluetoothEnabled = ref(false);
     const connectedBluetoothDevices = ref([]);
     const availableBluetoothDevices = ref([]);
@@ -130,6 +131,7 @@ export const useSettingsStore = defineStore("settings", () => {
         saveSettings,
         restartDevice,
         ledMode,
+        ledModeStr,
         isValid,
         isSoundEnabled,
         version,

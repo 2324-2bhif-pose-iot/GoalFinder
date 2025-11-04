@@ -3,6 +3,9 @@ import SoftwareUpdateModal from "@/components/SoftwareUpdateModal.vue";
 import Button from "@/components/Button.vue";
 import {useTemplateRef} from "vue";
 import {useSettingsStore} from "@/stores/settings";
+import InputForm from "@/components/InputForm.vue";
+import VibrationSensorManager from "@/components/VibratiosensorManager.vue";
+import LaserSensorManager from "@/components/LaserSensorManager.vue";
 
 const settings = useSettingsStore();
 
@@ -12,9 +15,31 @@ const openUpdateDialog = () => {
   updateDialog.value?.show();
 };
 
+function isSSIDValid(value: string) {
+  const regex = /^[a-zA-Z0-9_]+$/;
+  if (value == null || value.length < 3 || value.length > 32 || !regex.test(value)) {
+    settings.isValid = false;
+    return false;
+  }
+  settings.isValid = true;
+  return true;
+}
 </script>
 
 <template>
+  <h3>{{ $t("settings.general") }}</h3>
+  <h4>Info</h4>
+  <form id="general-input">
+    <InputForm v-model="settings.deviceName" :label="$t('word.device_name')"
+               :placeholder="$t('description.device_name_description')" type="text"/>
+    <InputForm v-model="settings.devicePassword" :label="$t('word.device_password')"
+               :placeholder="$t('description.device_password_description')" type="password"/>
+  </form>
+
+  <h4>{{$t("settings.sensoren")}}</h4>
+  <VibrationSensorManager/>
+  <LaserSensorManager/>
+
   <h3>{{ $t("settings.system") }}</h3>
   <h4>{{ $t("settings.system") }}</h4>
   <div id="system-buttons">
@@ -42,6 +67,11 @@ const openUpdateDialog = () => {
 </template>
 
 <style scoped>
+#general-input {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 #system-buttons {
   display: flex;

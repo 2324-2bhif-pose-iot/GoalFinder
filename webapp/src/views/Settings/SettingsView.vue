@@ -17,9 +17,8 @@ onMounted(() => {
 <template>
   <Page :title="$t('header.settings')">
     <div id="settings-nav">
-      <RouterLink class="settings-link" to="/settings/general"><div><GearIcon/> {{ $t("settings.general") }}</div></RouterLink>
-      <RouterLink class="settings-link" to="/settings/devices"><div><LightbulbIcon/> {{ $t("settings.devices") }}</div></RouterLink>
       <RouterLink class="settings-link" to="/settings/audio"><div><VolumeUpIcon/> {{ $t("settings.audio") }}</div></RouterLink>
+      <RouterLink class="settings-link" to="/settings/devices"><div><LightbulbIcon/> LED </div></RouterLink>
       <RouterLink class="settings-link" to="/settings/system"><div><InfoCircleIcon/> {{ $t("settings.system") }}</div></RouterLink>
     </div>
     <RouterView/>

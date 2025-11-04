@@ -85,9 +85,9 @@ a
           <thead>
             <tr>
               <th>Spieler</th>
-              <th>Treffer</th>
-              <th>Fehlschüsse</th>
-              <th>Bearbeiten</th>
+              <th>Hits</th>
+              <th>Misses</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
